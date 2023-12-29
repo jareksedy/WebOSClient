@@ -11,6 +11,7 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
     private var primaryWebSocketTask: URLSessionWebSocketTask?
     private var secondaryWebSocketTask: URLSessionWebSocketTask?
     private var pointerRequestId: String?
+    
     public weak var delegate: WebOSClientDelegate?
     
     public init(url: URL?, delegate: WebOSClientDelegate? = nil) {
@@ -38,7 +39,7 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
         return id
     }
     
-    public func send(_ jsonRequest: String) {
+    public func send(jsonRequest: String) {
         let message = URLSessionWebSocketTask.Message.string(jsonRequest)
         sendURLSessionWebSocketTaskMessage(message, task: primaryWebSocketTask)
     }
@@ -51,8 +52,8 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
         sendURLSessionWebSocketTaskMessage(message, task: secondaryWebSocketTask)
     }
     
-    public func sendKey(_ data: Data) {
-        let message = URLSessionWebSocketTask.Message.data(data)
+    public func sendKey(keyData: Data) {
+        let message = URLSessionWebSocketTask.Message.data(keyData)
         sendURLSessionWebSocketTaskMessage(message, task: secondaryWebSocketTask)
     }
     

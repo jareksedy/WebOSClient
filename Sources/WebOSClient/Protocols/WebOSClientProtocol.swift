@@ -9,14 +9,14 @@ public protocol WebOSClientProtocol {
     var delegate: WebOSClientDelegate? { get set }
     func connect()
     @discardableResult func send(_ target: WebOSTarget, id: String) -> String?
-    func send(_ jsonRequest: String)
+    func send(jsonRequest: String)
     func sendKey(_ key: WebOSKeyTarget)
-    func sendKey(_ data: Data)
+    func sendKey(keyData: Data)
     func sendPing()
     func disconnect()
 }
 
-extension WebOSClientProtocol {
+public extension WebOSClientProtocol {
     @discardableResult func send(_ target: WebOSTarget, id: String = UUID().uuidString.lowercased()) -> String? {
         send(target, id: id)
     }

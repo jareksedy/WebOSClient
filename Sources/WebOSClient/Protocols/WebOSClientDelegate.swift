@@ -15,7 +15,7 @@ public protocol WebOSClientDelegate: AnyObject {
     func didDisconnect()
 }
 
-extension WebOSClientDelegate {
+public extension WebOSClientDelegate {
     func didConnect() {}
     func didPrompt() {}
     func didReceive(_ json: String) {}
