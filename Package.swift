@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "WebOSClient",
-    platforms: [.iOS("13.0"), .macOS("10.15"), .watchOS("5.0"), .tvOS("13.0")],
+    platforms: [.iOS("13.0"), .macOS("10.15"), .watchOS("6.0"), .tvOS("13.0")],
     products: [
         .library(
             name: "WebOSClient",
