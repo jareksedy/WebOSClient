@@ -5,7 +5,7 @@
 
 import Foundation
 
-class WebOSClient: NSObject, WebOSClientProtocol {
+public class WebOSClient: NSObject, WebOSClientProtocol {
     private var url: URL?
     private var urlSession: URLSession?
     private var primaryWebSocketTask: URLSessionWebSocketTask?
@@ -143,7 +143,7 @@ private extension WebOSClient {
 }
 
 extension WebOSClient: URLSessionWebSocketDelegate {
-    func urlSession(
+    public func urlSession(
         _ session: URLSession,
         webSocketTask: URLSessionWebSocketTask,
         didOpenWithProtocol protocol: String?
@@ -157,7 +157,7 @@ extension WebOSClient: URLSessionWebSocketDelegate {
         }
     }
 
-    func urlSession(
+    public func urlSession(
         _ session: URLSession,
         task: URLSessionTask,
         didCompleteWithError error: Error?
@@ -168,7 +168,7 @@ extension WebOSClient: URLSessionWebSocketDelegate {
         delegate?.didReceiveNetworkError(error)
     }
     
-    func urlSession(
+    public func urlSession(
         _ session: URLSession,
         webSocketTask: URLSessionWebSocketTask,
         didCloseWith closeCode: URLSessionWebSocketTask.CloseCode,
@@ -180,7 +180,7 @@ extension WebOSClient: URLSessionWebSocketDelegate {
         delegate?.didDisconnect()
     }
     
-    func urlSession(
+    public func urlSession(
         _ session: URLSession,
         didReceive challenge: URLAuthenticationChallenge,
         completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
