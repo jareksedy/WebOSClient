@@ -11,15 +11,15 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
     private var primaryWebSocketTask: URLSessionWebSocketTask?
     private var secondaryWebSocketTask: URLSessionWebSocketTask?
     private var pointerRequestId: String?
-    weak var delegate: WebOSClientDelegate?
+    public weak var delegate: WebOSClientDelegate?
     
-    init(url: URL?, delegate: WebOSClientDelegate? = nil) {
+    public init(url: URL?, delegate: WebOSClientDelegate? = nil) {
         super.init()
         self.url = url
         self.delegate = delegate
     }
     
-    func connect() {
+    public func connect() {
         guard let url else {
             assertionFailure("Invalid device URL. Terminating.")
             return
@@ -29,7 +29,7 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
     }
     
     @discardableResult
-    func send(_ target: WebOSTarget, id: String) -> String? {
+    public func send(_ target: WebOSTarget, id: String) -> String? {
         guard let jsonRequest = target.request.jsonWithId(id) else {
             return nil
         }
@@ -38,12 +38,12 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
         return id
     }
     
-    func send(_ jsonRequest: String) {
+    public func send(_ jsonRequest: String) {
         let message = URLSessionWebSocketTask.Message.string(jsonRequest)
         sendURLSessionWebSocketTaskMessage(message, task: primaryWebSocketTask)
     }
     
-    func sendKey(_ key: WebOSKeyTarget) {
+    public func sendKey(_ key: WebOSKeyTarget) {
         guard let request = key.request else {
             return
         }
@@ -51,12 +51,12 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
         sendURLSessionWebSocketTaskMessage(message, task: secondaryWebSocketTask)
     }
     
-    func sendKey(_ data: Data) {
+    public func sendKey(_ data: Data) {
         let message = URLSessionWebSocketTask.Message.data(data)
         sendURLSessionWebSocketTaskMessage(message, task: secondaryWebSocketTask)
     }
     
-    func sendPing() {
+    public func sendPing() {
         primaryWebSocketTask?.sendPing { [weak self] error in
             if let error {
                 self?.delegate?.didReceiveNetworkError(error)
@@ -64,7 +64,7 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
         }
     }
     
-    func disconnect() {
+    public func disconnect() {
         secondaryWebSocketTask?.cancel(with: .goingAway, reason: nil)
         primaryWebSocketTask?.cancel(with: .goingAway, reason: nil)
     }

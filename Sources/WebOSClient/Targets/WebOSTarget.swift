@@ -5,7 +5,7 @@
 
 import Foundation
 
-enum WebOSTarget {
+public enum WebOSTarget {
     case register(clientKey: String?)
     case volumeUp
     case volumeDown

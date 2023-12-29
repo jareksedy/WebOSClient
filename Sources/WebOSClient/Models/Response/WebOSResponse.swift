@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct WebOSResponse: Codable {
+public struct WebOSResponse: Codable {
     let type: String?
     let id: String?
     let error: String?

@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct WebOSResponseVolumeStatus: Codable {
+public struct WebOSResponseVolumeStatus: Codable {
     let volumeLimitable: Bool?
     let activeStatus: Bool?
     let maxVolume: Int?

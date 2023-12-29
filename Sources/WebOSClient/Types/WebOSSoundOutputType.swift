@@ -5,7 +5,7 @@
 
 import Foundation
 
-enum WebOSSoundOutputType: String {
+public enum WebOSSoundOutputType: String {
     case tv_speaker
     case external_speaker
     case soundbar

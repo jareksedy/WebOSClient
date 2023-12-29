@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct WebOSResponsePayload: Codable {
+public struct WebOSResponsePayload: Codable {
     let pairingType: String?
     let returnValue: Bool?
     let clientKey: String?

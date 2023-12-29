@@ -5,6 +5,7 @@
 
 import Foundation
 
+public 
 enum WebOSKeyTarget {
     case move(dx: Int, dy: Int, down: Int = 0)
     case click

@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct WebOSResponseApplication: Codable {
+public struct WebOSResponseApplication: Codable {
     let id: String?
     let title: String?
     let icon: String?

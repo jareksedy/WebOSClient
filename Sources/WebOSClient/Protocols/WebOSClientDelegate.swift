@@ -5,7 +5,7 @@
 
 import Foundation
 
-protocol WebOSClientDelegate: AnyObject {
+public protocol WebOSClientDelegate: AnyObject {
     func didConnect()
     func didPrompt()
     func didRegister(with clientKey: String)

@@ -5,7 +5,7 @@
 
 import Foundation
 
-protocol WebOSClientProtocol {
+public protocol WebOSClientProtocol {
     var delegate: WebOSClientDelegate? { get set }
     func connect()
     @discardableResult func send(_ target: WebOSTarget, id: String) -> String?

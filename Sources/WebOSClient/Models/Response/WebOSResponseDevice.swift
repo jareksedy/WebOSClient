@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct WebOSResponseDevice: Codable {
+public struct WebOSResponseDevice: Codable {
     let id: String?
     let label: String?
     let port: Int?
