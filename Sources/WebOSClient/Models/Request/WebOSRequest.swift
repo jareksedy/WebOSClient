@@ -5,7 +5,7 @@
 
 import Foundation
 
-public struct WebOSRequest: Codable {
+struct WebOSRequest: Codable {
     var type: String
     var id: String?
     var uri: String?

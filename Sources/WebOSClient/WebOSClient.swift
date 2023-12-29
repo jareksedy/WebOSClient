@@ -111,7 +111,7 @@ private extension WebOSClient {
         completion: @escaping (Result<WebOSResponse, Error>) -> Void
     ) {
         if case .string(let jsonResponse) = response {
-            delegate?.didReceive(jsonResponse)
+            delegate?.didReceive(jsonResponse: jsonResponse)
         }
         guard let response = response.decode(),
               let type = response.type,
