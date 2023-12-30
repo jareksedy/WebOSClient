@@ -1,5 +1,5 @@
 //
-//  Encodable+encode.swift
+//  Encodable.swift
 //  Created by Yaroslav Sedyshev on 18.12.2023.
 //
 

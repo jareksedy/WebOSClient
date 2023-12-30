@@ -1,5 +1,5 @@
 //
-//  Message+decode.swift
+//  Message.swift
 //  Created by Yaroslav Sedyshev on 07.12.2023.
 //
 

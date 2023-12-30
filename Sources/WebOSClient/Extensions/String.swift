@@ -1,9 +1,13 @@
 //
-//  String+decode
-//  Created by Ярослав on 29.12.2023.
+//  String.swift
+//  Created by Yaroslav Sedyshev on 05.12.2023.
 //
 
 import Foundation
+
+extension String {
+    static let prompt = "PROMPT"
+}
 
 extension String {
     func decode<T: Codable>() throws -> T {
