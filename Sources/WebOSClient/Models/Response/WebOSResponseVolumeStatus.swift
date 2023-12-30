@@ -6,15 +6,15 @@
 import Foundation
 
 public struct WebOSResponseVolumeStatus: Codable {
-    let volumeLimitable: Bool?
-    let activeStatus: Bool?
-    let maxVolume: Int?
-    let volumeLimiter: String?
-    let soundOutput: String?
-    let volume: Int?
-    let mode: String?
-    let externalDeviceControl: Bool?
-    let muteStatus: Bool?
-    let volumeSyncable: Bool?
-    let adjustVolume: Bool?
+    public let volumeLimitable: Bool?
+    public let activeStatus: Bool?
+    public let maxVolume: Int?
+    public let volumeLimiter: String?
+    public let soundOutput: String?
+    public let volume: Int?
+    public let mode: String?
+    public let externalDeviceControl: Bool?
+    public let muteStatus: Bool?
+    public let volumeSyncable: Bool?
+    public let adjustVolume: Bool?
 }

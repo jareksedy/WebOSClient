@@ -6,8 +6,8 @@
 import Foundation
 
 public struct WebOSResponse: Codable {
-    let type: String?
-    let id: String?
-    let error: String?
-    let payload: WebOSResponsePayload?
+    public let type: String?
+    public let id: String?
+    public let error: String?
+    public let payload: WebOSResponsePayload?
 }

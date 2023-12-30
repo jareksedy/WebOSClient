@@ -6,13 +6,13 @@
 import Foundation
 
 public struct WebOSResponseApplication: Codable {
-    let id: String?
-    let title: String?
-    let icon: String?
-    let folderPath: String?
-    let version: String?
-    let systemApp: Bool?
-    let visible: Bool?
-    let vendor: String?
-    let type: String?
+    public let id: String?
+    public let title: String?
+    public let icon: String?
+    public let folderPath: String?
+    public let version: String?
+    public let systemApp: Bool?
+    public let visible: Bool?
+    public let vendor: String?
+    public let type: String?
 }

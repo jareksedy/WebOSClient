@@ -6,39 +6,39 @@
 import Foundation
 
 public struct WebOSResponsePayload: Codable {
-    let pairingType: String?
-    let returnValue: Bool?
-    let clientKey: String?
-    let toastId: String?
-    let callerId: String?
-    let volume: Int?
-    let soundOutput: String?
-    let volumeStatus: WebOSResponseVolumeStatus?
-    let muteStatus: Bool?
-    let method: String?
-    let state: String?
-    let productName: String?
-    let modelName: String?
-    let swType: String?
-    let majorVer: String?
-    let minorVer: String?
-    let country: String?
-    let countryGroup: String?
-    let deviceId: String?
-    let authFlag: String?
-    let ignoreDisable: String?
-    let ecoInfo: String?
-    let configKey: String?
-    let languageCode: String?
-    let subscribed: Bool?
-    let applications: [WebOSResponseApplication]?
-    let appId: String?
-    let processId: String?
-    let windowId: String?
-    let id: String?
-    let sessionId: String?
-    let socketPath: String?
-    let devices: [WebOSResponseDevice]?
+    public let pairingType: String?
+    public let returnValue: Bool?
+    public let clientKey: String?
+    public let toastId: String?
+    public let callerId: String?
+    public let volume: Int?
+    public let soundOutput: String?
+    public let volumeStatus: WebOSResponseVolumeStatus?
+    public let muteStatus: Bool?
+    public let method: String?
+    public let state: String?
+    public let productName: String?
+    public let modelName: String?
+    public let swType: String?
+    public let majorVer: String?
+    public let minorVer: String?
+    public let country: String?
+    public let countryGroup: String?
+    public let deviceId: String?
+    public let authFlag: String?
+    public let ignoreDisable: String?
+    public let ecoInfo: String?
+    public let configKey: String?
+    public let languageCode: String?
+    public let subscribed: Bool?
+    public let applications: [WebOSResponseApplication]?
+    public let appId: String?
+    public let processId: String?
+    public let windowId: String?
+    public let id: String?
+    public let sessionId: String?
+    public let socketPath: String?
+    public let devices: [WebOSResponseDevice]?
     
     enum CodingKeys: String, CodingKey {
         case pairingType

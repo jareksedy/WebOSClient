@@ -6,16 +6,16 @@
 import Foundation
 
 public struct WebOSResponseDevice: Codable {
-    let id: String?
-    let label: String?
-    let port: Int?
-    let connected: Bool?
-    let appId: String?
-    let icon: String?
-    let forceIcon: Bool?
-    let modified: Bool?
-    let lastUniqueId: Int?
-    let hdmiPlugIn: Bool?
-    let subCount: Int?
-    let favorite: Bool?
+    public let id: String?
+    public let label: String?
+    public let port: Int?
+    public let connected: Bool?
+    public let appId: String?
+    public let icon: String?
+    public let forceIcon: Bool?
+    public let modified: Bool?
+    public let lastUniqueId: Int?
+    public let hdmiPlugIn: Bool?
+    public let subCount: Int?
+    public let favorite: Bool?
 }
