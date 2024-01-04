@@ -7,7 +7,6 @@ import Foundation
 
 /// Methods for handling various events in the WebOSClient.
 public protocol WebOSClientDelegate: AnyObject {
-    
     /// Invoked when the client successfully establishes a connection.
     func didConnect()
     
@@ -26,7 +25,7 @@ public protocol WebOSClientDelegate: AnyObject {
     /// - Parameter jsonResponse: Raw JSON response received from the WebOS service.
     func didReceive(jsonResponse: String)
     
-    /// Invoked when the client encounters a network-related error, like abnormal disconnect.
+    /// Invoked when the client encounters a network-related error, i.e. abnormal disconnect.
     /// - Parameter error: The error object representing the network error, if any.
     func didReceiveNetworkError(_ error: Error?)
     
