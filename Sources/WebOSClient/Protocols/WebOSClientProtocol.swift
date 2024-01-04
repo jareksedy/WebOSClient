@@ -7,7 +7,6 @@ import Foundation
 
 /// A protocol defining methods for interacting with TV.
 public protocol WebOSClientProtocol {
-    
     /// The delegate responsible for handling various events.
     var delegate: WebOSClientDelegate? { get set }
     
