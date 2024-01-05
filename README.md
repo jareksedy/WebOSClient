@@ -3,38 +3,93 @@
 [![Swift Version](https://img.shields.io/badge/Swift-5.0-orange.svg)](https://swift.org/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-WebOSClient is a Swift package that facilitates communication with LG TVs running WebOS. It provides a convenient way to connect to a TV, send commands, and handle various TV-related functionalities.
+WebOSClient is a Swift library that facilitates communication with LG TVs running WebOS. It provides a convenient way to connect to a TV, send commands, and handle various TV-related functionalities.
 
 ## Features
 
-- Connect to a WebOS-enabled TV.
-- Send commands to control the TV.
-- Handle TV events through the delegate pattern.
+- Remote control a WebOS-based TV (LG Smart TVs).
+- Handle TV events through subscriptions.
 
 ## Requirements
 
-- Swift 5.0+
-- iOS 10.0+ or macOS 10.12+
+- iOS 13.0+, macOS 10.15+, watchOS 6.0+, tvOS 13.0+.
 
 ## Installation
 
-You can integrate WebOSClient into your project using Swift Package Manager. Add the following to your `Package.swift` file:
+Using Swift Package Manager.
 
 ```swift
-// swift-tools-version:5.0
+dependencies: [
+    .package(url: "https://github.com/jareksedy/WebOSClient.git")
+]
+```
 
-import PackageDescription
+## Usage
 
-let package = Package(
-    name: "YourProject",
-    dependencies: [
-        .package(url: "https://github.com/your-username/WebOSClient.git", from: "1.0.0")
-    ],
-    targets: [
-        .target(
-            name: "YourTarget",
-            dependencies: ["WebOSClient"]
-        ),
-        // ...
-    ]
-)
+Basic setup.
+
+```swift
+import UIKit
+import WebOSClient
+
+// MARK: - Constants
+fileprivate enum Constants {
+    static let registrationTokenKey = "clientKey"
+}
+
+// MARK: - ViewController
+class ViewController: UIViewController {
+    
+    // The URL of the WebOS service on the TV.
+    let url = URL(string: "wss://192.168.1.10:3001")
+    
+    // The client responsible for communication with the WebOS service.
+    var client: WebOSClientProtocol?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Instantiate WebOSClient with the provided URL and set the current view controller as the delegate.
+        client = WebOSClient(url: url, delegate: self)
+        
+        // Establish a connection to the TV.
+        client?.connect()
+        
+        // Retrieve the registration token from UserDefaults.
+        let registrationToken = UserDefaults.standard.string(forKey: Constants.registrationTokenKey)
+        
+        // Send a registration request to the TV with the stored or nil registration token.
+        client?.send(.register(clientKey: registrationToken))
+    }
+}
+
+// MARK: - WebOSClientDelegate
+extension ViewController: WebOSClientDelegate {
+    
+    // Callback triggered upon successful registration with the TV.
+    func didRegister(with clientKey: String) {
+        
+        // Store the received registration token in UserDefaults for future use.
+        UserDefaults.standard.setValue(clientKey, forKey: Constants.registrationTokenKey)
+
+        // Additional commands can be sent after successfull registration.
+        client?.send(.volumeUp)
+        client?.sendKey(.home)
+    }
+    
+
+    // Callback triggered upon receiving a network error.
+    func didReceiveNetworkError(_ error: Error?) {
+        if let error = error as NSError? {
+            
+            // Print details of the received network error.
+            print("Received network error. Code: \(error.code). Reconnect suggested.")
+            
+            // Attempt to reconnect and re-register with the TV.
+            client?.connect()
+            let registrationToken = UserDefaults.standard.string(forKey: Constants.registrationTokenKey)
+            client?.send(.register(clientKey: registrationToken))
+        }
+    }
+}
+```
