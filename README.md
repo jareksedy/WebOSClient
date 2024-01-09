@@ -145,7 +145,14 @@ public protocol WebOSClientDelegate: AnyObject {
 ### API commands
 
 ```swift
-client?.send(.volumeUp)         // Increases the volume by 1 unit.
-client?.send(.volumeDown)       // Decreases the volume by 1 unit.
-
+client?.send(.volumeUp)                             // Increases the volume by 1 unit.
+client?.send(.volumeDown)                           // Decreases the volume by 1 unit.
+client?.send(.getVolume(subscribe: true))           // Retrieves the current volume level with optional subscription.
+client?.send(.setVolume(25))                        // Sets the volume to the specified level.
+client?.send(.setMute(true))                        // Mutes or unmutes the audio.
+client?.send(.play)                                 // Initiates playback.
+client?.send(.pause)                                // Pauses the current media playback.
+client?.send(.stop)                                 // Stops the current media playback.
+client?.send(.rewind)                               // Rewinds the current media playback.
+client?.send(.fastForward)                          // Fast-forwards the current media playback.
 ```
