@@ -26,7 +26,7 @@ dependencies: [
 
 ## Usage
 
-Basic setup.
+### Basic setup.
 
 ```swift
 import UIKit
@@ -94,7 +94,7 @@ extension ViewController: WebOSClientDelegate {
 }
 ```
 
-Complete list of delegate methods.
+### Delegate methods.
 
 ```swift
 public protocol WebOSClientDelegate: AnyObject {
