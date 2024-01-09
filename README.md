@@ -39,7 +39,6 @@ fileprivate enum Constants {
 
 // MARK: - ViewController
 class ViewController: UIViewController {
-    
     // The URL of the WebOS service on the TV.
     let url = URL(string: "wss://192.168.1.10:3001")
     
@@ -141,4 +140,12 @@ public protocol WebOSClientDelegate: AnyObject {
     /// Invoked when the client disconnects from the WebOS websocket service.
     func didDisconnect()
 }
+```
+
+### API commands
+
+```swift
+client?.send(.volumeUp)         // Increases the volume by 1 unit.
+client?.send(.volumeDown)       // Decreases the volume by 1 unit.
+
 ```
