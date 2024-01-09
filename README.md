@@ -172,5 +172,5 @@ client?.send(.deleteCharacters(count: 1))           // Deletes a specified numbe
 client?.send(.channelUp)                            // Increases the TV channel.
 client?.send(.channelDown)                          // Decreases the TV channel.
 client?.send(.listSources)                          // Retrieves a list of available input sources.
-client?.send(.setSource("input_id"))                // Sets the TV source to the specified input ID.
+client?.send(.setSource("HDMI2"))                   // Sets the TV source to the specified input ID.
 ```
