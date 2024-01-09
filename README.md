@@ -155,7 +155,7 @@ client?.send(.pause)                                // Pauses the current media 
 client?.send(.stop)                                 // Stops the current media playback.
 client?.send(.rewind)                               // Rewinds the current media playback.
 client?.send(.fastForward)                          // Fast-forwards the current media playback.
-client?.send(.getSoundOutput(subscribe: true)       // Retrieves the current sound output with optional subscription.
+client?.send(.getSoundOutput(subscribe: true))      // Retrieves the current sound output with optional subscription.
 client?.send(.changeSoundOutput(.soundbar))         // Changes the sound output to the specified type.
 client?.send(.notify(message: "Hello, world!"))     // Shows a message on the screen.
 client?.send(.screenOff)                            // Turns off the TV screen.
