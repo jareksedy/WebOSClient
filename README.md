@@ -65,7 +65,6 @@ class ViewController: UIViewController {
 
 // MARK: - WebOSClientDelegate
 extension ViewController: WebOSClientDelegate {
-    
     // Callback triggered upon successful registration with the TV.
     func didRegister(with clientKey: String) {
         
@@ -98,9 +97,6 @@ extension ViewController: WebOSClientDelegate {
 
 ```swift
 public protocol WebOSClientProtocol {
-    /// The delegate responsible for handling various events.
-    var delegate: WebOSClientDelegate? { get set }
-    
     /// Establishes a connection to the TV.
     func connect()
     
@@ -111,20 +107,9 @@ public protocol WebOSClientProtocol {
     /// - Returns: The identifier of sent request, or nil if the request couldn't be sent.
     @discardableResult func send(_ target: WebOSTarget, id: String) -> String?
     
-    /// Sends a JSON-formatted request to the service.
-    /// - Parameter jsonRequest: The JSON-formatted request to be sent.
-    func send(jsonRequest: String)
-    
     /// Sends a key press event to the service using the specified WebOSKeyTarget.
     /// - Parameter key: The target key to be pressed.
     func sendKey(_ key: WebOSKeyTarget)
-    
-    /// Sends a key press event to the WebOS service using the provided key data.
-    /// - Parameter keyData: The key data to be sent as a key press event.
-    func sendKey(keyData: Data)
-    
-    /// Sends a ping request to the service for maintaining the connection.
-    func sendPing()
     
     /// Disconnects the WebOS client from the WebOS service.
     func disconnect()
@@ -148,10 +133,6 @@ public protocol WebOSClientDelegate: AnyObject {
     /// Invoked when the client receives a response from the WebOS service.
     /// - Parameter result: The result containing either a WebOSResponse or an error.
     func didReceive(_ result: Result<WebOSResponse, Error>)
-    
-    /// Invoked when the client receives a response from the WebOS service.
-    /// - Parameter jsonResponse: Raw JSON response received from the WebOS service.
-    func didReceive(jsonResponse: String)
     
     /// Invoked when the client encounters a network-related error, i.e. abnormal disconnect.
     /// - Parameter error: The error object representing the network error, if any.
