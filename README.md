@@ -8,9 +8,7 @@ WebOSClient is a Swift library that facilitates communication with LG TVs runnin
 
 Please note that it's essential for this package to function, that the iOS device running it and the LG TV are both connected to the same WiFi network.
 
-You'll need to manually enter the IP address of the LG TV for this package to operate.
-
-If you prefer to automatically discover devices on the network, I recommend utilizing the [SSDPClient package](https://github.com/pierrickrouxel/SSDPClient) or similar libraries.
+You'll need to manually enter the IP address of the LG TV for this package to operate. If you prefer to automatically discover devices on the network, I recommend utilizing the [SSDPClient package](https://github.com/pierrickrouxel/SSDPClient) or similar libraries.
 
 ## Features
 
