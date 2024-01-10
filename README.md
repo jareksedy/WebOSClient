@@ -28,6 +28,8 @@ dependencies: [
 
 ### Basic setup
 
+Here's a basic example demonstrating the setup of WebOSClient and connection to the TV.
+
 ```swift
 import UIKit
 import WebOSClient
@@ -94,6 +96,8 @@ extension ViewController: WebOSClientDelegate {
 
 ### Client methods
 
+These are the core methods of WebOSClient allowing connection with the TV and sending keys and various commands.
+
 ```swift
 public protocol WebOSClientProtocol {
     /// Establishes a connection to the TV.
@@ -116,6 +120,8 @@ public protocol WebOSClientProtocol {
 ```
 
 ### Delegate methods
+
+These are the methods for handling various WebOSClient events.
 
 ```swift
 public protocol WebOSClientDelegate: AnyObject {
@@ -144,7 +150,7 @@ public protocol WebOSClientDelegate: AnyObject {
 
 ### Common API commands
 
-These commands cover fundamental functionalities such as adjusting volume, retrieving current volume levels, muting or unmuting the audio, turning TV screen off and on etc.
+These commands cover fundamental functionalities such as adjusting volume, retrieving current volume levels, muting or unmuting the audio, turning the TV screen off and on, etc.
 
 ```swift
 client?.send(.volumeUp)                             // Increases the volume by 1 unit.
@@ -217,7 +223,7 @@ client?.sendKey(.fastForward)                       // Simulates a fast-forward 
 
 ## Documentation
  
-Documentation is also provided in the source code. Make sure to check the comments in the respective files for more information. Please also refer to the example project for more information.
+Documentation is also provided in the source code. Check the comments in the respective files for more information. Refer to the example project for additional details.
 
 ## Contributing
 
