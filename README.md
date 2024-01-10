@@ -1,9 +1,16 @@
 # WebOSClient
 
 [![Swift Version](https://img.shields.io/badge/Swift-5.0-orange.svg)](https://swift.org/)
+[![SPM Compatible](https://img.shields.io/badge/SwiftPM-Compatible-brightgreen.svg)](https://swiftpackageindex.com/exyte/ActivityIndicatorView)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 WebOSClient is a Swift library that facilitates communication with LG TVs running WebOS. It provides a convenient way to connect to a TV, send commands, and handle various TV-related functionalities.
+
+Please note that it's essential for this package to function, that the iOS device running it and the LG TV are both connected to the same WiFi network.
+
+You'll need to manually enter the IP address of the LG TV for this package to operate.
+
+If you prefer to automatically discover devices on the network, I recommend utilizing the [SSDPClient package](https://github.com/pierrickrouxel/SSDPClient) or similar libraries.
 
 ## Features
 
@@ -28,7 +35,7 @@ dependencies: [
 
 ### Basic setup
 
-Here's a basic example demonstrating the setup of WebOSClient and connection to the TV.
+Here's a basic example demonstrating the setup of WebOSClient and connection to the TV using UIKit.
 
 ```swift
 import UIKit
@@ -103,7 +110,7 @@ public protocol WebOSClientProtocol {
     /// Establishes a connection to the TV.
     func connect()
     
-    /// Sends a request to the specified WebOSTarget and returns the unique identifier of the request.
+    /// Sends a specified request to the TV and returns the unique identifier of the request.
     /// - Parameters:
     ///   - target: Type of request and it's parameters if any.
     ///   - id: The unique identifier of the request (can be omitted).
