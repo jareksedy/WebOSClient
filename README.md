@@ -174,3 +174,39 @@ client?.send(.channelDown)                          // Decreases the TV channel.
 client?.send(.listSources)                          // Retrieves a list of available input sources.
 client?.send(.setSource("HDMI2"))                   // Sets the TV source to the specified input ID.
 ```
+
+### Key commands
+
+```swift
+client?.sendKey(.move(dx: 10, dy: 10))              // Simulates moving the mouse pointer on the screen.
+client?.sendKey(.click)                             // Simulates mouse click action.
+client?.sendKey(.scroll(dx: 0, dy: 100)             // Simulates scrolling on the screen.
+client?.sendKey(.left)                              // Simulates a left arrow key press.
+client?.sendKey(.right)                             // Simulates a right arrow key press.
+client?.sendKey(.up)                                // Simulates an up arrow key press.
+client?.sendKey(.down)                              // Simulates a down arrow key press.
+client?.sendKey(.home)                              // Simulates a home button press.
+client?.sendKey(.back)                              // Simulates a back button press.
+client?.sendKey(.menu)                              // Simulates a menu button press.
+client?.sendKey(.enter)                             // Simulates OK button press.
+client?.sendKey(.dash)                              // Simulates a dash button press.
+client?.sendKey(.info)                              // Simulates an info button press.
+client?.sendKey(.num0)                              // Simulates pressing the number 0—9 key.
+client?.sendKey(.asterisk)                          // Simulates pressing the asterisk key.
+client?.sendKey(.cc)                                // Simulates pressing the closed caption (CC) key.
+client?.sendKey(.exit)                              // Simulates an exit button press.
+client?.sendKey(.mute)                              // Simulates a mute button press.
+client?.sendKey(.red)                               // Simulates pressing the red color button.
+client?.sendKey(.green)                             // Simulates pressing the green color button.
+client?.sendKey(.yellow)                            // Simulates pressing the yellow color button.
+client?.sendKey(.blue)                              // Simulates pressing the blue color button.
+client?.sendKey(.volumeUp)                          // Simulates pressing the volume up button.
+client?.sendKey(.volumeDown)                        // Simulates pressing the volume down button.
+client?.sendKey(.channelUp)                         // Simulates pressing the channel up button.
+client?.sendKey(.channelDown)                       // Simulates pressing the channel down button.
+client?.sendKey(.play)                              // Simulates a play button press.
+client?.sendKey(.pause)                             // Simulates a pause button press.
+client?.sendKey(.stop)                              // Simulates a stop button press.
+client?.sendKey(.rewind)                            // Simulates a rewind button press.
+client?.sendKey(.fastForward)                       // Simulates a fast-forward button press.
+```
