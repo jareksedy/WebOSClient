@@ -210,3 +210,15 @@ client?.sendKey(.stop)                              // Simulates a stop button p
 client?.sendKey(.rewind)                            // Simulates a rewind button press.
 client?.sendKey(.fastForward)                       // Simulates a fast-forward button press.
 ```
+
+## Documentation
+ 
+Documentation is also provided in the source code. Make sure to check the comments in the respective files for more information. Please also refer to the example project for more information.
+
+## Contributing
+
+Feel free to contribute to this library by submitting issues or pull requests. Your feedback and contributions are highly appreciated!
+
+## License
+
+This library is licensed under the MIT License. See the LICENSE file for details.
