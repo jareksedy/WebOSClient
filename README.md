@@ -144,7 +144,7 @@ public protocol WebOSClientDelegate: AnyObject {
 
 ### Common API commands
 
-These commands cover fundamental functionalities such as adjusting volume, retrieving current volume levels, and muting or unmuting the audio.
+These commands cover fundamental functionalities such as adjusting volume, retrieving current volume levels, muting or unmuting the audio, turning TV screen off and on etc.
 
 ```swift
 client?.send(.volumeUp)                             // Increases the volume by 1 unit.
@@ -179,7 +179,7 @@ client?.send(.setSource("HDMI2"))                   // Sets the TV source to the
 
 ### Key API commands
 
-These commands introduce a distinct set of functionalities, specifically tailored for simulating remote control key presses on LG TVs. 
+These commands use a slightly different API and introduce a distinct set of functionalities, specifically tailored for simulating remote control key presses on LG TVs. 
 
 ```swift
 client?.sendKey(.move(dx: 10, dy: 10))              // Simulates moving the mouse pointer on the screen.
