@@ -228,7 +228,7 @@ client?.sendKey(.fastForward)                       // Simulates a fast-forward 
 
 ## Documentation
  
-Documentation is also provided in the source code. Check the comments in the respective files for more information. Refer to the example project for additional details.
+Documentation is also provided in the source code. Check the comments in the respective files for more information. Refer to the example project that comes with this library for additional details.
 
 ## Contributing
 
