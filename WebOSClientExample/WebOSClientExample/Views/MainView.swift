@@ -18,7 +18,7 @@ struct MainView: View {
                         Label("TV Remote", systemImage: "tv")
                     }
                     .tag(0)
-                    NavigationLink(destination: Text("")) {
+                    NavigationLink(destination: MouseView(viewModel: viewModel)) {
                         Label("Mouse Pointer", systemImage: "cursorarrow.click.2")
                     }
                     .tag(1)
@@ -39,7 +39,7 @@ struct MainView: View {
                 Section(header: Text("CONNECTION STATUS")) {
                     if viewModel.isConnected {
                         Label("Connected", systemImage: "tv")
-                            .foregroundColor(.white)
+                            .foregroundColor(.accentColor)
                     } else {
                         Label("Disconnected", systemImage: "tv.slash")
                             .foregroundColor(.gray)

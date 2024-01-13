@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CA2E2D8F2B5188C300B40A05 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2E2D8E2B5188C300B40A05 /* ViewModel.swift */; };
+		CA2E2D932B52656900B40A05 /* MouseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2E2D922B52656900B40A05 /* MouseView.swift */; };
 		CA668CAD2B4FED07003E06C4 /* WebOSClientExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA668CAC2B4FED07003E06C4 /* WebOSClientExampleApp.swift */; };
 		CA668CAF2B4FED07003E06C4 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA668CAE2B4FED07003E06C4 /* MainView.swift */; };
 		CA668CB12B4FED08003E06C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA668CB02B4FED08003E06C4 /* Assets.xcassets */; };
@@ -17,6 +18,7 @@
 
 /* Begin PBXFileReference section */
 		CA2E2D8E2B5188C300B40A05 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		CA2E2D922B52656900B40A05 /* MouseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseView.swift; sourceTree = "<group>"; };
 		CA668CA92B4FED07003E06C4 /* WebOSClientExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebOSClientExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA668CAC2B4FED07003E06C4 /* WebOSClientExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebOSClientExampleApp.swift; sourceTree = "<group>"; };
 		CA668CAE2B4FED07003E06C4 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -49,6 +51,7 @@
 			isa = PBXGroup;
 			children = (
 				CA668CAE2B4FED07003E06C4 /* MainView.swift */,
+				CA2E2D922B52656900B40A05 /* MouseView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -168,6 +171,7 @@
 			files = (
 				CA668CAF2B4FED07003E06C4 /* MainView.swift in Sources */,
 				CA2E2D8F2B5188C300B40A05 /* ViewModel.swift in Sources */,
+				CA2E2D932B52656900B40A05 /* MouseView.swift in Sources */,
 				CA668CAD2B4FED07003E06C4 /* WebOSClientExampleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
