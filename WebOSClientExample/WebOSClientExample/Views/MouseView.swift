@@ -38,7 +38,7 @@ struct MouseView: View {
     
     var body: some View {
         ZStack {
-            Text("DRAG AROUND AND TAP")
+            Text("DRAG AROUND AND PRESS")
                 .multilineTextAlignment(.center)
                 .foregroundColor(.gray)
                 .font(.system(size: 10))

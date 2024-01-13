@@ -21,7 +21,7 @@ class ViewModel: ObservableObject {
     
     // Subscriptions
     @Published var volumeLevel: Double = 0
-    @Published var foregroundApp: String = ""
+    @Published var foregroundApp: String = "N/A"
     @Published var soundOutput: WebOSSoundOutputType? = nil
     
     var tv: WebOSClientProtocol?
@@ -72,6 +72,11 @@ extension ViewModel: WebOSClientDelegate {
         if case .success(let response) = result, response.id == Constants.foregroundAppRequestId {
             Task { @MainActor in
                 self.foregroundApp = response.payload?.appId ?? ""
+            }
+        }
+        if case .success(let response) = result, response.id == Constants.soundOutputRequestId {
+            Task { @MainActor in
+                self.soundOutput = WebOSSoundOutputType(rawValue: response.payload?.soundOutput ?? "tv_speaker") ?? .tv_speaker
             }
         }
     }

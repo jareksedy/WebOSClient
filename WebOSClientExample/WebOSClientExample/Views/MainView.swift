@@ -26,7 +26,7 @@ struct MainView: View {
                         Label("Apps", systemImage: "apps.ipad.landscape")
                     }
                     .tag(2)
-                    NavigationLink(destination: Text("")) {
+                    NavigationLink(destination: SubscriptionsView(viewModel: viewModel)) {
                         Label("Subscriptions", systemImage: "antenna.radiowaves.left.and.right")
                     }
                     .tag(3)
