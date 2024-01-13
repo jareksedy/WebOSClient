@@ -13,8 +13,96 @@ fileprivate enum Constants {
 
 struct RemoteView: View {
     @ObservedObject var viewModel: ViewModel
+    @State var isMuted: Bool = false
     var body: some View {
         VStack {
+            VStack {
+                HStack {
+                    Button(action: {
+                        viewModel.tv?.sendKey(.num1)
+                    }) {
+                        Image(systemName: "1.circle")
+                            .frame(width: Constants.size, height: Constants.size)
+                    }
+                    Button(action: {
+                        viewModel.tv?.sendKey(.num2)
+                    }) {
+                        Image(systemName: "2.circle")
+                            .frame(width: Constants.size, height: Constants.size)
+                    }
+                    Button(action: {
+                        viewModel.tv?.sendKey(.num3)
+                    }) {
+                        Image(systemName: "3.circle")
+                            .frame(width: Constants.size, height: Constants.size)
+                    }
+                }
+                HStack {
+                    Button(action: {
+                        viewModel.tv?.sendKey(.num4)
+                    }) {
+                        Image(systemName: "4.circle")
+                            .frame(width: Constants.size, height: Constants.size)
+                    }
+                    Button(action: {
+                        viewModel.tv?.sendKey(.num5)
+                    }) {
+                        Image(systemName: "5.circle")
+                            .frame(width: Constants.size, height: Constants.size)
+                    }
+                    Button(action: {
+                        viewModel.tv?.sendKey(.num6)
+                    }) {
+                        Image(systemName: "6.circle")
+                            .frame(width: Constants.size, height: Constants.size)
+                    }
+                }
+                HStack {
+                    Button(action: {
+                        viewModel.tv?.sendKey(.num7)
+                    }) {
+                        Image(systemName: "7.circle")
+                            .frame(width: Constants.size, height: Constants.size)
+                    }
+                    Button(action: {
+                        viewModel.tv?.sendKey(.num8)
+                    }) {
+                        Image(systemName: "8.circle")
+                            .frame(width: Constants.size, height: Constants.size)
+                    }
+                    Button(action: {
+                        viewModel.tv?.sendKey(.num9)
+                    }) {
+                        Image(systemName: "9.circle")
+                            .frame(width: Constants.size, height: Constants.size)
+                    }
+                }
+                HStack {
+                    Button(action: {
+                        viewModel.tv?.sendKey(.info)
+                    }) {
+                        Image(systemName: "info")
+                            .frame(width: Constants.size, height: Constants.size)
+                    }
+                    Button(action: {
+                        viewModel.tv?.sendKey(.num0)
+                    }) {
+                        Image(systemName: "0.circle")
+                            .frame(width: Constants.size, height: Constants.size)
+                    }
+                    Button(action: {
+                        viewModel.tv?.sendKey(.exit)
+                    }) {
+                        Image(systemName: "xmark.square")
+                            .frame(width: Constants.size, height: Constants.size)
+                            .foregroundColor(.red)
+                    }
+                }
+            }
+
+            Spacer()
+                .frame(height: 25)
+            
             HStack {
                 VStack {
                     Button(action: {
@@ -113,10 +201,14 @@ struct RemoteView: View {
                     Image(systemName: "gearshape")
                         .frame(width: Constants.size, height: Constants.size)
                 }
+                Button(action: {
+                    viewModel.tv?.sendKey(.mute)
+                    isMuted.toggle()
+                }) {
+                    Image(systemName: isMuted ? "speaker" : "speaker.slash")
+                        .frame(width: Constants.size, height: Constants.size)
+                }
             }
-            
-            Spacer()
-                .frame(height: 25)
             
             HStack {
                 Button(action: {
@@ -153,28 +245,28 @@ struct RemoteView: View {
                     viewModel.tv?.sendKey(.red)
                 }) {
                     Text("·")
-                        .frame(maxWidth: Constants.size * 2, maxHeight: 25)
+                        .frame(width: Constants.size * 3, height: Constants.size)
                 }
                 .buttonStyle(ColoredButtonStyle(color: .red))
                 Button(action: {
                     viewModel.tv?.sendKey(.green)
                 }) {
                     Text("··")
-                        .frame(maxWidth: Constants.size * 2, maxHeight: 25)
+                        .frame(width: Constants.size * 3, height: Constants.size)
                 }
                 .buttonStyle(ColoredButtonStyle(color: .green))
                 Button(action: {
                     viewModel.tv?.sendKey(.yellow)
                 }) {
                     Text("···")
-                        .frame(maxWidth: Constants.size * 2, maxHeight: 25)
+                        .frame(width: Constants.size * 3, height: Constants.size)
                 }
                 .buttonStyle(ColoredButtonStyle(color: .yellow))
                 Button(action: {
                     viewModel.tv?.sendKey(.blue)
                 }) {
                     Text("····")
-                        .frame(maxWidth: Constants.size * 2, maxHeight: 25)
+                        .frame(width: Constants.size * 3, height: Constants.size)
                 }
                 .buttonStyle(ColoredButtonStyle(color: .blue))
             }
@@ -192,6 +284,7 @@ struct ColoredButtonStyle: ButtonStyle {
     var color: Color
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
+            .foregroundColor(.white)
             .background(configuration.isPressed ? .gray : color)
             .cornerRadius(6.0)
             .padding()

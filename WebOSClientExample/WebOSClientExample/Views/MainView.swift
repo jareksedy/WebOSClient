@@ -31,9 +31,13 @@ struct MainView: View {
                     }
                     .tag(3)
                     NavigationLink(destination: Text("")) {
-                        Label("Logs", systemImage: "folder.badge.gearshape")
+                        Label("Send Toasts", systemImage: "text.bubble")
                     }
                     .tag(4)
+                    NavigationLink(destination: Text("")) {
+                        Label("Logs", systemImage: "folder.badge.gearshape")
+                    }
+                    .tag(5)
                 }
                 
                 Section(header: Text("CONNECTION STATUS")) {
