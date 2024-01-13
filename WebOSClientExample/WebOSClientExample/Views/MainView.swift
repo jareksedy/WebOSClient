@@ -34,7 +34,7 @@ struct MainView: View {
                         Label("Send Toasts", systemImage: "text.bubble")
                     }
                     .tag(4)
-                    NavigationLink(destination: Text("")) {
+                    NavigationLink(destination: LogView(viewModel: viewModel)) {
                         Label("Logs", systemImage: "folder.badge.gearshape")
                     }
                     .tag(5)
@@ -68,6 +68,9 @@ struct MainView: View {
                     })
                     .help("Toggle Sidebar")
                 }
+            }
+            .onAppear {
+                viewModel.ping()
             }
             .alert("Please accept registration prompt on the TV.",
                    isPresented: $viewModel.showPromptAlert) {

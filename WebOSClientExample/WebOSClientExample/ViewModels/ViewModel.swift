@@ -18,6 +18,7 @@ fileprivate enum Constants {
 class ViewModel: ObservableObject {
     @Published var isConnected: Bool = false
     @Published var showPromptAlert: Bool = false
+    @Published var log: String = ""
     
     // Subscriptions
     @Published var volumeLevel: Double = 0
@@ -46,9 +47,22 @@ class ViewModel: ObservableObject {
         tv?.send(.getForegroundApp(subscribe: true), id: Constants.foregroundAppRequestId)
         tv?.send(.getSoundOutput(subscribe: true), id: Constants.soundOutputRequestId)
     }
+    
+    func ping() {
+        tv?.sendPing()
+        Task { @MainActor in
+            log += "[PING]" + "\n\n"
+        }
+    }
 }
 
 extension ViewModel: WebOSClientDelegate {
+    func didConnect() {
+        Task { @MainActor in
+            log += "[CONNECTED]" + "\n\n"
+        }
+    }
+    
     func didPrompt() {
         Task { @MainActor in
             showPromptAlert = true
@@ -81,9 +95,23 @@ extension ViewModel: WebOSClientDelegate {
         }
     }
     
+    func didReceive(jsonResponse: String) {
+        Task { @MainActor in
+            log += jsonResponse.prettyPrintedJSONString!.debugDescription + "\n\n"
+        }
+    }
+    
     func didReceiveNetworkError(_ error: Error?) {
         Task { @MainActor in
             isConnected = false
+            log += "err: \(error?.localizedDescription ?? "unknown")" + "\n\n"
+        }
+    }
+    
+    func didDisconnect() {
+        Task { @MainActor in
+            isConnected = false
+            log += "[DISCONNECTED]" + "\n\n"
         }
     }
 }
