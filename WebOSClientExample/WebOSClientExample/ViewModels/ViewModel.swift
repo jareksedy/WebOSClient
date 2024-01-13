@@ -14,6 +14,7 @@ fileprivate enum Constants {
 }
 
 class ViewModel: ObservableObject {
+    @Published var isConnected: Bool = false
     @Published var volumeLevel: Double
     @Published var showPromptAlert: Bool = false
     
@@ -26,6 +27,10 @@ class ViewModel: ObservableObject {
         volumeLevel = 0
         let url = URL(string: urlString)
         self.tv = WebOSClient(url: url, delegate: self)
+        connectAndRegister()
+    }
+    
+    func connectAndRegister() {
         tv?.connect()
         let registrationToken = UserDefaults.standard.value(forKey: Constants.registrationTokenKey) as? String
         tv?.send(.register(clientKey: registrationToken))
@@ -34,12 +39,18 @@ class ViewModel: ObservableObject {
 
 extension ViewModel: WebOSClientDelegate {
     func didPrompt() {
-        showPromptAlert = true
+        Task { @MainActor in
+            showPromptAlert = true
+        }
     }
     
     func didRegister(with clientKey: String) {
         UserDefaults.standard.setValue(clientKey, forKey: Constants.registrationTokenKey)
         tv?.send(.getVolume(subscribe: true), id: Constants.volumeSubscriptionRequestId)
+        
+        Task { @MainActor in
+            isConnected = true
+        }
     }
     
     func didReceive(_ result: Result<WebOSResponse, Error>) {
@@ -51,5 +62,8 @@ extension ViewModel: WebOSClientDelegate {
     }
     
     func didReceiveNetworkError(_ error: Error?) {
+        Task { @MainActor in
+            isConnected = false
+        }
     }
 }

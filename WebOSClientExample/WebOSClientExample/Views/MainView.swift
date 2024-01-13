@@ -9,7 +9,6 @@ import SwiftUI
 
 struct MainView: View {
     @State var selection: Set<Int> = [0]
-    @State var sideBarVisibility: NavigationSplitViewVisibility = .doubleColumn
     @ObservedObject var viewModel = ViewModel()
     var body: some View {
         NavigationView {
@@ -36,14 +35,22 @@ struct MainView: View {
                     }
                     .tag(4)
                 }
+                
                 Section(header: Text("CONNECTION STATUS")) {
-                    Label("Disconnected", systemImage: "tv.slash")
-                        .foregroundColor(.gray)
-                    Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
-                        Text("Reconnect")
-                    })
-                    Divider()
-                    Text("Specify your TV URL in ViewModel.swift")
+                    if viewModel.isConnected {
+                        Label("Connected", systemImage: "tv")
+                            .foregroundColor(.white)
+                    } else {
+                        Label("Disconnected", systemImage: "tv.slash")
+                            .foregroundColor(.gray)
+                        Button(action: { viewModel.connectAndRegister() }, label: {
+                            Text("Reconnect")
+                        })
+                    }
+                }
+                
+                Section(header: Text("NOTES")) {
+                    Text("Specify your LG TV URL in ViewModel.swift")
                         .font(.footnote)
                 }
             }
@@ -57,6 +64,9 @@ struct MainView: View {
                     })
                     .help("Toggle Sidebar")
                 }
+            }
+            .alert("Please accept registration prompt on the TV.",
+                   isPresented: $viewModel.showPromptAlert) {
             }
         }
     }
