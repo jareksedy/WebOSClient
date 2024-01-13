@@ -14,12 +14,12 @@ struct MainView: View {
         NavigationView {
             List(selection: $selection) {
                 Section(header: Text("MAIN MENU")) {
-                    NavigationLink(destination: Text("")) {
+                    NavigationLink(destination: RemoteView(viewModel: viewModel)) {
                         Label("TV Remote", systemImage: "tv")
                     }
                     .tag(0)
                     NavigationLink(destination: MouseView(viewModel: viewModel)) {
-                        Label("Mouse Pointer", systemImage: "cursorarrow.click.2")
+                        Label("Mouse Pad", systemImage: "cursorarrow.click.2")
                     }
                     .tag(1)
                     NavigationLink(destination: Text("")) {
@@ -39,7 +39,7 @@ struct MainView: View {
                 Section(header: Text("CONNECTION STATUS")) {
                     if viewModel.isConnected {
                         Label("Connected", systemImage: "tv")
-                            .foregroundColor(.accentColor)
+                            .foregroundColor(.green)
                     } else {
                         Label("Disconnected", systemImage: "tv.slash")
                             .foregroundColor(.gray)

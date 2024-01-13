@@ -62,9 +62,10 @@ struct MouseView: View {
                 .padding(.top, 250)
             
             Rectangle()
-                .foregroundColor(.clear)
+                .foregroundColor(.gray.opacity(0.025))
                 .frame(width: Constants.width, height: Constants.height)
                 .contentShape(Rectangle())
+                .cornerRadius(12)
             
             Circle()
                 .foregroundColor(.accentColor)
@@ -113,7 +114,7 @@ struct MouseView: View {
             }
         }
         .coordinateSpace(name: "MouseView")
-        .navigationTitle("WebOSClientExample :: Mouse Pointer")
+        .navigationTitle("WebOSClientExample App :: Mouse Pad")
     }
 }
 
