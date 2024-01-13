@@ -22,11 +22,11 @@ struct MouseView: View {
             
             viewModel.tv?.sendKey(.move(dx: Int(dx), dy: Int(dy)))
             
-            if dy > 15 {
+            if dy > 13 {
                 viewModel.tv?.sendKey(.scroll(dx: 0, dy: -10))
             }
             
-            if dy < -15 {
+            if dy < -13 {
                 viewModel.tv?.sendKey(.scroll(dx: 0, dy: 10))
             }
         }
