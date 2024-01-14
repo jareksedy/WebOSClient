@@ -45,7 +45,7 @@ struct MainView: View {
                         Label("Subscriptions", systemImage: "antenna.radiowaves.left.and.right")
                     }
                     .tag(4)
-                    NavigationLink(destination: Text("")) {
+                    NavigationLink(destination: ToastView(viewModel: viewModel)) {
                         Label("Toasts", systemImage: "text.bubble")
                     }
                     .tag(5)
