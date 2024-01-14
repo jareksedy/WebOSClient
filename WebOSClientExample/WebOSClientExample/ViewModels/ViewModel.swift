@@ -8,14 +8,15 @@
 import SwiftUI
 import WebOSClient
 
-fileprivate enum Constants {
-    static let registrationTokenKey = "clientKey"
-    static let volumeSubscriptionRequestId = "volumeSubscription"
-    static let foregroundAppRequestId = "foregroundAppSubscription"
-    static let soundOutputRequestId = "soundOutputSubscription"
-}
-
 class ViewModel: ObservableObject {
+    enum Constants {
+        static let registrationTokenKey = "clientKey"
+        static let volumeSubscriptionRequestId = "volumeSubscription"
+        static let foregroundAppRequestId = "foregroundAppSubscription"
+        static let soundOutputRequestId = "soundOutputSubscription"
+        static let logSuffix = "\n"
+    }
+    
     @Published var isConnected: Bool = false
     @Published var showPromptAlert: Bool = false
     @Published var log: String = ""
@@ -51,7 +52,7 @@ class ViewModel: ObservableObject {
     func ping() {
         tv?.sendPing()
         Task { @MainActor in
-            log += "[PING]" + "\n\n"
+            log += "[PING]" + Constants.logSuffix
         }
     }
 }
@@ -59,7 +60,7 @@ class ViewModel: ObservableObject {
 extension ViewModel: WebOSClientDelegate {
     func didConnect() {
         Task { @MainActor in
-            log += "[CONNECTED]" + "\n\n"
+            log += "[CONNECTED]" + Constants.logSuffix
         }
     }
     
@@ -97,21 +98,21 @@ extension ViewModel: WebOSClientDelegate {
     
     func didReceive(jsonResponse: String) {
         Task { @MainActor in
-            log += jsonResponse.prettyPrintedJSONString!.debugDescription + "\n\n"
+            log += jsonResponse.prettyPrintedJSONString!.debugDescription + Constants.logSuffix
         }
     }
     
     func didReceiveNetworkError(_ error: Error?) {
         Task { @MainActor in
             isConnected = false
-            log += "err: \(error?.localizedDescription ?? "unknown")" + "\n\n"
+            log += "err: \(error?.localizedDescription ?? "unknown")" + Constants.logSuffix
         }
     }
     
     func didDisconnect() {
         Task { @MainActor in
             isConnected = false
-            log += "[DISCONNECTED]" + "\n\n"
+            log += "[DISCONNECTED]" + Constants.logSuffix
         }
     }
 }

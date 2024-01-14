@@ -12,7 +12,7 @@ struct LogView: View {
     var body: some View {
         VStack {
             TextEditor(text: .constant(viewModel.log))
-                .lineSpacing(8)
+                .lineSpacing(4)
                 .font(.system(size: 10, weight: .regular, design: .monospaced))
         }
         .navigationTitle("WebOSClientExample App :: Logs")

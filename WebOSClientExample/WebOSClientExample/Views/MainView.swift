@@ -8,36 +8,42 @@
 import SwiftUI
 
 struct MainView: View {
-    @State var selection: Set<Int> = [0]
+    @State var selection: Int = 1
     @ObservedObject var viewModel = ViewModel()
     var body: some View {
         NavigationView {
             List(selection: $selection) {
-                Section(header: Text("MAIN MENU")) {
+                Section(header: Text("INFO")) {
+                    NavigationLink(destination: AboutView()) {
+                        Label("About", systemImage: "info.bubble")
+                    }
+                    .tag(0)
+                }
+                Section(header: Text("MENU")) {
                     NavigationLink(destination: RemoteView(viewModel: viewModel)) {
                         Label("TV Remote", systemImage: "tv")
                     }
-                    .tag(0)
+                    .tag(1)
                     NavigationLink(destination: MouseView(viewModel: viewModel)) {
                         Label("Mouse Pad", systemImage: "cursorarrow.click.2")
                     }
-                    .tag(1)
+                    .tag(2)
                     NavigationLink(destination: Text("")) {
                         Label("Apps", systemImage: "apps.ipad.landscape")
                     }
-                    .tag(2)
+                    .tag(3)
                     NavigationLink(destination: SubscriptionsView(viewModel: viewModel)) {
                         Label("Subscriptions", systemImage: "antenna.radiowaves.left.and.right")
                     }
-                    .tag(3)
-                    NavigationLink(destination: Text("")) {
-                        Label("Send Toasts", systemImage: "text.bubble")
-                    }
                     .tag(4)
+                    NavigationLink(destination: Text("")) {
+                        Label("Toasts", systemImage: "text.bubble")
+                    }
+                    .tag(5)
                     NavigationLink(destination: LogView(viewModel: viewModel)) {
                         Label("Logs", systemImage: "folder.badge.gearshape")
                     }
-                    .tag(5)
+                    .tag(6)
                 }
                 
                 Section(header: Text("CONNECTION STATUS")) {
@@ -49,22 +55,9 @@ struct MainView: View {
                             .foregroundColor(.gray)
                     }
                 }
-                
-                Section(header: Text("NOTES")) {
-                    Text("Specify your LG TV URL in ViewModel.swift")
-                        .font(.footnote)
-                }
             }
             .listStyle(.sidebar)
             .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    Button(action: {
-                        toggleSidebar()
-                    }, label: {
-                        Image(systemName: "sidebar.left")
-                    })
-                    .help("Toggle Sidebar")
-                }
                 ToolbarItem(placement: .automatic) {
                     Button(action: {
                         if viewModel.isConnected {
@@ -77,6 +70,18 @@ struct MainView: View {
                     })
                     .help(viewModel.isConnected ? "Disconnect" : "Connect")
                 }
+                if selection == 6 {
+                    ToolbarItem(placement: .accessoryBar(id: 0)) {
+                        Button(action: {
+                            viewModel.log = ""
+                        }, label: {
+                            Image(systemName: "folder.badge.minus")
+                            Text("Clear Logs")
+                        })
+                        .help("Clear Logs")
+                    }
+                }
+                
             }
             .alert("Please accept registration prompt on the TV.",
                    isPresented: $viewModel.showPromptAlert) {
@@ -85,13 +90,6 @@ struct MainView: View {
         .onAppEnteredForeground {
             viewModel.ping()
         }
-    }
-    
-    func toggleSidebar() {
-        NSApp
-            .keyWindow?
-            .firstResponder?
-            .tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
     }
 }
 
