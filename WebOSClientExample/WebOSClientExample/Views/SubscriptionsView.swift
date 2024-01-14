@@ -35,9 +35,11 @@ struct SubscriptionsView: View {
                         viewModel.tv?.send(.setVolume(Int(viewModel.volumeLevel)))
                     }
                 })
+                .disabled(!viewModel.isConnected)
             }
             .padding()
         }
+        .opacity(viewModel.isConnected ? 1 : 0.5)
         .padding()
         .navigationTitle("WebOSClientExample App :: Subscriptions")
     }

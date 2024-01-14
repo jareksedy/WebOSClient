@@ -86,12 +86,14 @@ struct MouseView: View {
         .simultaneousGesture(
             DragGesture(coordinateSpace: .named("MouseView"))
                 .onChanged { value in
+                    guard viewModel.isConnected else { return }
                     mouseLocation = value.location
                     withAnimation(.bouncy(duration: 0.15, extraBounce: 0.3)) {
                         isDragged = true
                     }
                 }
                 .onEnded { value in
+                    guard viewModel.isConnected else { return }
                     mouseLocation = value.location
                     withAnimation(.bouncy(duration: 0.15, extraBounce: 0.3)) {
                         isDragged = false
@@ -99,6 +101,7 @@ struct MouseView: View {
                 }
         )
         .onTapGesture() { value in
+            guard viewModel.isConnected else { return }
             mouseLocation = value
             viewModel.tv?.sendKey(.click)
             withAnimation(.bouncy(duration: 0.25)) {
@@ -113,6 +116,7 @@ struct MouseView: View {
                 }
             }
         }
+        .opacity(viewModel.isConnected ? 1 : 0.5)
         .coordinateSpace(name: "MouseView")
         .navigationTitle("WebOSClientExample App :: Mouse Pad")
     }

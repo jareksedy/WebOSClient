@@ -24,18 +24,21 @@ struct RemoteView: View {
                         Image(systemName: "1.circle")
                             .frame(width: Constants.size, height: Constants.size)
                     }
+                    .disabled(!viewModel.isConnected)
                     Button(action: {
                         viewModel.tv?.sendKey(.num2)
                     }) {
                         Image(systemName: "2.circle")
                             .frame(width: Constants.size, height: Constants.size)
                     }
+                    .disabled(!viewModel.isConnected)
                     Button(action: {
                         viewModel.tv?.sendKey(.num3)
                     }) {
                         Image(systemName: "3.circle")
                             .frame(width: Constants.size, height: Constants.size)
                     }
+                    .disabled(!viewModel.isConnected)
                 }
                 HStack {
                     Button(action: {
@@ -44,18 +47,21 @@ struct RemoteView: View {
                         Image(systemName: "4.circle")
                             .frame(width: Constants.size, height: Constants.size)
                     }
+                    .disabled(!viewModel.isConnected)
                     Button(action: {
                         viewModel.tv?.sendKey(.num5)
                     }) {
                         Image(systemName: "5.circle")
                             .frame(width: Constants.size, height: Constants.size)
                     }
+                    .disabled(!viewModel.isConnected)
                     Button(action: {
                         viewModel.tv?.sendKey(.num6)
                     }) {
                         Image(systemName: "6.circle")
                             .frame(width: Constants.size, height: Constants.size)
                     }
+                    .disabled(!viewModel.isConnected)
                 }
                 HStack {
                     Button(action: {
@@ -64,18 +70,21 @@ struct RemoteView: View {
                         Image(systemName: "7.circle")
                             .frame(width: Constants.size, height: Constants.size)
                     }
+                    .disabled(!viewModel.isConnected)
                     Button(action: {
                         viewModel.tv?.sendKey(.num8)
                     }) {
                         Image(systemName: "8.circle")
                             .frame(width: Constants.size, height: Constants.size)
                     }
+                    .disabled(!viewModel.isConnected)
                     Button(action: {
                         viewModel.tv?.sendKey(.num9)
                     }) {
                         Image(systemName: "9.circle")
                             .frame(width: Constants.size, height: Constants.size)
                     }
+                    .disabled(!viewModel.isConnected)
                 }
                 HStack {
                     Button(action: {
@@ -84,12 +93,14 @@ struct RemoteView: View {
                         Image(systemName: "info")
                             .frame(width: Constants.size, height: Constants.size)
                     }
+                    .disabled(!viewModel.isConnected)
                     Button(action: {
                         viewModel.tv?.sendKey(.num0)
                     }) {
                         Image(systemName: "0.circle")
                             .frame(width: Constants.size, height: Constants.size)
                     }
+                    .disabled(!viewModel.isConnected)
                     Button(action: {
                         viewModel.tv?.sendKey(.exit)
                     }) {
@@ -97,6 +108,7 @@ struct RemoteView: View {
                             .frame(width: Constants.size, height: Constants.size)
                             .foregroundColor(.red)
                     }
+                    .disabled(!viewModel.isConnected)
                 }
             }
 
@@ -111,12 +123,14 @@ struct RemoteView: View {
                         Image(systemName: "speaker.plus")
                             .frame(width: Constants.size, height: Constants.size)
                     }
+                    .disabled(!viewModel.isConnected)
                     Button(action: {
                         viewModel.tv?.sendKey(.volumeDown)
                     }) {
                         Image(systemName: "speaker.minus")
                             .frame(width: Constants.size, height: Constants.size)
                     }
+                    .disabled(!viewModel.isConnected)
                 }
                 
                 HStack {
@@ -127,6 +141,7 @@ struct RemoteView: View {
                             Image(systemName: "arrowtriangle.left")
                                 .frame(width: Constants.size, height: Constants.size)
                         }
+                        .disabled(!viewModel.isConnected)
                     }
                     
                     VStack {
@@ -136,20 +151,21 @@ struct RemoteView: View {
                             Image(systemName: "arrowtriangle.up")
                                 .frame(width: Constants.size, height: Constants.size)
                         }
-                        
+                        .disabled(!viewModel.isConnected)
                         Button(action: {
                             viewModel.tv?.sendKey(.enter)
                         }) {
                             Image(systemName: "circle")
                                 .frame(width: Constants.size, height: Constants.size)
                         }
-                        
+                        .disabled(!viewModel.isConnected)
                         Button(action: {
                             viewModel.tv?.sendKey(.down)
                         }) {
                             Image(systemName: "arrowtriangle.down")
                                 .frame(width: Constants.size, height: Constants.size)
                         }
+                        .disabled(!viewModel.isConnected)
                     }
                     
                     VStack {
@@ -159,6 +175,7 @@ struct RemoteView: View {
                             Image(systemName: "arrowtriangle.right")
                                 .frame(width: Constants.size, height: Constants.size)
                         }
+                        .disabled(!viewModel.isConnected)
                     }
                 }
                 .padding()
@@ -170,12 +187,14 @@ struct RemoteView: View {
                         Image(systemName: "plus.rectangle")
                             .frame(width: Constants.size, height: Constants.size)
                     }
+                    .disabled(!viewModel.isConnected)
                     Button(action: {
                         viewModel.tv?.sendKey(.channelDown)
                     }) {
                         Image(systemName: "minus.rectangle")
                             .frame(width: Constants.size, height: Constants.size)
                     }
+                    .disabled(!viewModel.isConnected)
                 }
             }
             
@@ -189,18 +208,21 @@ struct RemoteView: View {
                     Image(systemName: "arrowshape.turn.up.backward")
                         .frame(width: Constants.size, height: Constants.size)
                 }
+                .disabled(!viewModel.isConnected)
                 Button(action: {
                     viewModel.tv?.sendKey(.home)
                 }) {
                     Image(systemName: "house")
                         .frame(width: Constants.size, height: Constants.size)
                 }
+                .disabled(!viewModel.isConnected)
                 Button(action: {
                     viewModel.tv?.sendKey(.menu)
                 }) {
                     Image(systemName: "gearshape")
                         .frame(width: Constants.size, height: Constants.size)
                 }
+                .disabled(!viewModel.isConnected)
                 Button(action: {
                     viewModel.tv?.sendKey(.mute)
                     isMuted.toggle()
@@ -208,6 +230,7 @@ struct RemoteView: View {
                     Image(systemName: isMuted ? "speaker" : "speaker.slash")
                         .frame(width: Constants.size, height: Constants.size)
                 }
+                .disabled(!viewModel.isConnected)
             }
             
             HStack {
@@ -217,24 +240,28 @@ struct RemoteView: View {
                     Image(systemName: "backward")
                         .frame(width: Constants.size, height: Constants.size)
                 }
+                .disabled(!viewModel.isConnected)
                 Button(action: {
                     viewModel.tv?.sendKey(.play)
                 }) {
                     Image(systemName: "play")
                         .frame(width: Constants.size, height: Constants.size)
                 }
+                .disabled(!viewModel.isConnected)
                 Button(action: {
                     viewModel.tv?.sendKey(.pause)
                 }) {
                     Image(systemName: "pause")
                         .frame(width: Constants.size, height: Constants.size)
                 }
+                .disabled(!viewModel.isConnected)
                 Button(action: {
                     viewModel.tv?.sendKey(.stop)
                 }) {
                     Image(systemName: "stop")
                         .frame(width: Constants.size, height: Constants.size)
                 }
+                .disabled(!viewModel.isConnected)
             }
             
             Spacer()
@@ -248,6 +275,7 @@ struct RemoteView: View {
                         .frame(width: Constants.size * 3, height: Constants.size)
                 }
                 .buttonStyle(ColoredButtonStyle(color: .red))
+                .disabled(!viewModel.isConnected)
                 Button(action: {
                     viewModel.tv?.sendKey(.green)
                 }) {
@@ -255,6 +283,7 @@ struct RemoteView: View {
                         .frame(width: Constants.size * 3, height: Constants.size)
                 }
                 .buttonStyle(ColoredButtonStyle(color: .green))
+                .disabled(!viewModel.isConnected)
                 Button(action: {
                     viewModel.tv?.sendKey(.yellow)
                 }) {
@@ -262,6 +291,7 @@ struct RemoteView: View {
                         .frame(width: Constants.size * 3, height: Constants.size)
                 }
                 .buttonStyle(ColoredButtonStyle(color: .yellow))
+                .disabled(!viewModel.isConnected)
                 Button(action: {
                     viewModel.tv?.sendKey(.blue)
                 }) {
@@ -269,6 +299,7 @@ struct RemoteView: View {
                         .frame(width: Constants.size * 3, height: Constants.size)
                 }
                 .buttonStyle(ColoredButtonStyle(color: .blue))
+                .disabled(!viewModel.isConnected)
             }
             
             Spacer()

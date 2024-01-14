@@ -19,6 +19,15 @@ struct MainView: View {
                     }
                     .tag(0)
                 }
+                Section(header: Text("CONNECTION STATUS")) {
+                    if viewModel.isConnected {
+                        Label("Connected", systemImage: "tv")
+                            .foregroundColor(.green)
+                    } else {
+                        Label("Disconnected", systemImage: "tv.slash")
+                            .foregroundColor(.gray)
+                    }
+                }
                 Section(header: Text("MENU")) {
                     NavigationLink(destination: RemoteView(viewModel: viewModel)) {
                         Label("TV Remote", systemImage: "tv")
@@ -44,16 +53,6 @@ struct MainView: View {
                         Label("Logs", systemImage: "folder.badge.gearshape")
                     }
                     .tag(6)
-                }
-                
-                Section(header: Text("CONNECTION STATUS")) {
-                    if viewModel.isConnected {
-                        Label("Connected", systemImage: "tv")
-                            .foregroundColor(.green)
-                    } else {
-                        Label("Disconnected", systemImage: "tv.slash")
-                            .foregroundColor(.gray)
-                    }
                 }
             }
             .listStyle(.sidebar)
