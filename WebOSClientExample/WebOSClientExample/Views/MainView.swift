@@ -47,9 +47,6 @@ struct MainView: View {
                     } else {
                         Label("Disconnected", systemImage: "tv.slash")
                             .foregroundColor(.gray)
-                        Button(action: { viewModel.connectAndRegister() }, label: {
-                            Text("Reconnect")
-                        })
                     }
                 }
                 
@@ -68,13 +65,25 @@ struct MainView: View {
                     })
                     .help("Toggle Sidebar")
                 }
-            }
-            .onAppear {
-                viewModel.ping()
+                ToolbarItem(placement: .automatic) {
+                    Button(action: {
+                        if viewModel.isConnected {
+                            viewModel.tv?.disconnect()
+                        } else {
+                            viewModel.connectAndRegister()
+                        }
+                    }, label: {
+                        Image(systemName: viewModel.isConnected ? "tv.slash" : "tv")
+                    })
+                    .help(viewModel.isConnected ? "Disconnect" : "Connect")
+                }
             }
             .alert("Please accept registration prompt on the TV.",
                    isPresented: $viewModel.showPromptAlert) {
             }
+        }
+        .onAppEnteredForeground {
+            viewModel.ping()
         }
     }
     
@@ -85,3 +94,38 @@ struct MainView: View {
             .tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
     }
 }
+
+extension View {
+    func onNotification(
+        _ notificationName: Notification.Name,
+        perform action: @escaping () -> Void
+    ) -> some View {
+        onReceive(NotificationCenter.default.publisher(
+            for: notificationName
+        )) { _ in
+            action()
+        }
+    }
+    
+    func onAppEnteredBackground(
+        perform action: @escaping () -> Void
+    ) -> some View {
+        onNotification(
+            goDown,
+            perform: action
+        )
+    }
+    
+    func onAppEnteredForeground(
+        perform action: @escaping () -> Void
+    ) -> some View {
+        onNotification(
+            goUp,
+            perform: action
+        )
+    }
+    
+}
+
+fileprivate let goDown = NSApplication.didResignActiveNotification
+fileprivate let goUp = NSApplication.didBecomeActiveNotification

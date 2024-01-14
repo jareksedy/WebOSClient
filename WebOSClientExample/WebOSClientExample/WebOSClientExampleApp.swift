@@ -13,5 +13,8 @@ struct WebOSClientExampleApp: App {
         WindowGroup {
             MainView()
         }
+        .commands {
+            SidebarCommands()
+        }
     }
 }

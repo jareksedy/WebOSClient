@@ -163,9 +163,9 @@ extension WebOSClient: URLSessionWebSocketDelegate {
         task: URLSessionTask,
         didCompleteWithError error: Error?
     ) {
-        guard task === primaryWebSocketTask else {
-            return
-        }
+//        guard task === primaryWebSocketTask else {
+//            return
+//        }
         delegate?.didReceiveNetworkError(error)
     }
     
