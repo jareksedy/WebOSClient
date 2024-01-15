@@ -65,6 +65,10 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
         }
     }
     
+//    public func reconnectPointer() {
+//        pointerRequestId = send(.getPointerInputSocket)
+//    }
+    
     public func disconnect() {
         secondaryWebSocketTask?.cancel(with: .goingAway, reason: nil)
         primaryWebSocketTask?.cancel(with: .goingAway, reason: nil)
@@ -82,6 +86,7 @@ private extension WebOSClient {
     ) {
         task = urlSession?.webSocketTask(with: url)
         task?.resume()
+        startHeartbeat()
     }
     
     func sendURLSessionWebSocketTaskMessage(
@@ -140,6 +145,19 @@ private extension WebOSClient {
             }
             completion(.success(response))
         }
+    }
+    
+    func startHeartbeat() {
+        let heartbeatTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { [weak self] _ in
+            print("ONE... \(self?.secondaryWebSocketTask)")
+            self?.secondaryWebSocketTask?.sendPing { [weak self] error in
+                print("TWO... \(error?.localizedDescription)")
+                if let error {
+                    self?.delegate?.didReceiveNetworkError(error)
+                }
+            }
+        }
+        RunLoop.current.add(heartbeatTimer, forMode: .common)
     }
 }
 
