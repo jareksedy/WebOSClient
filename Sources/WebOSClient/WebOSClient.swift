@@ -10,7 +10,7 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
     private var urlSession: URLSession?
     private var primaryWebSocketTask: URLSessionWebSocketTask?
     private var secondaryWebSocketTask: URLSessionWebSocketTask?
-    private var doHeartbeat: Bool
+    private var shouldPerformHeartbeat: Bool
     private var heartbeatTimer: Timer?
     private var heartbeatTimeInterval: TimeInterval
     private var pointerRequestId: String?
@@ -20,12 +20,12 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
     public init(
         url: URL?,
         delegate: WebOSClientDelegate? = nil,
-        heartbeat: Bool = true,
+        shouldPerformHeartbeat: Bool = true,
         heartBeatTimeInterval: TimeInterval = 10
     ) {
         self.url = url
         self.delegate = delegate
-        self.doHeartbeat = heartbeat
+        self.shouldPerformHeartbeat = shouldPerformHeartbeat
         self.heartbeatTimeInterval = heartBeatTimeInterval
         super.init()
     }
@@ -68,11 +68,7 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
     }
     
     public func sendPing() {
-        primaryWebSocketTask?.sendPing { [weak self] error in
-            if let error {
-                self?.delegate?.didReceiveNetworkError(error)
-            }
-        }
+        sendPing(task: primaryWebSocketTask)
     }
     
     public func disconnect() {
@@ -94,8 +90,8 @@ private extension WebOSClient {
     ) {
         task = urlSession?.webSocketTask(with: url)
         task?.resume()
-        if task === secondaryWebSocketTask {
-            startHeartbeat()
+        if shouldPerformHeartbeat && task === secondaryWebSocketTask {
+            setupHeartbeat()
         }
     }
     
@@ -104,6 +100,14 @@ private extension WebOSClient {
         task: URLSessionWebSocketTask?
     ) {
         task?.send(message) { [weak self] error in
+            if let error {
+                self?.delegate?.didReceiveNetworkError(error)
+            }
+        }
+    }
+    
+    func sendPing(task: URLSessionWebSocketTask?) {
+        task?.sendPing { [weak self] error in
             if let error {
                 self?.delegate?.didReceiveNetworkError(error)
             }
@@ -157,16 +161,11 @@ private extension WebOSClient {
         }
     }
     
-    func startHeartbeat() {
-        guard doHeartbeat else { return }
+    func setupHeartbeat() {
         heartbeatTimer = Timer.scheduledTimer(
             withTimeInterval: heartbeatTimeInterval, repeats: true
         ) { [weak self] _ in
-            self?.secondaryWebSocketTask?.sendPing { [weak self] error in
-                if let error {
-                    self?.delegate?.didReceiveNetworkError(error)
-                }
-            }
+            self?.sendPing(task: self?.secondaryWebSocketTask)
         }
         RunLoop.current.add(heartbeatTimer!, forMode: .common)
     }
