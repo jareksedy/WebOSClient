@@ -11,6 +11,7 @@ struct SubscriptionsView: View {
     @ObservedObject var viewModel: ViewModel
     var body: some View {
         VStack {
+            Spacer()
             HStack {
                 Text("CUR. APP ID: \((viewModel.foregroundApp).uppercased())")
                     .font(.system(size: 12, weight: .regular, design: .monospaced))
@@ -38,6 +39,13 @@ struct SubscriptionsView: View {
                 .disabled(!viewModel.isConnected)
             }
             .padding()
+            Spacer()
+                .frame(height: 25)
+            Text("Subscriptions represent a potent mechanism enabling you to observe specific changes in the state of a WebOS. Please be aware that older versions of WebOS may not support subscriptions or may exhibit different response outputs.")
+                .multilineTextAlignment(.center)
+                .padding(.leading, 25)
+                .padding(.trailing, 25)
+            Spacer()
         }
         .opacity(viewModel.isConnected ? 1 : 0.5)
         .padding()
