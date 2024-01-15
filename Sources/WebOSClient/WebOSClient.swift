@@ -17,7 +17,7 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
     
     public weak var delegate: WebOSClientDelegate?
     
-    public init(
+    required public init(
         url: URL?,
         delegate: WebOSClientDelegate? = nil,
         shouldPerformHeartbeat: Bool = true,
