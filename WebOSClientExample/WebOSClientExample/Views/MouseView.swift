@@ -43,7 +43,7 @@ struct MouseView: View {
                 .foregroundColor(.gray)
                 .font(.system(size: 10))
                 .monospaced()
-                .opacity(0.25)
+                .opacity(0.75)
                 .padding(.bottom, 250)
             
             Image(systemName: "plus")
@@ -58,11 +58,11 @@ struct MouseView: View {
                 .foregroundColor(.gray)
                 .font(.system(size: 10))
                 .monospaced()
-                .opacity(0.25)
+                .opacity(0.75)
                 .padding(.top, 250)
             
             Rectangle()
-                .foregroundColor(.gray.opacity(0.025))
+                .foregroundColor(.gray.opacity(0.1))
                 .frame(width: Constants.width, height: Constants.height)
                 .contentShape(Rectangle())
                 .cornerRadius(12)
