@@ -16,6 +16,8 @@ struct RemoteView: View {
     @State var isMuted: Bool = false
     var body: some View {
         VStack {
+            Spacer()
+            
             VStack {
                 HStack {
                     Button(action: {
@@ -106,7 +108,7 @@ struct RemoteView: View {
                     }) {
                         Image(systemName: "xmark.square")
                             .frame(width: Constants.size, height: Constants.size)
-                            .foregroundColor(.red)
+                            .foregroundColor(viewModel.isConnected ? .red : .gray)
                     }
                     .disabled(!viewModel.isConnected)
                 }
@@ -264,46 +266,42 @@ struct RemoteView: View {
                 .disabled(!viewModel.isConnected)
             }
             
-            Spacer()
-                .frame(height: 25)
-            
             HStack {
                 Button(action: {
                     viewModel.tv?.sendKey(.red)
-                }) {
-                    Text("·")
-                        .frame(width: Constants.size * 3, height: Constants.size)
-                }
-                .buttonStyle(ColoredButtonStyle(color: .red))
+                }, label: {
+                    Image(systemName: "capsule.fill")
+                        .frame(width: Constants.size, height: Constants.size)
+                        .foregroundColor(viewModel.isConnected ? .red : .gray)
+                })
                 .disabled(!viewModel.isConnected)
                 Button(action: {
                     viewModel.tv?.sendKey(.green)
-                }) {
-                    Text("··")
-                        .frame(width: Constants.size * 3, height: Constants.size)
-                }
-                .buttonStyle(ColoredButtonStyle(color: .green))
+                }, label: {
+                    Image(systemName: "capsule.fill")
+                        .frame(width: Constants.size, height: Constants.size)
+                        .foregroundColor(viewModel.isConnected ? .green : .gray)
+                })
                 .disabled(!viewModel.isConnected)
                 Button(action: {
                     viewModel.tv?.sendKey(.yellow)
-                }) {
-                    Text("···")
-                        .frame(width: Constants.size * 3, height: Constants.size)
-                }
-                .buttonStyle(ColoredButtonStyle(color: .yellow))
+                }, label: {
+                    Image(systemName: "capsule.fill")
+                        .frame(width: Constants.size, height: Constants.size)
+                        .foregroundColor(viewModel.isConnected ? .yellow : .gray)
+                })
                 .disabled(!viewModel.isConnected)
                 Button(action: {
                     viewModel.tv?.sendKey(.blue)
-                }) {
-                    Text("····")
-                        .frame(width: Constants.size * 3, height: Constants.size)
-                }
-                .buttonStyle(ColoredButtonStyle(color: .blue))
+                }, label: {
+                    Image(systemName: "capsule.fill")
+                        .frame(width: Constants.size, height: Constants.size)
+                        .foregroundColor(viewModel.isConnected ? .blue : .gray)
+                })
                 .disabled(!viewModel.isConnected)
             }
             
             Spacer()
-                .frame(height: 25)
         }
         .padding()
         .navigationTitle("WebOSClientExample App :: TV Remote")
