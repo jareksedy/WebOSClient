@@ -37,7 +37,7 @@ struct MainView: View {
                         Label("Mouse Pad", systemImage: "cursorarrow.click.2")
                     }
                     .tag(2)
-                    NavigationLink(destination: Text("")) {
+                    NavigationLink(destination: AppsView(viewModel: viewModel)) {
                         Label("Apps", systemImage: "apps.ipad.landscape")
                     }
                     .tag(3)
@@ -69,6 +69,35 @@ struct MainView: View {
                     })
                     .help(viewModel.isConnected ? "Disconnect" : "Connect")
                 }
+                if selection == 3 {
+                    ToolbarItem(placement: .accessoryBar(id: 0)) {
+                        Button(action: {
+                            viewModel.showAllApps()
+                        }, label: {
+                            Image(systemName: "apps.ipad.landscape")
+                            Text("All Apps")
+                        })
+                        .help("All Apps")
+                    }
+                    ToolbarItem(placement: .accessoryBar(id: 0)) {
+                        Button(action: {
+                            viewModel.showSystemApps()
+                        }, label: {
+                            Image(systemName: "apps.ipad.landscape")
+                            Text("System Apps")
+                        })
+                        .help("System Apps")
+                    }
+                    ToolbarItem(placement: .accessoryBar(id: 0)) {
+                        Button(action: {
+                            viewModel.showNonSystemApps()
+                        }, label: {
+                            Image(systemName: "apps.ipad.landscape")
+                            Text("Non-system Apps")
+                        })
+                        .help("Non-system Apps")
+                    }
+                }
                 if selection == 6 {
                     ToolbarItem(placement: .accessoryBar(id: 0)) {
                         Button(action: {
@@ -80,7 +109,6 @@ struct MainView: View {
                         .help("Clear Logs")
                     }
                 }
-                
             }
             .alert("Please accept registration prompt on the TV.",
                    isPresented: $viewModel.showPromptAlert) {

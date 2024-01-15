@@ -14,6 +14,7 @@ class ViewModel: ObservableObject {
         static let volumeSubscriptionRequestId = "volumeSubscription"
         static let foregroundAppRequestId = "foregroundAppSubscription"
         static let soundOutputRequestId = "soundOutputSubscription"
+        static let appsRequestId = "listAppsRequest"
         static let logSuffix = "\n"
     }
     
@@ -22,11 +23,14 @@ class ViewModel: ObservableObject {
     @Published var isConnected: Bool = false
     @Published var showPromptAlert: Bool = false
     @Published var log: String = ""
+    @Published var apps: [WebOSResponseApplication] = []
     
     // Subscriptions
     @Published var volumeLevel: Double = 0
     @Published var foregroundApp: String = "N/A"
     @Published var soundOutput: WebOSSoundOutputType? = nil
+    
+    private var installedApps: [WebOSResponseApplication] = []
     
     var tv: WebOSClientProtocol?
     
@@ -49,6 +53,18 @@ class ViewModel: ObservableObject {
         tv?.send(.getVolume(subscribe: true), id: Constants.volumeSubscriptionRequestId)
         tv?.send(.getForegroundApp(subscribe: true), id: Constants.foregroundAppRequestId)
         tv?.send(.getSoundOutput(subscribe: true), id: Constants.soundOutputRequestId)
+    }
+    
+    func showAllApps() {
+        apps = installedApps
+    }
+    
+    func showNonSystemApps() {
+        apps = installedApps.filter { $0.systemApp == false }
+    }
+    
+    func showSystemApps() {
+        apps = installedApps.filter { $0.systemApp == true }
     }
     
     func ping() {
@@ -75,6 +91,7 @@ extension ViewModel: WebOSClientDelegate {
     func didRegister(with clientKey: String) {
         UserDefaults.standard.setValue(clientKey, forKey: Constants.registrationTokenKey)
         subscribeAll()
+        tv?.send(.listApps, id: Constants.appsRequestId)
         Task { @MainActor in
             isConnected = true
         }
@@ -94,6 +111,12 @@ extension ViewModel: WebOSClientDelegate {
         if case .success(let response) = result, response.id == Constants.soundOutputRequestId {
             Task { @MainActor in
                 self.soundOutput = WebOSSoundOutputType(rawValue: response.payload?.soundOutput ?? "tv_speaker") ?? .tv_speaker
+            }
+        }
+        if case .success(let response) = result, response.id == Constants.appsRequestId {
+            Task { @MainActor in
+                self.installedApps = response.payload?.applications ?? []
+                self.apps = installedApps
             }
         }
     }
