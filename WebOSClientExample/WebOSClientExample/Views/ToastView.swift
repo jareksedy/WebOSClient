@@ -9,23 +9,21 @@ import SwiftUI
 import AppKit
 
 struct ToastView: View {
-    @State var toastText = "Enter your message here..."
+    @State var toastText = ""
     @ObservedObject var viewModel: ViewModel
     @FocusState var isTextEditorFocused: Bool
     var body: some View {
         VStack {
-            Form {
-                TextEditor(text: $toastText)
-                    .lineSpacing(4)
+            HStack {
+                TextField("Enter your message here...", text: $toastText)
                     .font(.title)
                     .focused($isTextEditorFocused)
                     .disabled(!viewModel.isConnected)
-            }
-            
-            VStack {
+                
                 Button(action: {
                     viewModel.tv?.send(.notify(message: toastText))
                     isTextEditorFocused = true
+                    toastText = ""
                 }, label: {
                     Image(systemName: "paperplane")
                         .font(.title)
@@ -34,8 +32,12 @@ struct ToastView: View {
                 })
                 .disabled(!viewModel.isConnected)
             }
-            .frame(minHeight: 200)
+            
+            Text("Toast is an info alert that displays text message on the TV screen.\nIt gets dismissed automatically after a few seconds.")
+                .multilineTextAlignment(.center)
+                .padding(.top, 25)
         }
+        .padding()
         .navigationTitle("WebOSClientExample App :: Toasts")
     }
 }
