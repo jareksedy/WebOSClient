@@ -90,7 +90,7 @@ private extension WebOSClient {
     ) {
         task = urlSession?.webSocketTask(with: url)
         task?.resume()
-        if task === secondaryWebSocketTask && shouldPerformHeartbeat {
+        if shouldPerformHeartbeat {
             setupHeartbeat()
         }
     }
@@ -162,6 +162,9 @@ private extension WebOSClient {
     }
     
     func setupHeartbeat() {
+        guard heartbeatTimer == nil else {
+            return
+        }
         heartbeatTimer = Timer.scheduledTimer(
             withTimeInterval: heartbeatTimeInterval, repeats: true
         ) { [weak self] _ in
@@ -185,7 +188,7 @@ extension WebOSClient: URLSessionWebSocketDelegate {
             self?.delegate?.didReceive(result)
         }
     }
-
+    
     public func urlSession(
         _ session: URLSession,
         task: URLSessionTask,
