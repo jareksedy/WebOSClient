@@ -90,7 +90,7 @@ private extension WebOSClient {
     ) {
         task = urlSession?.webSocketTask(with: url)
         task?.resume()
-        if shouldPerformHeartbeat && task === secondaryWebSocketTask {
+        if task === secondaryWebSocketTask && shouldPerformHeartbeat {
             setupHeartbeat()
         }
     }
