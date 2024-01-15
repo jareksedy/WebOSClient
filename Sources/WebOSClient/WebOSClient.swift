@@ -10,14 +10,24 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
     private var urlSession: URLSession?
     private var primaryWebSocketTask: URLSessionWebSocketTask?
     private var secondaryWebSocketTask: URLSessionWebSocketTask?
+    private var doHeartbeat: Bool
+    private var heartbeatTimer: Timer?
+    private var heartbeatTimeInterval: TimeInterval
     private var pointerRequestId: String?
     
     public weak var delegate: WebOSClientDelegate?
     
-    public init(url: URL?, delegate: WebOSClientDelegate? = nil) {
-        super.init()
+    public init(
+        url: URL?,
+        delegate: WebOSClientDelegate? = nil,
+        heartbeat: Bool = true,
+        heartBeatTimeInterval: TimeInterval = 10
+    ) {
         self.url = url
         self.delegate = delegate
+        self.doHeartbeat = heartbeat
+        self.heartbeatTimeInterval = heartBeatTimeInterval
+        super.init()
     }
     
     public func connect() {
@@ -65,11 +75,9 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
         }
     }
     
-//    public func reconnectPointer() {
-//        pointerRequestId = send(.getPointerInputSocket)
-//    }
-    
     public func disconnect() {
+        heartbeatTimer?.invalidate()
+        heartbeatTimer = nil
         secondaryWebSocketTask?.cancel(with: .goingAway, reason: nil)
         primaryWebSocketTask?.cancel(with: .goingAway, reason: nil)
     }
@@ -86,7 +94,9 @@ private extension WebOSClient {
     ) {
         task = urlSession?.webSocketTask(with: url)
         task?.resume()
-        startHeartbeat()
+        if task === secondaryWebSocketTask {
+            startHeartbeat()
+        }
     }
     
     func sendURLSessionWebSocketTaskMessage(
@@ -148,16 +158,17 @@ private extension WebOSClient {
     }
     
     func startHeartbeat() {
-        let heartbeatTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { [weak self] _ in
-            print("ONE... \(self?.secondaryWebSocketTask)")
+        guard doHeartbeat else { return }
+        heartbeatTimer = Timer.scheduledTimer(
+            withTimeInterval: heartbeatTimeInterval, repeats: true
+        ) { [weak self] _ in
             self?.secondaryWebSocketTask?.sendPing { [weak self] error in
-                print("TWO... \(error?.localizedDescription)")
                 if let error {
                     self?.delegate?.didReceiveNetworkError(error)
                 }
             }
         }
-        RunLoop.current.add(heartbeatTimer, forMode: .common)
+        RunLoop.current.add(heartbeatTimer!, forMode: .common)
     }
 }
 
