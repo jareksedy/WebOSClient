@@ -114,7 +114,7 @@ extension ViewModel: WebOSClientDelegate {
         if case .success(let response) = result, response.id == Constants.appsRequestId {
             Task { @MainActor in
                 self.installedApps = response.payload?.applications ?? []
-                self.apps = installedApps
+                self.showNonSystemApps()
             }
         }
     }

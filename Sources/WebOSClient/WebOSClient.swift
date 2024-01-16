@@ -168,6 +168,7 @@ private extension WebOSClient {
         heartbeatTimer = Timer.scheduledTimer(withTimeInterval: heartbeatTimeInterval,
                                               repeats: true) { [weak self] _ in
             self?.sendPing(task: self?.secondaryWebSocketTask)
+            self?.sendPing(task: self?.primaryWebSocketTask)
         }
         RunLoop.current.add(heartbeatTimer!, forMode: .common)
     }
