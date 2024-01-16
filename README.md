@@ -230,9 +230,9 @@ client?.sendKey(.fastForward)                       // Simulates a fast-forward 
  
 Documentation is also provided in the source code. Check the comments in the respective files for more information. Refer to the example project that comes with this library for additional details.
 
-## Demo App
+## Example project
 
-The Demo App that comes with this package demonstrates the most common functionalities of the library.
+The accompanying example project included in this package showcases the library's fundamental features and serves as a demonstration of its core functionalities on macOS.
 
 ![Example App Screenshot](/Screenshots/WebOSClientExampleApp.png?raw=true)
 
