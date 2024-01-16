@@ -19,16 +19,17 @@ struct ToastView: View {
                     .font(.title)
                     .focused($isTextEditorFocused)
                     .disabled(!viewModel.isConnected)
-                
+                    
                 Button(action: {
                     viewModel.tv?.send(.toast(message: toastText))
                     isTextEditorFocused = true
                     toastText = ""
                 }, label: {
-                    Image(systemName: "paperplane")
-                        .font(.title)
-                    Text("Send Toast")
-                        .font(.title)
+                    HStack {
+                        Image(systemName: "paperplane")
+                        Text("Send Toast")
+                    }
+                    .padding(5)
                 })
                 .disabled(!viewModel.isConnected)
             }

@@ -29,6 +29,7 @@ struct AppsView: View {
             }
             .padding()
         }
+        .opacity(viewModel.isConnected ? 1 : 0.25)
         .navigationTitle("WebOSClientExample App :: Installed Apps")
     }
 }

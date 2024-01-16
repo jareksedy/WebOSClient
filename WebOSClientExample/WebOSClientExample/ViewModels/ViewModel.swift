@@ -54,14 +54,17 @@ class ViewModel: ObservableObject {
     }
     
     func showAllApps() {
+        guard isConnected else { return }
         apps = installedApps
     }
     
     func showNonSystemApps() {
+        guard isConnected else { return }
         apps = installedApps.filter { $0.systemApp == false }
     }
     
     func showSystemApps() {
+        guard isConnected else { return }
         apps = installedApps.filter { $0.systemApp == true }
     }
     

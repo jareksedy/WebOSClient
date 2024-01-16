@@ -50,7 +50,7 @@ struct MainView: View {
                         Label("Toasts", systemImage: "text.bubble")
                     }
                     .tag(5)
-                    NavigationLink(destination: Text("")) {
+                    NavigationLink(destination: MiscView(viewModel: viewModel)) {
                         Label("Miscellaneous", systemImage: "wrench.and.screwdriver")
                     }
                     .tag(6)
@@ -81,6 +81,7 @@ struct MainView: View {
                             Text("System").tag(1)
                             Text("Third-party").tag(2)
                         }
+                        .disabled(!viewModel.isConnected)
                         .pickerStyle(.segmented)
                         .onChange(of: appFilter) { _ in
                             switch appFilter {
@@ -112,43 +113,5 @@ struct MainView: View {
                    isPresented: $viewModel.showPromptAlert) {
             }
         }
-//        .onAppEnteredForeground {
-//            viewModel.ping()
-//        }
     }
 }
-
-extension View {
-    func onNotification(
-        _ notificationName: Notification.Name,
-        perform action: @escaping () -> Void
-    ) -> some View {
-        onReceive(NotificationCenter.default.publisher(
-            for: notificationName
-        )) { _ in
-            action()
-        }
-    }
-    
-    func onAppEnteredBackground(
-        perform action: @escaping () -> Void
-    ) -> some View {
-        onNotification(
-            goDown,
-            perform: action
-        )
-    }
-    
-    func onAppEnteredForeground(
-        perform action: @escaping () -> Void
-    ) -> some View {
-        onNotification(
-            goUp,
-            perform: action
-        )
-    }
-    
-}
-
-fileprivate let goDown = NSApplication.didResignActiveNotification
-fileprivate let goUp = NSApplication.didBecomeActiveNotification
