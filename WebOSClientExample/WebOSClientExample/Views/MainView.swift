@@ -107,6 +107,15 @@ struct MainView: View {
                         })
                         .help("Clear Logs")
                     }
+                    ToolbarItem(placement: .accessoryBar(id: 0)) {
+                        Button(action: {
+                            viewModel.tv?.send(.systemInfo)
+                        }, label: {
+                            Image(systemName: "info.square")
+                            Text("System Info")
+                        })
+                        .help("System Info")
+                    }
                 }
             }
             .alert("Please accept registration prompt on the TV.",
