@@ -10,7 +10,7 @@ import SwiftUI
 fileprivate enum Constants {
     static let width: CGFloat = 640
     static let height: CGFloat = 360
-    static let divider: CGFloat = 18
+    static let divider: CGFloat = 12
 }
 
 struct MouseView: View {

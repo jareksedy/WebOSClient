@@ -50,10 +50,14 @@ struct MainView: View {
                         Label("Toasts", systemImage: "text.bubble")
                     }
                     .tag(5)
+                    NavigationLink(destination: Text("")) {
+                        Label("Miscellaneous", systemImage: "wrench.and.screwdriver")
+                    }
+                    .tag(6)
                     NavigationLink(destination: LogView(viewModel: viewModel)) {
                         Label("Logs", systemImage: "folder.badge.gearshape")
                     }
-                    .tag(6)
+                    .tag(7)
                 }
             }
             .listStyle(.sidebar)
@@ -92,7 +96,7 @@ struct MainView: View {
                         }
                     }
                 }
-                if selection == 6 {
+                if selection == 7 {
                     ToolbarItem(placement: .accessoryBar(id: 0)) {
                         Button(action: {
                             viewModel.log = ""
