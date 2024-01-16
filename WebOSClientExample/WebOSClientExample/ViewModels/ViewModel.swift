@@ -18,8 +18,6 @@ class ViewModel: ObservableObject {
         static let logSuffix = "\n"
     }
     
-    @Published var toastText: String = "Enter your message here..."
-    
     @Published var isConnected: Bool = false
     @Published var showPromptAlert: Bool = false
     @Published var log: String = ""
