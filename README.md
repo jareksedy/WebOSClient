@@ -170,7 +170,7 @@ client?.send(.rewind)                               // Rewinds the current media
 client?.send(.fastForward)                          // Fast-forwards the current media playback.
 client?.send(.getSoundOutput(subscribe: true))      // Retrieves the current sound output with optional subscription.
 client?.send(.changeSoundOutput(.soundbar))         // Changes the sound output to the specified type.
-client?.send(.notify(message: "Hello, world!"))     // Shows a message on the screen.
+client?.send(.toast(message: "Hello, world!"))      // Shows a message on the screen.
 client?.send(.screenOff)                            // Turns off the TV screen.
 client?.send(.screenOn)                             // Turns on the TV screen.
 client?.send(.systemInfo)                           // Retrieves system information.

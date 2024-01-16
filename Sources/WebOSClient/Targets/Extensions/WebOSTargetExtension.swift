@@ -32,7 +32,7 @@ extension WebOSTarget: WebOSTargetProtocol {
             return "ssap://audio/getSoundOutput"
         case .changeSoundOutput:
             return "ssap://audio/changeSoundOutput"
-        case .notify:
+        case .toast:
             return "ssap://system.notifications/createToast"
         case .screenOff:
             return "ssap://com.webos.service.tvpower/power/turnOffScreen"
@@ -95,7 +95,7 @@ extension WebOSTarget: WebOSTargetProtocol {
         case .changeSoundOutput(let soundOutput):
             let payload = WebOSRequestPayload(output: soundOutput.rawValue)
             return .init(type: .request, uri: uri, payload: payload)
-        case .notify(let message, let iconData, let iconExtension):
+        case .toast(let message, let iconData, let iconExtension):
             let payload = WebOSRequestPayload(
                 message: message,
                 iconData: iconData,

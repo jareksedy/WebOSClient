@@ -21,7 +21,7 @@ struct ToastView: View {
                     .disabled(!viewModel.isConnected)
                 
                 Button(action: {
-                    viewModel.tv?.send(.notify(message: toastText))
+                    viewModel.tv?.send(.toast(message: toastText))
                     isTextEditorFocused = true
                     toastText = ""
                 }, label: {

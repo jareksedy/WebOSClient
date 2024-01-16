@@ -57,7 +57,7 @@ public enum WebOSTarget {
     ///   - message: The message to be displayed on the TV.
     ///   - iconData: Optional icon data to be displayed along with the message.
     ///   - iconExtension: Optional extension specifying the format of the icon data.
-    case notify(message: String, iconData: Data? = nil, iconExtension: String? = nil)
+    case toast(message: String, iconData: Data? = nil, iconExtension: String? = nil)
     
     /// Turns off the TV screen.
     case screenOff
