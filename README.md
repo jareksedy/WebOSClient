@@ -14,6 +14,7 @@ You'll need to manually enter the IP address of the LG TV for this package to op
 
 - Remote control a WebOS-based TV (LG Smart TVs).
 - Handle TV events through subscriptions.
+- Handy example project demonstrating the library's core features.
 
 ## Requirements
 
@@ -31,15 +32,15 @@ dependencies: [
 
 ## Version History
 
-### 1.0.3 Example App
+### 1.0.3. Example App
 #### Features
-* Added an option to enter IP manually in Example App.
-* Changed Example App Icon.
+* Added an option to enter IP manually in example project.
+* Changed the example project icon.
 
-### 1.0.0 Initial release
+### 1.0.0. Initial release
 #### Features
-* WebOSClient Package.
-* Example App demonstrating core functionalities.
+* WebOSClient package.
+* Example project demonstrating library's core functionalities.
 
 ## Usage
 
