@@ -29,6 +29,18 @@ dependencies: [
 ]
 ```
 
+## Version History
+
+### 1.0.3 Example App
+#### Features
+* Added an option to enter IP manually in Example App.
+* Changed Example App Icon.
+
+### 1.0.0 Initial release
+#### Features
+* WebOSClient Package.
+* Example App demonstrating core functionalities.
+
 ## Usage
 
 ### Basic setup
