@@ -2,7 +2,7 @@
 //  WebOSClientExampleApp.swift
 //  WebOSClientExample
 //
-//  Created by Ярослав on 11.01.2024.
+//  Created by Yaroslav Sedyshev on 11.01.2024.
 //
 
 import SwiftUI

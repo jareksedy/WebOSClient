@@ -16,6 +16,7 @@
 		CA2E2D9D2B53F9B500B40A05 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2E2D9C2B53F9B500B40A05 /* ToastView.swift */; };
 		CA2E2D9F2B55759A00B40A05 /* AppsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2E2D9E2B55759A00B40A05 /* AppsView.swift */; };
 		CA2E2DA22B56BE5B00B40A05 /* MiscView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2E2DA12B56BE5B00B40A05 /* MiscView.swift */; };
+		CA33457C2B58158A0055592B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA33457B2B58158A0055592B /* SettingsView.swift */; };
 		CA668CAD2B4FED07003E06C4 /* WebOSClientExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA668CAC2B4FED07003E06C4 /* WebOSClientExampleApp.swift */; };
 		CA668CAF2B4FED07003E06C4 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA668CAE2B4FED07003E06C4 /* MainView.swift */; };
 		CA668CB12B4FED08003E06C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA668CB02B4FED08003E06C4 /* Assets.xcassets */; };
@@ -34,6 +35,7 @@
 		CA2E2D9E2B55759A00B40A05 /* AppsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsView.swift; sourceTree = "<group>"; };
 		CA2E2DA02B557E4F00B40A05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		CA2E2DA12B56BE5B00B40A05 /* MiscView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscView.swift; sourceTree = "<group>"; };
+		CA33457B2B58158A0055592B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		CA668CA92B4FED07003E06C4 /* WebOSClientExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebOSClientExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA668CAC2B4FED07003E06C4 /* WebOSClientExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebOSClientExampleApp.swift; sourceTree = "<group>"; };
 		CA668CAE2B4FED07003E06C4 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 				CA2E2D9C2B53F9B500B40A05 /* ToastView.swift */,
 				CA2E2D962B52A4C900B40A05 /* SubscriptionsView.swift */,
 				CA2E2D982B52B2AE00B40A05 /* LogView.swift */,
+				CA33457B2B58158A0055592B /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -201,6 +204,7 @@
 				CA2E2D952B5293EC00B40A05 /* RemoteView.swift in Sources */,
 				CA2E2D9D2B53F9B500B40A05 /* ToastView.swift in Sources */,
 				CA2E2D9F2B55759A00B40A05 /* AppsView.swift in Sources */,
+				CA33457C2B58158A0055592B /* SettingsView.swift in Sources */,
 				CA2E2D992B52B2AE00B40A05 /* LogView.swift in Sources */,
 				CA2E2DA22B56BE5B00B40A05 /* MiscView.swift in Sources */,
 			);

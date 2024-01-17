@@ -2,7 +2,7 @@
 //  MainView.swift
 //  WebOSClientExample
 //
-//  Created by Ярослав on 11.01.2024.
+//  Created by Yaroslav Sedyshev on 11.01.2024.
 //
 
 import SwiftUI
@@ -10,6 +10,7 @@ import SwiftUI
 struct MainView: View {
     @State var selection: Int = 1
     @State var appFilter: Int = 2
+    @State var showSettings: Bool = false
     @ObservedObject var viewModel = ViewModel()
     var body: some View {
         NavigationView {
@@ -22,10 +23,10 @@ struct MainView: View {
                 }
                 Section(header: Text("CONNECTION STATUS")) {
                     if viewModel.isConnected {
-                        Label("Connected", systemImage: "tv")
+                        Label("Connected", systemImage: "network")
                             .foregroundColor(.green)
                     } else {
-                        Label("Disconnected", systemImage: "tv.slash")
+                        Label("Disconnected", systemImage: "network.slash")
                             .foregroundColor(.red)
                     }
                 }
@@ -67,12 +68,21 @@ struct MainView: View {
                         if viewModel.isConnected {
                             viewModel.tv?.disconnect()
                         } else {
-                            viewModel.connectAndRegister()
+                            let ip = UserDefaults.standard.value(forKey: ViewModel.Constants.tvIPKey) as? String
+                            viewModel.connectAndRegister(with: ip)
                         }
                     }, label: {
-                        Image(systemName: viewModel.isConnected ? "tv.slash" : "tv")
+                        Image(systemName: viewModel.isConnected ? "network.slash" : "network")
                     })
                     .help(viewModel.isConnected ? "Disconnect" : "Connect")
+                }
+                ToolbarItem(placement: .automatic) {
+                    Button(action: {
+                        showSettings.toggle()
+                    }, label: {
+                        Image(systemName: "gearshape")
+                    })
+                    .help("Settings")
                 }
                 if selection == 3 {
                     ToolbarItem(placement: .accessoryBar(id: 0)) {
@@ -118,9 +128,20 @@ struct MainView: View {
                     }
                 }
             }
-            .alert("Please accept registration prompt on the TV.",
-                   isPresented: $viewModel.showPromptAlert) {
+            .sheet(isPresented: $showSettings, onDismiss: {
+                viewModel.tv?.disconnect()
+                let ip = UserDefaults.standard.value(forKey: ViewModel.Constants.tvIPKey) as? String
+                viewModel.connectAndRegister(with: ip)
+            }) {
+                SettingsView(showSettings: $showSettings)
             }
+            .onAppear {
+                if UserDefaults.standard.value(forKey: ViewModel.Constants.tvIPKey) as? String == nil {
+                    showSettings = true
+                }
+            }
+            .alert("Please accept registration prompt on the TV.",
+                   isPresented: $viewModel.showPromptAlert) {}
         }
     }
 }

@@ -2,7 +2,7 @@
 //  MiscView.swift
 //  WebOSClientExample
 //
-//  Created by Ярослав on 16.01.2024.
+//  Created by Yaroslav Sedyshev on 16.01.2024.
 //
 
 import SwiftUI

@@ -2,7 +2,7 @@
 //  AboutView.swift
 //  WebOSClientExample
 //
-//  Created by Ярослав on 14.01.2024.
+//  Created by Yaroslav Sedyshev on 14.01.2024.
 //
 
 import SwiftUI

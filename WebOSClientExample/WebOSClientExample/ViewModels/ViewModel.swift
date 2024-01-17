@@ -2,7 +2,7 @@
 //  ViewModel.swift
 //  WebOSClientExample
 //
-//  Created by Ярослав on 12.01.2024.
+//  Created by Yaroslav Sedyshev on 12.01.2024.
 //
 
 import SwiftUI
@@ -10,6 +10,7 @@ import WebOSClient
 
 class ViewModel: ObservableObject {
     enum Constants {
+        static let tvIPKey = "tvIPKey"
         static let registrationTokenKey = "clientKey"
         static let volumeSubscriptionRequestId = "volumeSubscription"
         static let foregroundAppRequestId = "foregroundAppSubscription"
@@ -32,19 +33,20 @@ class ViewModel: ObservableObject {
     
     var tv: WebOSClientProtocol?
     
-    // Specify your TV URL here
-    private let urlString = "wss://192.168.8.10:3001"
-    
     init() {
-        let url = URL(string: urlString)
-        self.tv = WebOSClient(url: url, delegate: self)
-        connectAndRegister()
+        let ip = UserDefaults.standard.value(forKey: Constants.tvIPKey) as? String
+        connectAndRegister(with: ip)
     }
     
-    func connectAndRegister() {
-        tv?.connect()
-        let registrationToken = UserDefaults.standard.value(forKey: Constants.registrationTokenKey) as? String
-        tv?.send(.register(clientKey: registrationToken))
+    func connectAndRegister(with ip: String?) {
+        if let ip {
+            let urlString = "wss://\(ip):3001"
+            let url = URL(string: urlString)
+            self.tv = WebOSClient(url: url, delegate: self)
+            tv?.connect()
+            let registrationToken = UserDefaults.standard.value(forKey: Constants.registrationTokenKey) as? String
+            tv?.send(.register(clientKey: registrationToken))
+        }
     }
     
     func subscribeAll() {
