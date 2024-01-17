@@ -26,7 +26,7 @@ struct AboutView: View {
                 .multilineTextAlignment(.center)
                 .padding(.top, 25)
             
-            Text("Important note: In order for this app to operate properly\nyou have to manually specify your LG TV URL in ViewModel.swift.")
+            Text("Important note: In order for this app to operate\nyou have to manually enter IP-address of your LG TV.")
                 .multilineTextAlignment(.center)
                 .foregroundColor(.gray)
                 .padding(.top, 5)

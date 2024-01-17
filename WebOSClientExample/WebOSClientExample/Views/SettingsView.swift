@@ -14,22 +14,34 @@ fileprivate enum Constants {
 struct SettingsView: View {
     @Binding var showSettings: Bool
     @State var tvIP: String = ""
-    @State var buttonDisabled: Bool = true
+    @ObservedObject var viewModel: ViewModel
     var body: some View {
         VStack {
             Text("Enter your LG TV IP address:")
             TextField("192.168......", text: $tvIP)
-            Button(action: {
-                UserDefaults.standard.setValue(tvIP, forKey: Constants.tvIPKey)
-                showSettings = false
-            }, label: {
-                HStack {
-                    Text("Save and Connect")
-                }
-                .padding(5)
-            })
-            .buttonStyle(.borderedProminent)
-            .disabled(!isValidIP(ip: tvIP))
+            HStack {
+                Button(action: {
+                    showSettings = false
+                }, label: {
+                    HStack {
+                        Text("Cancel")
+                    }
+                    .padding(5)
+                })
+                Button(action: {
+                    viewModel.tv?.disconnect()
+                    UserDefaults.standard.setValue(tvIP, forKey: Constants.tvIPKey)
+                    showSettings = false
+                }, label: {
+                    HStack {
+                        Text("Save and Connect")
+                    }
+                    .padding(5)
+                })
+                .buttonStyle(.borderedProminent)
+                .disabled(!isValidIP(ip: tvIP))
+            }
+            .padding(.top, 5)
         }
         .background(.clear)
         .padding()

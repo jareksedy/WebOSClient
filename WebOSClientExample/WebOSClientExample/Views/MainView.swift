@@ -129,11 +129,11 @@ struct MainView: View {
                 }
             }
             .sheet(isPresented: $showSettings, onDismiss: {
-                viewModel.tv?.disconnect()
-                let ip = UserDefaults.standard.value(forKey: ViewModel.Constants.tvIPKey) as? String
-                viewModel.connectAndRegister(with: ip)
+                if let ip = UserDefaults.standard.value(forKey: ViewModel.Constants.tvIPKey) as? String {
+                    viewModel.connectAndRegister(with: ip)
+                }
             }) {
-                SettingsView(showSettings: $showSettings)
+                SettingsView(showSettings: $showSettings, viewModel: viewModel)
             }
             .onAppear {
                 if UserDefaults.standard.value(forKey: ViewModel.Constants.tvIPKey) as? String == nil {
