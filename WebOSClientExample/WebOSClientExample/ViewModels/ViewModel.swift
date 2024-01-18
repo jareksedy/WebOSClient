@@ -132,8 +132,8 @@ extension ViewModel: WebOSClientDelegate {
     
     func didReceiveNetworkError(_ error: Error?) {
         Task { @MainActor in
-            isConnected = false
             log += "[ERROR: \(error?.localizedDescription ?? "unknown")]" + Constants.logSuffix
+            tv?.disconnect()
         }
     }
     
