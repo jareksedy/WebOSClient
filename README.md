@@ -22,12 +22,18 @@ You'll need to manually enter the IP address of the LG TV for this package to op
 
 ## Installation
 
-Using Swift Package Manager.
+Swift Package Manager.
 
 ```swift
 dependencies: [
     .package(url: "https://github.com/jareksedy/WebOSClient.git")
 ]
+```
+
+CocoaPods.
+
+```
+pod 'WebOSClient'
 ```
 
 ## Version History
