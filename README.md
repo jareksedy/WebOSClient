@@ -23,21 +23,31 @@ You'll need to manually enter the IP address of the LG TV for this package to op
 
 ## Installation
 
-Swift Package Manager.
+### Swift Package Manager
+
+Adding WebOSClient as a dependency is as easy as adding it to the dependencies value of your Package.swift.
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/jareksedy/WebOSClient.git")
+    .package(url: "https://github.com/jareksedy/WebOSClient.git"))
 ]
 ```
 
-CocoaPods.
+### CocoaPods
+
+To integrate WebOSClient into your Xcode project using CocoaPods, specify it in your Podfile:
 
 ```
 pod 'WebOSClient'
 ```
 
 ## Version History
+
+### 1.0.4. Bug fixes and minor improvements.
+#### Features
+* Added CocoaPods support.
+* Minor bug fixes in example app.
+* Added disconnectOnError initializer flag. Automatically disconnects on receiving network error. Default is set to true.
 
 ### 1.0.3. Example App
 #### Features
