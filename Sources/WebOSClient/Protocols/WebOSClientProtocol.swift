@@ -14,15 +14,17 @@ public protocol WebOSClientProtocol {
     /// - Parameters:
     ///   - url: The URL of the WebOS server. It can be nil if not specified.
     ///   - delegate: An optional delegate conforming to the WebOSClientDelegate protocol. It will receive notifications about the client's events.
-    ///   - shouldPerformHeartbeat: A boolean indicating whether the client should perform heartbeat requests to the server. Default is true.
+    ///   - shouldPerformHeartbeat: Boolean indicating whether the client should perform heartbeat requests to the server. Default is true.
     ///   - heartBeatTimeInterval: The time interval (in seconds) between heartbeat requests. Default is 10 seconds.
+    ///   - disconnectOnError: Boolean indicating whether the client should disconnect on receiving network error. Default is true
     /// - Returns: A new instance of WebOSClient.
     /// - Note: The url parameter must be provided for the client to establish a connection with the WebOS server.
     init(
         url: URL?,
         delegate: WebOSClientDelegate?,
         shouldPerformHeartbeat: Bool,
-        heartBeatTimeInterval: TimeInterval
+        heartBeatTimeInterval: TimeInterval,
+        disconnectOnError: Bool
     )
     
     /// Establishes a connection to the TV.
