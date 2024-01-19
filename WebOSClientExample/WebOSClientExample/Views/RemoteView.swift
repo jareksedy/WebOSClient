@@ -106,9 +106,8 @@ struct RemoteView: View {
                     Button(action: {
                         viewModel.tv?.sendKey(.exit)
                     }) {
-                        Image(systemName: "xmark.square")
+                        Image(systemName: "xmark.rectangle")
                             .frame(width: Constants.size, height: Constants.size)
-                            .foregroundColor(viewModel.isConnected ? .red : .gray)
                     }
                     .disabled(!viewModel.isConnected)
                 }

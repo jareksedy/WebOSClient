@@ -45,7 +45,7 @@ struct GridItemView: View {
                 .multilineTextAlignment(.center)
         }
         .frame(width: 100, height: 100)
-        .background(.gray.opacity(isHovered ? 0.2 : 0.1))
+        .background(isHovered ? .accent : .gray.opacity(0.1))
         .cornerRadius(12)
     }
 }

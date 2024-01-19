@@ -39,6 +39,7 @@ class ViewModel: ObservableObject {
     }
     
     func connectAndRegister(with ip: String?) {
+        guard !isConnected else { return }
         if let ip {
             let urlString = "wss://\(ip):3001"
             let url = URL(string: urlString)
@@ -68,13 +69,6 @@ class ViewModel: ObservableObject {
     func showSystemApps() {
         guard isConnected else { return }
         apps = installedApps.filter { $0.systemApp == true }
-    }
-    
-    func ping() {
-        tv?.sendPing()
-        Task { @MainActor in
-            log += "[PING]" + Constants.logSuffix
-        }
     }
 }
 
@@ -133,6 +127,7 @@ extension ViewModel: WebOSClientDelegate {
     func didReceiveNetworkError(_ error: Error?) {
         Task { @MainActor in
             log += "[ERROR: \(error?.localizedDescription ?? "unknown")]" + Constants.logSuffix
+            isConnected = false
             tv?.disconnect()
         }
     }

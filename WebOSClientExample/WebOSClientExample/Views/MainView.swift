@@ -27,7 +27,7 @@ struct MainView: View {
                             .foregroundColor(.green)
                     } else {
                         Label("Disconnected", systemImage: "network.slash")
-                            .foregroundColor(.red)
+                            .foregroundColor(.accentColor)
                     }
                 }
                 Section(header: Text("MENU")) {

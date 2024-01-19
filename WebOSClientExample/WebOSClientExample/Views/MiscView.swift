@@ -30,7 +30,7 @@ struct MiscView: View {
             }, label: {
                 HStack {
                     Image(systemName: "power.circle.fill")
-                        .foregroundColor(.red)
+                        .foregroundColor(.accentColor)
                     Text("Power Off")
                 }
                 .padding(10)
