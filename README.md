@@ -43,20 +43,9 @@ pod 'WebOSClient'
 
 ## Version History
 
-### 1.0.6. Minor improvements in example project.
+### 1.0.9. Minor improvements in example project.
 #### Features
 * Changed app icon & other minor tweaks.
-
-### 1.0.5. More platforms support in CocoaPods.
-#### Features
-* Added watchOS & tvOS support in CocoaPods.
-* Minor bug fixes.
-
-### 1.0.4. Bug fixes and minor improvements.
-#### Features
-* Added CocoaPods support.
-* Minor bug fixes in example app.
-* Added disconnectOnError initializer flag. Automatically disconnects on receiving network error. Default is set to true.
 
 ### 1.0.3. Example App
 #### Features
