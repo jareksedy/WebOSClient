@@ -43,6 +43,10 @@ pod 'WebOSClient'
 
 ## Version History
 
+### 1.0.6. Minor improvements in example project.
+#### Features
+* Changed app icon & other minor tweaks.
+
 ### 1.0.5. More platforms support in CocoaPods.
 #### Features
 * Added watchOS & tvOS support in CocoaPods.
