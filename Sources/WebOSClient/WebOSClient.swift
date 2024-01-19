@@ -11,7 +11,6 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
     private var primaryWebSocketTask: URLSessionWebSocketTask?
     private var secondaryWebSocketTask: URLSessionWebSocketTask?
     private var shouldPerformHeartbeat: Bool
-    private var disconnectOnError: Bool
     private var heartbeatTimer: Timer?
     private var heartbeatTimeInterval: TimeInterval
     private var pointerRequestId: String?
@@ -22,14 +21,12 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
         url: URL?,
         delegate: WebOSClientDelegate? = nil,
         shouldPerformHeartbeat: Bool = true,
-        heartBeatTimeInterval: TimeInterval = 10,
-        disconnectOnError: Bool = true
+        heartbeatTimeInterval: TimeInterval = 10
     ) {
         self.url = url
         self.delegate = delegate
         self.shouldPerformHeartbeat = shouldPerformHeartbeat
-        self.heartbeatTimeInterval = heartBeatTimeInterval
-        self.disconnectOnError = disconnectOnError
+        self.heartbeatTimeInterval = heartbeatTimeInterval
         super.init()
     }
     
@@ -198,9 +195,6 @@ extension WebOSClient: URLSessionWebSocketDelegate {
         didCompleteWithError error: Error?
     ) {
         delegate?.didReceiveNetworkError(error)
-        if disconnectOnError {
-            disconnect()
-        }
     }
     
     public func urlSession(

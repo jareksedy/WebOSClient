@@ -23,8 +23,7 @@ public protocol WebOSClientProtocol {
         url: URL?,
         delegate: WebOSClientDelegate?,
         shouldPerformHeartbeat: Bool,
-        heartBeatTimeInterval: TimeInterval,
-        disconnectOnError: Bool
+        heartbeatTimeInterval: TimeInterval
     )
     
     /// Establishes a connection to the TV.

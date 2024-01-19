@@ -19,7 +19,7 @@ You'll need to manually enter the IP address of the LG TV for this package to op
 
 ## Requirements
 
-- iOS 13.0+, macOS 10.15+, watchOS 6.0+, tvOS 13.0+.
+- iOS 13.0+, macOS 10.15+, watchOS 6.0+, tvOS 13.0+, visionOS 1.0+.
 
 ## Installation
 
@@ -42,6 +42,11 @@ pod 'WebOSClient'
 ```
 
 ## Version History
+
+### 1.0.5. More platforms support in CocoaPods.
+#### Features
+* Added watchOS & tvOS support in CocoaPods.
+* Minor bug fixes.
 
 ### 1.0.4. Bug fixes and minor improvements.
 #### Features
