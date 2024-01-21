@@ -43,6 +43,10 @@ pod 'WebOSClient'
 
 ## Version History
 
+### 1.1.0. Minor improvements.
+#### Features
+* Minor improvements in WebOSClient.
+
 ### 1.0.9. Minor improvements in example project.
 #### Features
 * Changed app icon & other minor tweaks.
