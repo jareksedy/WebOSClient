@@ -100,16 +100,22 @@ private extension WebOSClient {
         task: URLSessionWebSocketTask?
     ) {
         task?.send(message) { [weak self] error in
+            guard let self else {
+                return
+            }
             if let error {
-                self?.delegate?.didReceiveNetworkError(error)
+                delegate?.didReceiveNetworkError(error)
             }
         }
     }
     
     func sendPing(task: URLSessionWebSocketTask?) {
         task?.sendPing { [weak self] error in
+            guard let self else {
+                return
+            }
             if let error {
-                self?.delegate?.didReceiveNetworkError(error)
+                delegate?.didReceiveNetworkError(error)
             }
         }
     }
@@ -118,9 +124,12 @@ private extension WebOSClient {
         _ completion: @escaping (Result<WebOSResponse, Error>) -> Void
     ) {
         primaryWebSocketTask?.receive { [weak self] result in
+            guard let self else {
+                return
+            }
             if case .success(let response) = result {
-                self?.handle(response, completion: completion)
-                self?.listen(completion)
+                handle(response, completion: completion)
+                listen(completion)
             }
         }
     }
@@ -167,8 +176,11 @@ private extension WebOSClient {
         }
         heartbeatTimer = Timer.scheduledTimer(withTimeInterval: heartbeatTimeInterval,
                                               repeats: true) { [weak self] _ in
-            self?.sendPing(task: self?.secondaryWebSocketTask)
-            self?.sendPing(task: self?.primaryWebSocketTask)
+            guard let self else {
+                return
+            }
+            sendPing(task: secondaryWebSocketTask)
+            sendPing(task: primaryWebSocketTask)
         }
         RunLoop.current.add(heartbeatTimer!, forMode: .common)
     }
@@ -185,7 +197,10 @@ extension WebOSClient: URLSessionWebSocketDelegate {
         }
         delegate?.didConnect()
         listen { [weak self] result in
-            self?.delegate?.didReceive(result)
+            guard let self else {
+                return
+            }
+            delegate?.didReceive(result)
         }
     }
     
