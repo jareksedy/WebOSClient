@@ -2,7 +2,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'WebOSClient'
-  s.version          = '1.2.0'
+  s.version          = '1.3.0'
   s.summary          = 'A framework for communicating with LG Smart TV.'
   s.description      = 'WebOSClient is a lightweight Swift framework that allows you to communicate with an LG Smart TV running WebOS.'
   s.homepage         = 'https://github.com/jareksedy/WebOSClient'

@@ -71,7 +71,7 @@ extension WebOSTarget: WebOSTargetProtocol {
         }
     }
     
-    var request: WebOSRequest {
+    public var request: WebOSRequest {
         switch self {
         case .register(let clientKey):
             let payload = WebOSRequestPayload(
