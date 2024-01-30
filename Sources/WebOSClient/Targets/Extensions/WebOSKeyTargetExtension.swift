@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension WebOSKeyTarget: WebOSKeyTargetProtocol {
+extension WebOSKeyTarget {
     var name: String {
         switch self {
         case .num0, .num1, .num2, .num3, .num4, .num5, .num6, .num7, .num8, .num9:
@@ -15,7 +15,7 @@ extension WebOSKeyTarget: WebOSKeyTargetProtocol {
         }
     }
     
-    var request: Data? {
+    public var request: Data? {
         switch self {
         case .move(let dx, let dy, let down):
             return "type:move\ndx:\(dx)\ndy:\(dy)\ndown:\(down)\n\n".data(using: .utf8)

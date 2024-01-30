@@ -43,6 +43,10 @@ pod 'WebOSClient'
 
 ## Version History
 
+### 1.2.0. Minor improvements.
+#### Features
+* Make some of the internal properties public for convenience.
+
 ### 1.1.0. Minor improvements.
 #### Features
 * Minor improvements in WebOSClient.

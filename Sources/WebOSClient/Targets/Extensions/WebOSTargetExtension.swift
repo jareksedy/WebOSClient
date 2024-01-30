@@ -6,7 +6,7 @@
 import Foundation
 
 extension WebOSTarget: WebOSTargetProtocol {    
-    var uri: String? {
+    public var uri: String? {
         switch self {
         case .volumeUp:
             return "ssap://audio/volumeUp"

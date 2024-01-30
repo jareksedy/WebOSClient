@@ -6,7 +6,7 @@
 import Foundation
 
 /// Enum defining various remote control keys for communication with LG TVs.
-public enum WebOSKeyTarget {
+public enum WebOSKeyTarget: WebOSKeyTargetProtocol {
     /// Simulates moving the pointer on the screen.
     /// - Parameters:
     ///   - dx: The change in the x-coordinate (horizontal movement).
