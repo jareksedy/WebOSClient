@@ -38,6 +38,8 @@ public struct WebOSResponsePayload: Codable {
     public let id: String?
     public let sessionId: String?
     public let socketPath: String?
+    public let focusChanged: Bool?
+    public let currentWidget: WebOSResponseCurrentWidget?
     public let devices: [WebOSResponseDevice]?
     
     enum CodingKeys: String, CodingKey {
@@ -73,6 +75,8 @@ public struct WebOSResponsePayload: Codable {
         case id
         case sessionId
         case socketPath
+        case focusChanged
+        case currentWidget
         case devices
     }
 }

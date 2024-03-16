@@ -27,7 +27,7 @@ struct SubscriptionsView: View {
             .padding()
             
             HStack {
-                Text("CUR. TEXTFIELD:")
+                Text("CUR. TEXTFIELD. FOCUSED: \(viewModel.currentTextField?.focus ?? false). HAS TEXT: \(viewModel.currentTextField?.hasSurroundingText ?? false)")
                     .font(.system(size: 12, weight: .regular, design: .monospaced))
                 Spacer()
             }

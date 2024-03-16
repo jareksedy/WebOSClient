@@ -29,6 +29,7 @@ class ViewModel: ObservableObject {
     @Published var volumeLevel: Double = 0
     @Published var foregroundApp: String = "N/A"
     @Published var soundOutput: WebOSSoundOutputType? = nil
+    @Published var currentTextField: WebOSResponseCurrentWidget? = nil
     
     private var installedApps: [WebOSResponseApplication] = []
     
@@ -55,7 +56,7 @@ class ViewModel: ObservableObject {
         tv?.send(.getVolume(subscribe: true), id: Constants.volumeSubscriptionRequestId)
         tv?.send(.getForegroundApp(subscribe: true), id: Constants.foregroundAppRequestId)
         tv?.send(.getSoundOutput(subscribe: true), id: Constants.soundOutputRequestId)
-        tv?.send(.registerRemoteKeyboard(subscribe: true), id: Constants.keyboardRequestId)
+        tv?.send(.registerRemoteKeyboard, id: Constants.keyboardRequestId)
     }
     
     func showAllApps() {
@@ -120,7 +121,7 @@ extension ViewModel: WebOSClientDelegate {
         }
         if case .success(let response) = result, response.id == Constants.keyboardRequestId {
             Task { @MainActor in
-                print("~kb")
+                self.currentTextField = response.payload?.currentWidget
             }
         }
     }
