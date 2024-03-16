@@ -43,7 +43,7 @@ pod 'WebOSClient'
 
 ## Version History
 
-### 1.4.0. New virtual keyboard methods & bug fixes.
+### 1.4.2. New virtual keyboard methods & bug fixes.
 #### Features
 * Bug fix in insertText method.
 * Added registerRemoteKeyboard method allowing subscriptions to virtual keyboard.
