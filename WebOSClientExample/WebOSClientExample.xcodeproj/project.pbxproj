@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA08322D2BA5E5490055C5AE /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA08322C2BA5E5490055C5AE /* KeyboardView.swift */; };
 		CA2E2D8F2B5188C300B40A05 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2E2D8E2B5188C300B40A05 /* ViewModel.swift */; };
 		CA2E2D932B52656900B40A05 /* MouseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2E2D922B52656900B40A05 /* MouseView.swift */; };
 		CA2E2D952B5293EC00B40A05 /* RemoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2E2D942B5293EC00B40A05 /* RemoteView.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CA08322C2BA5E5490055C5AE /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
 		CA2E2D8E2B5188C300B40A05 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		CA2E2D922B52656900B40A05 /* MouseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseView.swift; sourceTree = "<group>"; };
 		CA2E2D942B5293EC00B40A05 /* RemoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteView.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 				CA2E2D9E2B55759A00B40A05 /* AppsView.swift */,
 				CA2E2DA12B56BE5B00B40A05 /* MiscView.swift */,
 				CA2E2D9C2B53F9B500B40A05 /* ToastView.swift */,
+				CA08322C2BA5E5490055C5AE /* KeyboardView.swift */,
 				CA2E2D962B52A4C900B40A05 /* SubscriptionsView.swift */,
 				CA2E2D982B52B2AE00B40A05 /* LogView.swift */,
 				CA33457B2B58158A0055592B /* SettingsView.swift */,
@@ -196,6 +199,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA2E2D9B2B5389D600B40A05 /* AboutView.swift in Sources */,
+				CA08322D2BA5E5490055C5AE /* KeyboardView.swift in Sources */,
 				CA668CAF2B4FED07003E06C4 /* MainView.swift in Sources */,
 				CA2E2D8F2B5188C300B40A05 /* ViewModel.swift in Sources */,
 				CA2E2D932B52656900B40A05 /* MouseView.swift in Sources */,

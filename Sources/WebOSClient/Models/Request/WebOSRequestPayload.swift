@@ -22,7 +22,7 @@ struct WebOSRequestPayload: Codable {
     var params: String?
     var sessionId: String?
     var text: String?
-    var replace: Int?
+    var replace: Bool?
     var count: Int?
     var inputId: String?
     

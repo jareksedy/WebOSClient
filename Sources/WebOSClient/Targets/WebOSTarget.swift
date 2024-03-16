@@ -94,8 +94,8 @@ public enum WebOSTarget {
     /// Inserts text in the text input field with an optional replacement index (keyboard must be open).
     /// - Parameters:
     ///   - text: The text to be inserted.
-    ///   - replace: Optional index specifying the position for text replacement.
-    case insertText(text: String, replace: Int = 0)
+    ///   - replace: if true, replace any existing text in field.
+    case insertText(text: String, replace: Bool = true)
     
     /// Sends an enter key press to the TV.
     case sendEnterKey

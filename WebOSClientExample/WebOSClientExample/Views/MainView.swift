@@ -47,18 +47,22 @@ struct MainView: View {
                         Label("Subscriptions", systemImage: "antenna.radiowaves.left.and.right")
                     }
                     .tag(4)
+                    NavigationLink(destination: KeyboardView(viewModel: viewModel)) {
+                        Label("Keyboard", systemImage: "keyboard")
+                    }
+                    .tag(5)
                     NavigationLink(destination: ToastView(viewModel: viewModel)) {
                         Label("Toasts", systemImage: "text.bubble")
                     }
-                    .tag(5)
+                    .tag(6)
                     NavigationLink(destination: MiscView(viewModel: viewModel)) {
                         Label("Miscellaneous", systemImage: "wrench.and.screwdriver")
                     }
-                    .tag(6)
+                    .tag(7)
                     NavigationLink(destination: LogView(viewModel: viewModel)) {
                         Label("Logs", systemImage: "folder.badge.gearshape")
                     }
-                    .tag(7)
+                    .tag(8)
                 }
             }
             .listStyle(.sidebar)
