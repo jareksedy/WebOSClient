@@ -56,6 +56,8 @@ extension WebOSTarget: WebOSTargetProtocol {
             return "ssap://com.webos.service.ime/sendEnterKey"
         case .deleteCharacters:
             return "ssap://com.webos.service.ime/deleteCharacters"
+        case .registerRemoteKeyboard:
+            return "ssap://com.webos.service.ime/registerRemoteKeyboard"
         case .getPointerInputSocket:
             return "ssap://com.webos.service.networkinput/getPointerInputSocket"
         case .channelUp:
@@ -117,6 +119,8 @@ extension WebOSTarget: WebOSTargetProtocol {
         case .deleteCharacters(let count):
             let payload = WebOSRequestPayload(count: count)
             return .init(type: .request, uri: uri, payload: payload)
+        case .registerRemoteKeyboard:
+            return .init(type: .subscribe, uri: uri)
         case .setSource(let inputId):
             let payload = WebOSRequestPayload(inputId: inputId)
             return .init(type: .request, uri: uri, payload: payload)

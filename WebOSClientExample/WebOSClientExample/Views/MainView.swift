@@ -111,7 +111,7 @@ struct MainView: View {
                         }
                     }
                 }
-                if selection == 7 {
+                if selection == 8 {
                     ToolbarItem(placement: .accessoryBar(id: 0)) {
                         Button(action: {
                             viewModel.log = ""

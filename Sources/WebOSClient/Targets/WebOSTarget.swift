@@ -104,6 +104,9 @@ public enum WebOSTarget {
     /// - Parameter count: The number of characters to be deleted.
     case deleteCharacters(count: Int = 1)
     
+    /// Allows subscribing to information about the current text field.
+    case registerRemoteKeyboard
+    
     /// Retrieves the input socket for pointer input. This is sent automatically once the client gets registered.
     case getPointerInputSocket
     

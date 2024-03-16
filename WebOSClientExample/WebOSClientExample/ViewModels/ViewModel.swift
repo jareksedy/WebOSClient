@@ -16,6 +16,7 @@ class ViewModel: ObservableObject {
         static let foregroundAppRequestId = "foregroundAppSubscription"
         static let soundOutputRequestId = "soundOutputSubscription"
         static let appsRequestId = "listAppsRequest"
+        static let keyboardRequestId = "keyboardRequest"
         static let logSuffix = "\n"
     }
     
@@ -54,6 +55,7 @@ class ViewModel: ObservableObject {
         tv?.send(.getVolume(subscribe: true), id: Constants.volumeSubscriptionRequestId)
         tv?.send(.getForegroundApp(subscribe: true), id: Constants.foregroundAppRequestId)
         tv?.send(.getSoundOutput(subscribe: true), id: Constants.soundOutputRequestId)
+        tv?.send(.registerRemoteKeyboard(subscribe: true), id: Constants.keyboardRequestId)
     }
     
     func showAllApps() {
@@ -114,6 +116,11 @@ extension ViewModel: WebOSClientDelegate {
             Task { @MainActor in
                 self.installedApps = response.payload?.applications ?? []
                 self.showNonSystemApps()
+            }
+        }
+        if case .success(let response) = result, response.id == Constants.keyboardRequestId {
+            Task { @MainActor in
+                print("~kb")
             }
         }
     }

@@ -27,6 +27,13 @@ struct SubscriptionsView: View {
             .padding()
             
             HStack {
+                Text("CUR. TEXTFIELD:")
+                    .font(.system(size: 12, weight: .regular, design: .monospaced))
+                Spacer()
+            }
+            .padding()
+            
+            HStack {
                 Text("VOLUME LVL.: \(String(Int(viewModel.volumeLevel)))")
                     .font(.system(size: 12, weight: .regular, design: .monospaced))
                 Spacer()

@@ -222,6 +222,7 @@ client?.send(.closeApp(appId: "netflix"))                                   // C
 client?.send(.insertText(text: "text_to_insert", replace: Bool = true))     // Inserts text in the text input field (keyboard must be open). If 'replace' is true, replaces any existing text in field.
 client?.send(.sendEnterKey)                                                 // Sends an enter key press to the TV.
 client?.send(.deleteCharacters(count: 1))                                   // Deletes a specified number of characters from the text input (keyboard must be open).
+client?.send(.registerRemoteKeyboard)                                       // Subscribes to current text field changes.
 client?.send(.channelUp)                                                    // Increases the TV channel.
 client?.send(.channelDown)                                                  // Decreases the TV channel.
 client?.send(.listSources)                                                  // Retrieves a list of available input sources.
