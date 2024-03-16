@@ -198,34 +198,34 @@ public protocol WebOSClientDelegate: AnyObject {
 These commands cover fundamental functionalities such as adjusting volume, retrieving current volume levels, muting or unmuting the audio, turning the TV screen off and on, etc.
 
 ```swift
-client?.send(.volumeUp)                             // Increases the volume by 1 unit.
-client?.send(.volumeDown)                           // Decreases the volume by 1 unit.
-client?.send(.getVolume(subscribe: true))           // Retrieves the current volume level with optional subscription.
-client?.send(.setVolume(25))                        // Sets the volume to the specified level.
-client?.send(.setMute(true))                        // Mutes or unmutes the audio.
-client?.send(.play)                                 // Initiates playback.
-client?.send(.pause)                                // Pauses the current media playback.
-client?.send(.stop)                                 // Stops the current media playback.
-client?.send(.rewind)                               // Rewinds the current media playback.
-client?.send(.fastForward)                          // Fast-forwards the current media playback.
-client?.send(.getSoundOutput(subscribe: true))      // Retrieves the current sound output with optional subscription.
-client?.send(.changeSoundOutput(.soundbar))         // Changes the sound output to the specified type.
-client?.send(.toast(message: "Hello, world!"))      // Shows a message on the screen.
-client?.send(.screenOff)                            // Turns off the TV screen.
-client?.send(.screenOn)                             // Turns on the TV screen.
-client?.send(.systemInfo)                           // Retrieves system information.
-client?.send(.turnOff)                              // Turns off the TV.
-client?.send(.listApps)                             // Retrieves a list of installed apps.
-client?.send(.getForegroundApp(subscribe: true))    // Retrieves the foreground app with optional subscription.
-client?.send(.launchApp(appId: "netflix"))          // Launches an app with the specified ID, content ID, and parameters (optional).
-client?.send(.closeApp(appId: "netflix"))           // Closes the app with the specified ID.
-client?.send(.insertText(text: "text_to_insert"))   // Inserts text in the text input field with an optional replacement index (keyboard must be open).
-client?.send(.sendEnterKey)                         // Sends an enter key press to the TV.
-client?.send(.deleteCharacters(count: 1))           // Deletes a specified number of characters from the text input (keyboard must be open).
-client?.send(.channelUp)                            // Increases the TV channel.
-client?.send(.channelDown)                          // Decreases the TV channel.
-client?.send(.listSources)                          // Retrieves a list of available input sources.
-client?.send(.setSource("HDMI2"))                   // Sets the TV source to the specified input ID.
+client?.send(.volumeUp)                                                     // Increases the volume by 1 unit.
+client?.send(.volumeDown)                                                   // Decreases the volume by 1 unit.
+client?.send(.getVolume(subscribe: true))                                   // Retrieves the current volume level with optional subscription.
+client?.send(.setVolume(25))                                                // Sets the volume to the specified level.
+client?.send(.setMute(true))                                                // Mutes or unmutes the audio.
+client?.send(.play)                                                         // Initiates playback.
+client?.send(.pause)                                                        // Pauses the current media playback.
+client?.send(.stop)                                                         // Stops the current media playback.
+client?.send(.rewind)                                                       // Rewinds the current media playback.
+client?.send(.fastForward)                                                  // Fast-forwards the current media playback.
+client?.send(.getSoundOutput(subscribe: true))                              // Retrieves the current sound output with optional subscription.
+client?.send(.changeSoundOutput(.soundbar))                                 // Changes the sound output to the specified type.
+client?.send(.toast(message: "Hello, world!"))                              // Shows a message on the screen.
+client?.send(.screenOff)                                                    // Turns off the TV screen.
+client?.send(.screenOn)                                                     // Turns on the TV screen.
+client?.send(.systemInfo)                                                   // Retrieves system information.
+client?.send(.turnOff)                                                      // Turns off the TV.
+client?.send(.listApps)                                                     // Retrieves a list of installed apps.
+client?.send(.getForegroundApp(subscribe: true))                            // Retrieves the foreground app with optional subscription.
+client?.send(.launchApp(appId: "netflix"))                                  // Launches an app with the specified ID, content ID, and parameters (optional).
+client?.send(.closeApp(appId: "netflix"))                                   // Closes the app with the specified ID.
+client?.send(.insertText(text: "text_to_insert", replace: Bool = true))     // Inserts text in the text input field (keyboard must be open). If 'replace' is true, replaces any existing text in field.
+client?.send(.sendEnterKey)                                                 // Sends an enter key press to the TV.
+client?.send(.deleteCharacters(count: 1))                                   // Deletes a specified number of characters from the text input (keyboard must be open).
+client?.send(.channelUp)                                                    // Increases the TV channel.
+client?.send(.channelDown)                                                  // Decreases the TV channel.
+client?.send(.listSources)                                                  // Retrieves a list of available input sources.
+client?.send(.setSource("HDMI2"))                                           // Sets the TV source to the specified input ID.
 ```
 
 ### Key API commands
