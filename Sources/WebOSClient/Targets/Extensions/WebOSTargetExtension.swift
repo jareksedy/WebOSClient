@@ -46,6 +46,8 @@ extension WebOSTarget: WebOSTargetProtocol {
             return "ssap://com.webos.applicationManager/listApps"
         case .getForegroundApp:
             return "ssap://com.webos.applicationManager/getForegroundAppInfo"
+        case .getForegroundAppMediaStatus:
+            return "ssap://com.webos.media/getForegroundAppInfo"
         case .launchApp:
             return "ssap://system.launcher/launch"
         case .closeApp:
@@ -83,7 +85,11 @@ extension WebOSTarget: WebOSTargetProtocol {
                 clientKey: clientKey
             )
             return .init(type: .register, payload: payload)
-        case .getVolume(let subscribe), .getSoundOutput(let subscribe), .getForegroundApp(let subscribe):
+        case
+                .getVolume(let subscribe),
+                .getSoundOutput(let subscribe),
+                .getForegroundApp(let subscribe),
+                .getForegroundAppMediaStatus(let subscribe):
             if let subscribe {
                 return .init(type: subscribe ? .subscribe : .unsubscribe, uri: uri)
             }

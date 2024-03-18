@@ -20,6 +20,13 @@ struct SubscriptionsView: View {
             .padding()
             
             HStack {
+                Text("CUR. APP PLAYSTATE: \((viewModel.currentPlayState).uppercased())")
+                    .font(.system(size: 12, weight: .regular, design: .monospaced))
+                Spacer()
+            }
+            .padding()
+            
+            HStack {
                 Text("CUR. OUTPUT: \((viewModel.soundOutput?.rawValue ?? "N/A").uppercased())")
                     .font(.system(size: 12, weight: .regular, design: .monospaced))
                 Spacer()
@@ -27,7 +34,7 @@ struct SubscriptionsView: View {
             .padding()
             
             HStack {
-                Text("CUR. TEXTFIELD. FOCUSED: \(viewModel.currentTextField?.focus ?? false). HAS TEXT: \(viewModel.currentTextField?.hasSurroundingText ?? false)")
+                Text("CUR. TEXTFIELD. FOCUSED: \(String(describing: viewModel.currentTextField?.focus ?? false).uppercased()). HAS TEXT: \(String(describing: viewModel.currentTextField?.hasSurroundingText ?? false).uppercased())")
                     .font(.system(size: 12, weight: .regular, design: .monospaced))
                 Spacer()
             }

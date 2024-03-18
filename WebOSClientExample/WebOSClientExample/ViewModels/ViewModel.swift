@@ -14,9 +14,11 @@ class ViewModel: ObservableObject {
         static let registrationTokenKey = "clientKey"
         static let volumeSubscriptionRequestId = "volumeSubscription"
         static let foregroundAppRequestId = "foregroundAppSubscription"
+        static let foregroundAppMediaInfoRequestId = "foregroundAppMediaInfoSubscription"
         static let soundOutputRequestId = "soundOutputSubscription"
         static let appsRequestId = "listAppsRequest"
         static let keyboardRequestId = "keyboardRequest"
+        static let mediaPlaybackInfoRequestId = "mediaPlaybackInfoSubscription"
         static let logSuffix = "\n"
     }
     
@@ -30,6 +32,7 @@ class ViewModel: ObservableObject {
     @Published var foregroundApp: String = "N/A"
     @Published var soundOutput: WebOSSoundOutputType? = nil
     @Published var currentTextField: WebOSResponseCurrentWidget? = nil
+    @Published var currentPlayState: String = "N/A"
     
     private var installedApps: [WebOSResponseApplication] = []
     
@@ -55,6 +58,7 @@ class ViewModel: ObservableObject {
     func subscribeAll() {
         tv?.send(.getVolume(subscribe: true), id: Constants.volumeSubscriptionRequestId)
         tv?.send(.getForegroundApp(subscribe: true), id: Constants.foregroundAppRequestId)
+        tv?.send(.getForegroundAppMediaStatus(subscribe: true), id: Constants.foregroundAppMediaInfoRequestId)
         tv?.send(.getSoundOutput(subscribe: true), id: Constants.soundOutputRequestId)
         tv?.send(.registerRemoteKeyboard, id: Constants.keyboardRequestId)
     }
@@ -108,6 +112,11 @@ extension ViewModel: WebOSClientDelegate {
                 self.foregroundApp = response.payload?.appId ?? ""
             }
         }
+        if case .success(let response) = result, response.id == Constants.foregroundAppMediaInfoRequestId {
+            Task { @MainActor in
+                self.currentPlayState = response.payload?.foregroundAppInfo?.first?.playState ?? ""
+            }
+        }
         if case .success(let response) = result, response.id == Constants.soundOutputRequestId {
             Task { @MainActor in
                 self.soundOutput = WebOSSoundOutputType(rawValue: response.payload?.soundOutput ?? "tv_speaker") ?? .tv_speaker
@@ -122,6 +131,11 @@ extension ViewModel: WebOSClientDelegate {
         if case .success(let response) = result, response.id == Constants.keyboardRequestId {
             Task { @MainActor in
                 self.currentTextField = response.payload?.currentWidget
+            }
+        }
+        if case .success(let response) = result, response.id == Constants.mediaPlaybackInfoRequestId {
+            Task { @MainActor in
+                self.currentPlayState = ""
             }
         }
     }

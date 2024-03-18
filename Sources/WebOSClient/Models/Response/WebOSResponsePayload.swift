@@ -41,6 +41,7 @@ public struct WebOSResponsePayload: Codable {
     public let focusChanged: Bool?
     public let currentWidget: WebOSResponseCurrentWidget?
     public let devices: [WebOSResponseDevice]?
+    public let foregroundAppInfo: [WebOSResponseForegroundAppInfo]?
     
     enum CodingKeys: String, CodingKey {
         case pairingType
@@ -78,5 +79,6 @@ public struct WebOSResponsePayload: Codable {
         case focusChanged
         case currentWidget
         case devices
+        case foregroundAppInfo
     }
 }

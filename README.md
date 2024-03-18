@@ -43,6 +43,10 @@ pod 'WebOSClient'
 
 ## Version History
 
+### 1.4.3. Minor improvements.
+#### Features
+* Added getForegroundAppMediaStatus method allowing subscriptions to media playback state updates.
+
 ### 1.4.2. New virtual keyboard methods & bug fixes.
 #### Features
 * Bug fix in insertText method.
@@ -222,6 +226,7 @@ client?.send(.systemInfo)                                                   // R
 client?.send(.turnOff)                                                      // Turns off the TV.
 client?.send(.listApps)                                                     // Retrieves a list of installed apps.
 client?.send(.getForegroundApp(subscribe: true))                            // Retrieves the foreground app with optional subscription.
+client?.send(.getForegroundAppMediaStatus(subscribe: true))                 // Retrieves the foreground app with media status with optional subscription.
 client?.send(.launchApp(appId: "netflix"))                                  // Launches an app with the specified ID, content ID, and parameters (optional).
 client?.send(.closeApp(appId: "netflix"))                                   // Closes the app with the specified ID.
 client?.send(.insertText(text: "text_to_insert", replace: Bool = true))     // Inserts text in the text input field (keyboard must be open). If 'replace' is true, replaces any existing text in field.

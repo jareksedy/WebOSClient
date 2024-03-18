@@ -78,6 +78,10 @@ public enum WebOSTarget {
     /// - Parameter subscribe: If true, subscribes to foreground app changes; if false, unsubscribes from foreground app changes; if nil, no subscription.
     case getForegroundApp(subscribe: Bool? = nil)
     
+    /// Retrieves the foreground app with media status updates.
+    /// - Parameter subscribe: If true, subscribes to foreground app changes; if false, unsubscribes from foreground app changes; if nil, no subscription.
+    case getForegroundAppMediaStatus(subscribe: Bool? = nil)
+    
     /// Launches an app with the specified ID, content ID, and parameters.
     /// - Parameters:
     ///   - appId: The ID of the app to be launched.
