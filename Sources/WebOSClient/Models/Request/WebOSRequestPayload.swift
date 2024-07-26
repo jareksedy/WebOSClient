@@ -6,6 +6,7 @@
 import Foundation
 
 struct WebOSRequestPayload: Codable {
+    var pin: String?
     var forcePairing: Bool?
     var manifest: WebOSRequestManifest?
     var pairingType: String?

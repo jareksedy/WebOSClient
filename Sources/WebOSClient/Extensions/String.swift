@@ -7,6 +7,7 @@ import Foundation
 
 extension String {
     static let prompt = "PROMPT"
+    static let pin = "PIN"
 }
 
 extension String {

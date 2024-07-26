@@ -8,6 +8,8 @@ import Foundation
 extension WebOSTarget: WebOSTargetProtocol {    
     public var uri: String? {
         switch self {
+        case .setPin:
+            return "ssap://pairing/setPin"
         case .volumeUp:
             return "ssap://audio/volumeUp"
         case .volumeDown:
@@ -77,14 +79,17 @@ extension WebOSTarget: WebOSTargetProtocol {
     
     public var request: WebOSRequest {
         switch self {
-        case .register(let clientKey):
+        case .register(let pairingType, let clientKey):
             let payload = WebOSRequestPayload(
                 forcePairing: false,
                 manifest: WebOSRequestManifest(),
-                pairingType: .prompt,
+                pairingType: pairingType,
                 clientKey: clientKey
             )
             return .init(type: .register, payload: payload)
+        case .setPin(let pin):
+            let payload = WebOSRequestPayload(pin: pin)
+            return .init(type: .request, payload: payload)
         case
                 .getVolume(let subscribe),
                 .getSoundOutput(let subscribe),

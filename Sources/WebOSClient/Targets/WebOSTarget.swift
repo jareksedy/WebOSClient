@@ -8,8 +8,14 @@ import Foundation
 /// Enum defining various WebOS targets for communication with LG TVs.
 public enum WebOSTarget {
     /// Registers the client with an optional client key.
-    /// - Parameter clientKey: The optional client key for registration. If nil, prompt to register appears on TV screen.
-    case register(clientKey: String?)
+    /// - Parameters:
+    ///   - pairingType: The optional pairing type option either set to "PROMPT" or "PIN", default value is "PROMPT".
+    ///   - clientKey: The optional client key for registration. If nil, prompt to register appears on TV screen.
+    case register(pairingType: String? = "PROMPT", clientKey: String?)
+    
+    /// Sets the PIN code for pairing with the TV.
+    /// - Parameter pin: The PIN code displayed on the TV for pairing.
+    case setPin(_ pin: String)
     
     /// Increases the volume.
     case volumeUp
