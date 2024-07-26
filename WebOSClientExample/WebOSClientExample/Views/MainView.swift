@@ -139,6 +139,9 @@ struct MainView: View {
             }) {
                 SettingsView(showSettings: $showSettings, viewModel: viewModel)
             }
+            .sheet(isPresented: $viewModel.showPinAlert) {
+                PinView(showPin: $viewModel.showPinAlert, viewModel: viewModel)
+            }
             .onAppear {
                 if UserDefaults.standard.value(forKey: ViewModel.Constants.tvIPKey) as? String == nil {
                     showSettings = true

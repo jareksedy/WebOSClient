@@ -2,7 +2,7 @@
 //  SettingsView.swift
 //  WebOSClientExample
 //
-//  Created by Ярослав on 17.01.2024.
+//  Created by Yaroslav Sedyshev on 17.01.2024.
 //
 
 import SwiftUI
@@ -19,6 +19,7 @@ struct SettingsView: View {
         VStack {
             Text("Enter your LG TV IP address:")
             TextField("192.168......", text: $tvIP)
+            Toggle("Pairing with pin", isOn: $viewModel.pinPairing)
             HStack {
                 Button(action: {
                     showSettings = false

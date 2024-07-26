@@ -22,8 +22,10 @@ class ViewModel: ObservableObject {
         static let logSuffix = "\n"
     }
     
+    @Published var pinPairing: Bool = false
     @Published var isConnected: Bool = false
     @Published var showPromptAlert: Bool = false
+    @Published var showPinAlert: Bool = false
     @Published var log: String = ""
     @Published var apps: [WebOSResponseApplication] = []
     
@@ -48,10 +50,14 @@ class ViewModel: ObservableObject {
         if let ip {
             let urlString = "wss://\(ip):3001"
             let url = URL(string: urlString)
-            self.tv = WebOSClient(url: url, delegate: self)
+            self.tv = WebOSClient(url: url, delegate: self, shouldLogActivity: true)
             tv?.connect()
             let registrationToken = UserDefaults.standard.value(forKey: Constants.registrationTokenKey) as? String
-            tv?.send(.register(clientKey: registrationToken))
+            if pinPairing {
+                tv?.send(.register(pairingType: .pin))
+            } else {
+                tv?.send(.register(clientKey: registrationToken))
+            }
         }
     }
     
@@ -89,6 +95,12 @@ extension ViewModel: WebOSClientDelegate {
     func didPrompt() {
         Task { @MainActor in
             showPromptAlert = true
+        }
+    }
+    
+    func didDisplayPin() {
+        Task { @MainActor in
+            showPinAlert = true
         }
     }
     

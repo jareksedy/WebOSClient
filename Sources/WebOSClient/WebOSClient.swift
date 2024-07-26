@@ -8,6 +8,7 @@ import Foundation
 public class WebOSClient: NSObject, WebOSClientProtocol {
     private var url: URL?
     private var urlSession: URLSession?
+    private var shouldLogActivity: Bool
     private var primaryWebSocketTask: URLSessionWebSocketTask?
     private var secondaryWebSocketTask: URLSessionWebSocketTask?
     private var shouldPerformHeartbeat: Bool
@@ -21,12 +22,14 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
         url: URL?,
         delegate: WebOSClientDelegate? = nil,
         shouldPerformHeartbeat: Bool = true,
-        heartbeatTimeInterval: TimeInterval = 10
+        heartbeatTimeInterval: TimeInterval = 10,
+        shouldLogActivity: Bool = false
     ) {
         self.url = url
         self.delegate = delegate
         self.shouldPerformHeartbeat = shouldPerformHeartbeat
         self.heartbeatTimeInterval = heartbeatTimeInterval
+        self.shouldLogActivity = shouldLogActivity
         super.init()
     }
     
@@ -107,6 +110,8 @@ private extension WebOSClient {
                 delegate?.didReceiveNetworkError(error)
             }
         }
+        
+        log(message)
     }
     
     func sendPing(task: URLSessionWebSocketTask?) {
@@ -129,7 +134,11 @@ private extension WebOSClient {
             }
             if case .success(let response) = result {
                 handle(response, completion: completion)
+                log(response)
                 listen(completion)
+            }
+            if case .failure(let error) = result {
+                log(error.localizedDescription)
             }
         }
     }
@@ -158,10 +167,10 @@ private extension WebOSClient {
             }
             fallthrough
         default:
-            if response.payload?.pairingType == .prompt {
+            if response.payload?.pairingType == WebOSPairingType.prompt.rawValue {
                 delegate?.didPrompt()
             }
-            if response.payload?.pairingType == .pin {
+            if response.payload?.pairingType == WebOSPairingType.pin.rawValue {
                 delegate?.didDisplayPin()
             }
             if let socketPath = response.payload?.socketPath,
@@ -188,6 +197,22 @@ private extension WebOSClient {
             sendPing(task: primaryWebSocketTask)
         }
         RunLoop.current.add(heartbeatTimer!, forMode: .common)
+    }
+    
+    func log(_ message: URLSessionWebSocketTask.Message) {
+        guard shouldLogActivity else {
+            return
+        }
+        if case .string(let jsonMessage) = message {
+            NSLog(jsonMessage)
+        }
+    }
+    
+    func log(_ message: String) {
+        guard shouldLogActivity else {
+            return
+        }
+        NSLog(message)
     }
 }
 

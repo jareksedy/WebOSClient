@@ -83,13 +83,13 @@ extension WebOSTarget: WebOSTargetProtocol {
             let payload = WebOSRequestPayload(
                 forcePairing: false,
                 manifest: WebOSRequestManifest(),
-                pairingType: pairingType,
+                pairingType: pairingType.rawValue,
                 clientKey: clientKey
             )
             return .init(type: .register, payload: payload)
         case .setPin(let pin):
             let payload = WebOSRequestPayload(pin: pin)
-            return .init(type: .request, payload: payload)
+            return .init(type: .request, uri: uri, payload: payload)
         case
                 .getVolume(let subscribe),
                 .getSoundOutput(let subscribe),

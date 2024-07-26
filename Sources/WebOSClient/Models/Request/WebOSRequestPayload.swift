@@ -29,6 +29,7 @@ struct WebOSRequestPayload: Codable {
     
     enum CodingKeys: String, CodingKey {
         case clientKey = "client-key"
+        case pin
         case forcePairing
         case manifest
         case pairingType
