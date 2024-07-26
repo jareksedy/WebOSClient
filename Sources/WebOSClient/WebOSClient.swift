@@ -161,6 +161,9 @@ private extension WebOSClient {
             if response.payload?.pairingType == .prompt {
                 delegate?.didPrompt()
             }
+            if response.payload?.pairingType == .pin {
+                delegate?.didDisplayPin()
+            }
             if let socketPath = response.payload?.socketPath,
                let url = URL(string: socketPath),
                response.id == pointerRequestId {
@@ -174,8 +177,10 @@ private extension WebOSClient {
         guard heartbeatTimer == nil else {
             return
         }
-        heartbeatTimer = Timer.scheduledTimer(withTimeInterval: heartbeatTimeInterval,
-                                              repeats: true) { [weak self] _ in
+        heartbeatTimer = Timer.scheduledTimer(
+            withTimeInterval: heartbeatTimeInterval,
+            repeats: true
+        ) { [weak self] _ in
             guard let self else {
                 return
             }
