@@ -18,4 +18,20 @@ extension String {
             throw error
         }
     }
+    
+    var prettyPrintedOrPlain: String {
+        guard let data = self.data(using: .utf8) else { return self }
+        
+        do {
+            let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
+            let prettyData = try JSONSerialization.data(withJSONObject: jsonObject, options: [.prettyPrinted])
+            if let prettyPrintedString = String(data: prettyData, encoding: .utf8) {
+                return prettyPrintedString
+            } else {
+                return self
+            }
+        } catch {
+            return self
+        }
+    }
 }
