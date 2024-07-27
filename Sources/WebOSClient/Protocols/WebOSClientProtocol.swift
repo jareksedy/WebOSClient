@@ -7,6 +7,9 @@ import Foundation
 
 /// A protocol defining methods for interacting with TV.
 public protocol WebOSClientProtocol {
+    /// Determines if the client should log all activity. Can be set at any time.
+    var shouldLogActivity: Bool { get set }
+    
     /// The delegate responsible for handling various events.
     var delegate: WebOSClientDelegate? { get set }
     
@@ -16,7 +19,7 @@ public protocol WebOSClientProtocol {
     ///   - delegate: An optional delegate conforming to the WebOSClientDelegate protocol. It will receive notifications about the client's events.
     ///   - shouldPerformHeartbeat: Boolean indicating whether the client should perform heartbeat requests to the server. Default is true.
     ///   - heartBeatTimeInterval: The time interval (in seconds) between heartbeat requests. Default is 10 seconds.
-    ///   - shouldLogActivity: Indicates whether the client should log all activity. Default is false.
+    ///   - shouldLogActivity: Determines whether the client should log all activity. Default is false.
     /// - Returns: A new instance of WebOSClient.
     /// - Note: The url parameter must be provided for the client to establish a connection with the WebOS server.
     init(

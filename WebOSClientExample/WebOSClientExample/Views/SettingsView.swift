@@ -7,10 +7,6 @@
 
 import SwiftUI
 
-fileprivate enum Constants {
-    static let tvIPKey = "tvIPKey"
-}
-
 struct SettingsView: View {
     @Binding var showSettings: Bool
     @State var tvIP: String = ""
@@ -31,7 +27,8 @@ struct SettingsView: View {
                 })
                 Button(action: {
                     viewModel.tv?.disconnect()
-                    UserDefaults.standard.setValue(tvIP, forKey: Constants.tvIPKey)
+                    UserDefaults.standard.setValue(tvIP, forKey: ViewModel.Constants.tvIPKey)
+                    UserDefaults.standard.removeObject(forKey: ViewModel.Constants.registrationTokenKey)
                     showSettings = false
                 }, label: {
                     HStack {

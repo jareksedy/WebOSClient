@@ -6,6 +6,10 @@
 import Foundation
 
 extension String {
+    static let invalidPin = "invalid pin code"
+}
+
+extension String {
     func decode<T: Codable>() throws -> T {
         guard let data = self.data(using: .utf8) else {
             throw NSError(domain: "Invalid string encoding", code: 0, userInfo: nil)

@@ -150,6 +150,23 @@ extension ViewModel: WebOSClientDelegate {
                 self.currentPlayState = ""
             }
         }
+        if case .failure(let error) = result {
+            let errorMessage = error.localizedDescription
+            // Pairing rejected by the user or invalid pin.
+            if errorMessage.contains("rejected pairing") {
+                Task { @MainActor in
+                    showPromptAlert = false
+                    showPinAlert = false
+                }
+            }
+            // Pairing cancelled due to a timeout.
+            if errorMessage.contains("cancelled") {
+                Task { @MainActor in
+                    showPromptAlert = false
+                    showPinAlert = false
+                }
+            }
+        }
     }
     
     func didReceive(jsonResponse: String) {

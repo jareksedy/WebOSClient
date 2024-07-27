@@ -5,8 +5,8 @@
 
 import Foundation
 
-fileprivate let logPrefixSent = "[WEBOSCLIENT][SENT]:\n"
-fileprivate let logPrefixReceivedSuccess = "[WEBOSCLIENT][RECEIVED]:\n"
+fileprivate let logPrefixSent = "[WEBOSCLIENT][SENT]:"
+fileprivate let logPrefixReceivedSuccess = "[WEBOSCLIENT][RECEIVED]:"
 fileprivate let logPrefixReceivedError = "[WEBOSCLIENT][RECEIVED ERROR]:"
 
 extension WebOSClient {
