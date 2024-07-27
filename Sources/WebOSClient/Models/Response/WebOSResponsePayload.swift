@@ -7,7 +7,7 @@ import Foundation
 
 public struct WebOSResponsePayload: Codable {
     public let errorText: String?
-    public let pairingType: String?
+    public let pairingType: WebOSPairingType?
     public let returnValue: Bool?
     public let clientKey: String?
     public let toastId: String?

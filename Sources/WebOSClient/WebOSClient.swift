@@ -6,7 +6,7 @@
 import Foundation
 
 public class WebOSClient: NSObject, WebOSClientProtocol {
-    private var url: URL?
+    private var url: URL
     private var urlSession: URLSession?
     private var primaryWebSocketTask: URLSessionWebSocketTask?
     private var secondaryWebSocketTask: URLSessionWebSocketTask?
@@ -19,7 +19,7 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
     public weak var delegate: WebOSClientDelegate?
     
     required public init(
-        url: URL?,
+        url: URL,
         delegate: WebOSClientDelegate? = nil,
         shouldPerformHeartbeat: Bool = true,
         heartbeatTimeInterval: TimeInterval = 10,
@@ -34,10 +34,6 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
     }
     
     public func connect() {
-        guard let url else {
-            assertionFailure("Invalid device URL. Terminating.")
-            return
-        }
         urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
         connect(url, task: &primaryWebSocketTask)
     }
@@ -151,10 +147,10 @@ private extension WebOSClient {
             }
             fallthrough
         default:
-            if response.payload?.pairingType == WebOSPairingType.prompt.rawValue {
+            if response.payload?.pairingType == .prompt {
                 delegate?.didPrompt()
             }
-            if response.payload?.pairingType == WebOSPairingType.pin.rawValue {
+            if response.payload?.pairingType == .pin {
                 delegate?.didDisplayPin()
             }
             if let socketPath = response.payload?.socketPath,

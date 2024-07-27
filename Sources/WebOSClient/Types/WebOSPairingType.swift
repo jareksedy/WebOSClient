@@ -5,7 +5,7 @@
 
 import Foundation
 
-public enum WebOSPairingType: String {
+public enum WebOSPairingType: String, Codable {
     case pin = "PIN"
     case prompt = "PROMPT"
 }

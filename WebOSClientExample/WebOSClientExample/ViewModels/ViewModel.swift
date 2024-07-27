@@ -46,18 +46,16 @@ class ViewModel: ObservableObject {
     }
     
     func connectAndRegister(with ip: String?) {
-        guard !isConnected else { return }
-        if let ip {
-            let urlString = "wss://\(ip):3001"
-            let url = URL(string: urlString)
-            self.tv = WebOSClient(url: url, delegate: self, shouldLogActivity: true)
-            tv?.connect()
-            let registrationToken = UserDefaults.standard.value(forKey: Constants.registrationTokenKey) as? String
-            if pinPairing {
-                tv?.send(.register(pairingType: .pin))
-            } else {
-                tv?.send(.register(clientKey: registrationToken))
-            }
+        guard !isConnected, let ip else { return }
+        let urlString = "wss://\(ip):3001"
+        guard let url = URL(string: urlString) else { return }
+        self.tv = WebOSClient(url: url, delegate: self, shouldLogActivity: true)
+        tv?.connect()
+        let registrationToken = UserDefaults.standard.value(forKey: Constants.registrationTokenKey) as? String
+        if pinPairing {
+            tv?.send(.register(pairingType: .pin))
+        } else {
+            tv?.send(.register(clientKey: registrationToken))
         }
     }
     
@@ -131,7 +129,7 @@ extension ViewModel: WebOSClientDelegate {
         }
         if case .success(let response) = result, response.id == Constants.soundOutputRequestId {
             Task { @MainActor in
-                self.soundOutput = WebOSSoundOutputType(rawValue: response.payload?.soundOutput ?? "tv_speaker") ?? .tv_speaker
+                self.soundOutput = WebOSSoundOutputType(rawValue: response.payload?.soundOutput ?? "tv_speaker") ?? .tvSpeaker
             }
         }
         if case .success(let response) = result, response.id == Constants.appsRequestId {
