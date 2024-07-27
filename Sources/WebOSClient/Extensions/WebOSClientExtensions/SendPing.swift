@@ -13,10 +13,11 @@ extension WebOSClient {
             }
             if let error {
                 delegate?.didReceiveNetworkError(error)
-                log("Failed to send ping with error: \(error)")
+                logPongError(error.localizedDescription)
             } else {
-                log("Ping. Task: \(String(describing: task)).")
+                logPong(String(describing: task))
             }
         }
+        logPing(String(describing: task))
     }
 }

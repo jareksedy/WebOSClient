@@ -23,13 +23,15 @@ extension String {
         }
     }
     
-    var prettyPrintedOrPlain: String {
+    var prettyPrinted: String {
         guard let data = self.data(using: .utf8) else { return self }
         
         do {
             let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
             let prettyData = try JSONSerialization.data(withJSONObject: jsonObject, options: [.prettyPrinted])
-            if let prettyPrintedString = String(data: prettyData, encoding: .utf8) {
+            if var prettyPrintedString = String(data: prettyData, encoding: .utf8) {
+                prettyPrintedString = prettyPrintedString.replacingOccurrences(of: "\\/", with: "/")
+                prettyPrintedString = prettyPrintedString.replacingOccurrences(of: "\\\"", with: "\"")
                 return prettyPrintedString
             } else {
                 return self
