@@ -60,7 +60,7 @@ extension WebOSClient {
         guard shouldLogActivity else {
             return
         }
-        NSLog("\(Constants.logPrefixReceivedError) %@", errorMessage)
+        NSLog("\(Constants.logPrefixReceivedError) %@.", errorMessage)
     }
     
     func logMessage(_ message: String) {
@@ -88,6 +88,6 @@ extension WebOSClient {
         guard shouldLogActivity, let errorMessage else {
             return
         }
-        NSLog("\(Constants.logErrorPrefix) %@", errorMessage)
+        NSLog("\(Constants.logErrorPrefix) %@.", errorMessage)
     }
 }
