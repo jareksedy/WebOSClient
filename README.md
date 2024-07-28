@@ -5,11 +5,11 @@
 [![Cocoapods Compatible](https://img.shields.io/badge/cocoapods-Compatible-brightgreen.svg)](https://cocoapods.org/pods/SVGView)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-WebOSClient is a Swift library that facilitates communication with LG TVs running WebOS. It provides a convenient way to connect to a TV, send commands, and handle various TV-related functionalities.
+WebOSClient is a Swift library designed to facilitate communication with LG Smart TVs running WebOS. It provides a convenient way to connect to a TV, send commands, and handle various TV-related functionalities.
 
-Please note that it's essential for this package to function, that the iOS device running it and the LG TV are both connected to the same WiFi network.
+To use this package, both the client device and the LG Smart TV must be connected to the same Wi-Fi network.
 
-You'll need to manually enter the IP address of the LG TV for this package to operate. If you prefer to automatically discover devices on the network, I recommend utilizing the [SSDPClient package](https://github.com/pierrickrouxel/SSDPClient) (or similar).
+Manual IP Entry: You’ll need to manually enter the IP address of the LG Smart TV for this package to operate. To automatically discover devices on LAN, consider using the [SSDPClient package](https://github.com/pierrickrouxel/SSDPClient) package or a similar tool.
 
 ## Features
 
@@ -25,7 +25,7 @@ You'll need to manually enter the IP address of the LG TV for this package to op
 
 ### Swift Package Manager
 
-Adding WebOSClient as a dependency is as easy as adding it to the dependencies value of your Package.swift.
+To add WebOSClient as a dependency, include it in the dependencies value of your Package.swift:
 
 ```swift
 dependencies: [
@@ -43,6 +43,11 @@ pod 'WebOSClient'
 
 ## Version History
 
+### 1.5.0. Pairing with PIN and logging.
+#### Features
+* Added pairing with PIN functionality.
+* Added optional activity logging for convenience.
+
 ### 1.4.3. Minor improvements.
 #### Features
 * Added getForegroundAppMediaStatus method allowing subscriptions to media playback state updates.
@@ -54,11 +59,11 @@ pod 'WebOSClient'
 
 ### 1.3.0. Minor improvements.
 #### Features
-* Make some of the internal properties public for convenience.
+* Made some internal properties public for convenience.
 
 ### 1.2.0. Minor improvements.
 #### Features
-* Make some of the internal properties public for convenience.
+* Made some internal properties public for convenience.
 
 ### 1.1.0. Minor improvements.
 #### Features
@@ -207,6 +212,7 @@ public protocol WebOSClientDelegate: AnyObject {
 These commands cover fundamental functionalities such as adjusting volume, retrieving current volume levels, muting or unmuting the audio, turning the TV screen off and on, etc.
 
 ```swift
+client?.send(setPin("12345678"))                                            // Sets the PIN for pairing.
 client?.send(.volumeUp)                                                     // Increases the volume by 1 unit.
 client?.send(.volumeDown)                                                   // Decreases the volume by 1 unit.
 client?.send(.getVolume(subscribe: true))                                   // Retrieves the current volume level with optional subscription.
