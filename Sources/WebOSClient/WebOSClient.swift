@@ -191,6 +191,7 @@ extension WebOSClient: URLSessionWebSocketDelegate {
             return
         }
         delegate?.didConnect()
+        logConnected()
         listen { [weak self] result in
             guard let self else {
                 return
@@ -218,6 +219,7 @@ extension WebOSClient: URLSessionWebSocketDelegate {
             return
         }
         delegate?.didDisconnect()
+        logDisconnected()
     }
     
     public func urlSession(

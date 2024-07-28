@@ -7,6 +7,8 @@ import Foundation
 
 fileprivate enum Constants {
     static let logPrefix = "[ WebOSClient ]:"
+    static let logPrefixConnected = "[ WebOSClient ][ CONNECTED ]"
+    static let logPrefixDisconnected = "[ WebOSClient ][ DISCONNECTED ]"
     static let logErrorPrefix = "[ WebOSClient ][ ERROR ]:"
     static let logPrefixSent = "[ WebOSClient ][ ↑ ]:"
     static let logPrefixReceivedSuccess = "[ WebOSClient ][ ↓ ]:"
@@ -41,23 +43,49 @@ extension WebOSClient {
     }
     
     func logPing(_ message: String) {
+        guard shouldLogActivity else {
+            return
+        }
         NSLog("\(Constants.logPingSent) %@", message)
     }
     
     func logPong(_ message: String) {
+        guard shouldLogActivity else {
+            return
+        }
         NSLog("\(Constants.logPongReceived) %@", message)
     }
     
     func logPongError(_ errorMessage: String) {
+        guard shouldLogActivity else {
+            return
+        }
         NSLog("\(Constants.logPrefixReceivedError) %@", errorMessage)
     }
     
     func logMessage(_ message: String) {
+        guard shouldLogActivity else {
+            return
+        }
         NSLog("\(Constants.logPrefix) %@", message)
     }
     
+    func logConnected() {
+        guard shouldLogActivity else {
+            return
+        }
+        NSLog("\(Constants.logPrefixConnected)")
+    }
+    
+    func logDisconnected() {
+        guard shouldLogActivity else {
+            return
+        }
+        NSLog("\(Constants.logPrefixDisconnected)")
+    }
+    
     func logError(_ errorMessage: String?) {
-        guard let errorMessage else {
+        guard shouldLogActivity, let errorMessage else {
             return
         }
         NSLog("\(Constants.logErrorPrefix) %@", errorMessage)
