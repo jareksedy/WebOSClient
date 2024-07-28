@@ -38,7 +38,7 @@ extension WebOSClient {
         if case .success(let message) = response, case .string(let stringMessage) = message {
             NSLog("\(Constants.logPrefixReceivedSuccess)\n%@", stringMessage.prettyPrinted)
         } else if case .failure(let error) = response {
-            NSLog("\(Constants.logPrefixReceivedError) %@", error.localizedDescription)
+            NSLog("\(Constants.logPrefixReceivedError) %@.", error.localizedDescription)
         }
     }
     
