@@ -84,12 +84,6 @@ class ViewModel: ObservableObject {
 }
 
 extension ViewModel: WebOSClientDelegate {
-    func didConnect() {
-        Task { @MainActor in
-            log += "[CONNECTED]" + Constants.logSuffix
-        }
-    }
-    
     func didPrompt() {
         Task { @MainActor in
             showPromptAlert = true
@@ -167,15 +161,8 @@ extension ViewModel: WebOSClientDelegate {
         }
     }
     
-    func didReceive(jsonResponse: String) {
-        Task { @MainActor in
-            log += jsonResponse.prettyPrintedJSONString!.debugDescription + Constants.logSuffix
-        }
-    }
-    
     func didReceiveNetworkError(_ error: Error?) {
         Task { @MainActor in
-            log += "[ERROR: \(error?.localizedDescription ?? "unknown")]" + Constants.logSuffix
             isConnected = false
             tv?.disconnect()
         }
@@ -184,7 +171,6 @@ extension ViewModel: WebOSClientDelegate {
     func didDisconnect() {
         Task { @MainActor in
             isConnected = false
-            log += "[DISCONNECTED]" + Constants.logSuffix
         }
     }
 }

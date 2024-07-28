@@ -9,21 +9,26 @@ import SwiftUI
 
 struct LogView: View {
     @ObservedObject var viewModel: ViewModel
+    @ObservedObject var logCapture: LogCapture
+    @State private var logContent: String = ""
     var body: some View {
         VStack {
-            TextEditor(text: .constant(viewModel.log))
-                .lineSpacing(4)
-                .font(.system(size: 10, weight: .regular, design: .monospaced))
+            ScrollViewReader { scrollViewProxy in
+                ScrollView {
+                    TextEditor(text: .constant(logContent))
+                        .lineSpacing(4)
+                        .font(.system(size: 10, weight: .regular, design: .monospaced))
+                        .id("TEXT_EDITOR")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .onChange(of: logCapture.logOutput) { newValue in
+                            logContent = newValue
+                            withAnimation {
+                                scrollViewProxy.scrollTo("TEXT_EDITOR", anchor: .bottom)
+                            }
+                        }
+                }
+            }
         }
         .navigationTitle("WebOSClientExample App :: Logs")
-    }
-}
-
-extension String {
-    var prettyPrintedJSONString: NSString? {
-        guard let object = try? JSONSerialization.jsonObject(with: self.data(using: .utf8)!, options: []),
-              let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]),
-              let prettyPrintedString = NSString(data: data, encoding: String.Encoding.utf8.rawValue) else { return nil }
-        return prettyPrintedString
     }
 }

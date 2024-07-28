@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct MainView: View {
-    @State var selection: Int = 1
-    @State var appFilter: Int = 2
-    @State var showSettings: Bool = false
-    @ObservedObject var viewModel = ViewModel()
+    @State private var selection: Int = 1
+    @State private var appFilter: Int = 2
+    @State private var showSettings: Bool = false
+    @ObservedObject private var viewModel = ViewModel()
+    @ObservedObject private var logCapture = LogCapture()
     var body: some View {
         NavigationView {
             List(selection: $selection) {
@@ -59,7 +60,7 @@ struct MainView: View {
                         Label("Miscellaneous", systemImage: "wrench.and.screwdriver")
                     }
                     .tag(7)
-                    NavigationLink(destination: LogView(viewModel: viewModel)) {
+                    NavigationLink(destination: LogView(viewModel: viewModel, logCapture: logCapture)) {
                         Label("Logs", systemImage: "folder.badge.gearshape")
                     }
                     .tag(8)
@@ -114,7 +115,7 @@ struct MainView: View {
                 if selection == 8 {
                     ToolbarItem(placement: .accessoryBar(id: 0)) {
                         Button(action: {
-                            viewModel.log = ""
+                            logCapture.clearLogs()
                         }, label: {
                             Image(systemName: "folder.badge.minus")
                             Text("Clear Logs")
