@@ -43,35 +43,32 @@ pod 'WebOSClient'
 
 ## Version History
 
-### 1.5.0. Pairing with PIN and logging.
+### 1.5.0. Pairing with PIN and activity logging
 #### Features
 * Added pairing with PIN functionality.
 * Added optional activity logging for convenience.
 
-### 1.4.3. Minor improvements.
+### 1.4.3. Minor improvements
 #### Features
 * Added getForegroundAppMediaStatus method allowing subscriptions to media playback state updates.
 
-### 1.4.2. New virtual keyboard methods & bug fixes.
+### 1.4.2. New virtual keyboard methods & bug fixes
 #### Features
-* Bug fix in insertText method.
 * Added registerRemoteKeyboard method allowing subscriptions to virtual keyboard.
+#### Fixes
+* Bug fix in insertText method.
 
-### 1.3.0. Minor improvements.
+### 1.3.0. Minor improvements
 #### Features
 * Made some internal properties public for convenience.
 
-### 1.2.0. Minor improvements.
+### 1.2.0. Minor improvements
 #### Features
 * Made some internal properties public for convenience.
-
-### 1.1.0. Minor improvements.
-#### Features
-* Minor improvements in WebOSClient.
 
 ### 1.0.9. Minor improvements in example project.
 #### Features
-* Changed app icon & other minor tweaks.
+* Changed the example app icon & other minor tweaks.
 
 ### 1.0.3. Example App
 #### Features
@@ -81,7 +78,7 @@ pod 'WebOSClient'
 ### 1.0.0. Initial release
 #### Features
 * WebOSClient package.
-* Example project demonstrating library's core functionalities.
+* Example app demonstrating library's core functionalities.
 
 ## Usage
 
@@ -212,7 +209,7 @@ public protocol WebOSClientDelegate: AnyObject {
 These commands cover fundamental functionalities such as adjusting volume, retrieving current volume levels, muting or unmuting the audio, turning the TV screen off and on, etc.
 
 ```swift
-client?.send(setPin("12345678"))                                            // Sets the PIN for pairing.
+client?.send(.setPin("12345678"))                                           // Sets the PIN for pairing.
 client?.send(.volumeUp)                                                     // Increases the volume by 1 unit.
 client?.send(.volumeDown)                                                   // Decreases the volume by 1 unit.
 client?.send(.getVolume(subscribe: true))                                   // Retrieves the current volume level with optional subscription.
