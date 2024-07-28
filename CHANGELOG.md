@@ -5,11 +5,11 @@
 * Added pairing with PIN functionality.
 * Added optional activity logging for convenience.
 
-## 1.4.3 Minor improvements
+## 1.4.3 Subscribe to media playback state
 ### Features
 * Added getForegroundAppMediaStatus method allowing subscriptions to media playback state updates.
 
-## 1.4.2 New virtual keyboard methods & bug fixes
+## 1.4.2 New virtual keyboard methods and bug fixes
 ### Features
 * Added registerRemoteKeyboard method allowing subscriptions to virtual keyboard.
 ### Fixes
