@@ -12,7 +12,6 @@ struct MainView: View {
     @State private var appFilter: Int = 2
     @State private var showSettings: Bool = false
     @ObservedObject private var viewModel = ViewModel()
-    @ObservedObject private var logCapture = LogCapture()
     var body: some View {
         NavigationView {
             List(selection: $selection) {
@@ -60,7 +59,7 @@ struct MainView: View {
                         Label("Miscellaneous", systemImage: "wrench.and.screwdriver")
                     }
                     .tag(7)
-                    NavigationLink(destination: LogView(viewModel: viewModel, logCapture: logCapture)) {
+                    NavigationLink(destination: LogView(viewModel: viewModel)) {
                         Label("Logs", systemImage: "folder.badge.gearshape")
                     }
                     .tag(8)
@@ -115,7 +114,7 @@ struct MainView: View {
                 if selection == 8 {
                     ToolbarItem(placement: .accessoryBar(id: 0)) {
                         Button(action: {
-                            logCapture.clearLogs()
+                            viewModel.clearLogs()
                         }, label: {
                             Image(systemName: "folder.badge.minus")
                             Text("Clear Logs")

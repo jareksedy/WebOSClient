@@ -23,7 +23,6 @@
 		CA668CB12B4FED08003E06C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA668CB02B4FED08003E06C4 /* Assets.xcassets */; };
 		CA668CB42B4FED08003E06C4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA668CB32B4FED08003E06C4 /* Preview Assets.xcassets */; };
 		CA668CBD2B4FED31003E06C4 /* WebOSClient in Frameworks */ = {isa = PBXBuildFile; productRef = CA668CBC2B4FED31003E06C4 /* WebOSClient */; };
-		CA8CDA9A2C55FE230017D507 /* LogCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8CDA992C55FE230017D507 /* LogCapture.swift */; };
 		CAC54DAE2C53EA0500EE68C8 /* PinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC54DAD2C53EA0500EE68C8 /* PinView.swift */; };
 /* End PBXBuildFile section */
 
@@ -46,7 +45,6 @@
 		CA668CB02B4FED08003E06C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CA668CB32B4FED08003E06C4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		CA668CB52B4FED08003E06C4 /* WebOSClientExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WebOSClientExample.entitlements; sourceTree = "<group>"; };
-		CA8CDA992C55FE230017D507 /* LogCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogCapture.swift; sourceTree = "<group>"; };
 		CAC54DAD2C53EA0500EE68C8 /* PinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -66,7 +64,6 @@
 			isa = PBXGroup;
 			children = (
 				CA2E2D8E2B5188C300B40A05 /* ViewModel.swift */,
-				CA8CDA992C55FE230017D507 /* LogCapture.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -214,7 +211,6 @@
 				CA668CAD2B4FED07003E06C4 /* WebOSClientExampleApp.swift in Sources */,
 				CA2E2D952B5293EC00B40A05 /* RemoteView.swift in Sources */,
 				CA2E2D9D2B53F9B500B40A05 /* ToastView.swift in Sources */,
-				CA8CDA9A2C55FE230017D507 /* LogCapture.swift in Sources */,
 				CA2E2D9F2B55759A00B40A05 /* AppsView.swift in Sources */,
 				CA33457C2B58158A0055592B /* SettingsView.swift in Sources */,
 				CA2E2D992B52B2AE00B40A05 /* LogView.swift in Sources */,

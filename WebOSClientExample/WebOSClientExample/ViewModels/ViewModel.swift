@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 import WebOSClient
 
 class ViewModel: ObservableObject {
@@ -26,7 +27,7 @@ class ViewModel: ObservableObject {
     @Published var isConnected: Bool = false
     @Published var showPromptAlert: Bool = false
     @Published var showPinAlert: Bool = false
-    @Published var log: String = ""
+    @Published var logOutput = ""
     @Published var apps: [WebOSResponseApplication] = []
     
     // Subscriptions
@@ -38,11 +39,15 @@ class ViewModel: ObservableObject {
     
     private var installedApps: [WebOSResponseApplication] = []
     
+    private let pipe = Pipe()
+    private let logQueue = DispatchQueue(label: "LogCaptureQueue")
+    
     var tv: WebOSClientProtocol?
     
     init() {
         let ip = UserDefaults.standard.value(forKey: Constants.tvIPKey) as? String
         connectAndRegister(with: ip)
+        setupLogCapture()
     }
     
     func connectAndRegister(with ip: String?) {
@@ -80,6 +85,40 @@ class ViewModel: ObservableObject {
     func showSystemApps() {
         guard isConnected else { return }
         apps = installedApps.filter { $0.systemApp == true }
+    }
+    
+    func clearLogs() {
+        Task { @MainActor in
+            logOutput = ""
+        }
+    }
+    
+    func setupLogCapture() {
+        dup2(pipe.fileHandleForWriting.fileDescriptor, STDOUT_FILENO)
+        dup2(pipe.fileHandleForWriting.fileDescriptor, STDERR_FILENO)
+        
+        pipe.fileHandleForReading.readabilityHandler = { [weak self] handle in
+            guard let self = self else { return }
+            let data = handle.availableData
+            if let str = String(data: data, encoding: .utf8) {
+                let filteredStr = self.filterMetadata(from: str)
+                self.logQueue.async {
+                    Task { @MainActor in
+                        self.logOutput.append(contentsOf: filteredStr)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func filterMetadata(from log: String) -> String {
+        let pattern = #"OSLOG-[A-F0-9-]+ \d+ \d+ [A-Z] \w+ \{[^}]+\}\t"#
+        if let regex = try? NSRegularExpression(pattern: pattern, options: .anchorsMatchLines) {
+            let range = NSRange(location: 0, length: log.utf16.count)
+            return regex.stringByReplacingMatches(in: log, options: [], range: range, withTemplate: "")
+        } else {
+            return log
+        }
     }
 }
 
