@@ -9,7 +9,7 @@ WebOSClient is a Swift library designed to facilitate communication with LG Smar
 
 To use this package, both the client device and the LG Smart TV must be connected to the same Wi-Fi network.
 
-Manual IP Entry: You’ll need to manually enter the IP address of the LG Smart TV for this package to operate. To automatically discover devices on LAN, consider using the [SSDPClient package](https://github.com/pierrickrouxel/SSDPClient) package or a similar tool.
+__Manual IP Entry:__ You will need to manually enter the IP address of the LG Smart TV for this package to operate. To automatically discover devices on LAN, consider using the [SSDPClient package](https://github.com/pierrickrouxel/SSDPClient) package or a similar tool.
 
 ## Features
 
@@ -48,37 +48,7 @@ pod 'WebOSClient'
 * Added pairing with PIN functionality.
 * Added optional activity logging for convenience.
 
-### 1.4.3. Minor improvements
-#### Features
-* Added getForegroundAppMediaStatus method allowing subscriptions to media playback state updates.
-
-### 1.4.2. New virtual keyboard methods & bug fixes
-#### Features
-* Added registerRemoteKeyboard method allowing subscriptions to virtual keyboard.
-#### Fixes
-* Bug fix in insertText method.
-
-### 1.3.0. Minor improvements
-#### Features
-* Made some internal properties public for convenience.
-
-### 1.2.0. Minor improvements
-#### Features
-* Made some internal properties public for convenience.
-
-### 1.0.9. Minor improvements in example project.
-#### Features
-* Changed the example app icon & other minor tweaks.
-
-### 1.0.3. Example App
-#### Features
-* Added an option to enter IP manually in example project.
-* Changed the example project icon.
-
-### 1.0.0. Initial release
-#### Features
-* WebOSClient package.
-* Example app demonstrating library's core functionalities.
+Refer to [CHANGELOG.md](CHANGELOG.md) for the complete version history.
 
 ## Usage
 
