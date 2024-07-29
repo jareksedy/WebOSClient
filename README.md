@@ -43,10 +43,10 @@ pod 'WebOSClient'
 
 ## Version History
 
-### 1.5.0. Pairing with PIN and activity logging
+### 1.5.0 - Pairing with PIN and Activity Logging
 #### Features
-* Added pairing with PIN functionality.
-* Added optional activity logging for convenience.
+- Introduced PIN-based pairing functionality.
+- Implemented optional activity logging for enhanced convenience.
 
 Refer to [CHANGELOG.md](CHANGELOG.md) for the complete version history.
 
@@ -77,7 +77,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         // Instantiate WebOSClient with the provided URL and set the current view controller as the delegate.
-        client = WebOSClient(url: url, delegate: self)
+        client = WebOSClient(url: url, delegate: self, shouldLogActivity: true)
         
         // Establish a connection to the TV.
         client?.connect()
@@ -86,12 +86,19 @@ class ViewController: UIViewController {
         let registrationToken = UserDefaults.standard.string(forKey: Constants.registrationTokenKey)
         
         // Send a registration request to the TV with the stored or nil registration token.
-        client?.send(.register(clientKey: registrationToken))
+        // The PairingType option should be set to .pin for PIN-based pairing. The default value is .prompt.
+        client?.send(.register(pairingType: .pin, clientKey: registrationToken))
     }
 }
 
 // MARK: - WebOSClientDelegate
 extension ViewController: WebOSClientDelegate {
+    // Callback triggered upon displaying the PIN to the user.
+    func didDisplayPin() {
+        // Send the correct PIN displayed on the TV screen to the TV here.
+        client?.send(.setPin("12345678"))
+    }
+
     // Callback triggered upon successful registration with the TV.
     func didRegister(with clientKey: String) {
         
@@ -154,6 +161,9 @@ public protocol WebOSClientDelegate: AnyObject {
     /// Invoked when the client successfully establishes a connection.
     func didConnect()
     
+    /// Invoked when the TV displays a PIN code for pairing.
+    func didDisplayPin()
+    
     /// Invoked when the TV prompts for registration.
     func didPrompt()
     
@@ -171,6 +181,35 @@ public protocol WebOSClientDelegate: AnyObject {
     
     /// Invoked when the client disconnects from the WebOS websocket service.
     func didDisconnect()
+}
+```
+
+### Handling pairing errors
+
+Handle pairing errors gracefully by notifying the user and offering options to retry or troubleshoot the connection. Capture pairing errors in the `didReceive` delegate method.
+
+```swift
+// MARK: - WebOSClientDelegate
+extension ViewController: WebOSClientDelegate {
+    func didReceive(_ result: Result<WebOSResponse, Error>) {
+        if case .failure(let error) = result {
+            let errorMessage = error.localizedDescription
+            // Pairing rejected by the user or invalid pin.
+            if errorMessage.contains("rejected pairing") {
+                Task { @MainActor in
+                    showPromptAlert = false
+                    showPinAlert = false
+                }
+            }
+            // Pairing cancelled due to a timeout.
+            if errorMessage.contains("cancelled") {
+                Task { @MainActor in
+                    showPromptAlert = false
+                    showPinAlert = false
+                }
+            }
+        }
+    }
 }
 ```
 
