@@ -1,38 +1,38 @@
 # Version History
 
-## 1.5.0 Pairing with PIN and activity logging
+## 1.5.0 - Pairing with PIN and Activity Logging
 ### Features
-* Added pairing with PIN functionality.
-* Added optional activity logging for convenience.
+- Introduced PIN-based pairing functionality.
+- Implemented optional activity logging for enhanced convenience.
 
-## 1.4.3 Subscribe to media playback state
+## 1.4.3 - Media Playback State Subscription
 ### Features
-* Added getForegroundAppMediaStatus method allowing subscriptions to media playback state updates.
+- Added `getForegroundAppMediaStatus` method to enable media playback state subscriptions.
 
-## 1.4.2 New virtual keyboard methods and bug fixes
+## 1.4.2 - New Virtual Keyboard Methods and Bug Fixes
 ### Features
-* Added registerRemoteKeyboard method allowing subscriptions to virtual keyboard.
+- Added `registerRemoteKeyboard` method to support virtual keyboard subscriptions.
 ### Fixes
-* Bug fix in insertText method.
+- Resolved an issue in the `insertText` method.
 
-## 1.3.0 Minor improvements
+## 1.3.0 - Minor Improvements
 ### Features
-* Made some internal properties public for convenience.
+- Made internal properties public for accessibility.
 
-## 1.2.0 Minor improvements
+## 1.2.0 - Minor Improvements
 ### Features
-* Made some internal properties public for convenience.
+- Made internal properties public for accessibility.
 
-## 1.0.9 Minor improvements in example project.
+## 1.0.9 - Example Project Enhancements
 ### Features
-* Changed the example app icon & other minor tweaks.
+- Updated example app icon.
 
-## 1.0.3 Example App
+## 1.0.3 - Example App Enhancements
 ### Features
-* Added an option to enter IP manually in example project.
-* Changed the example project icon.
+- Added manual IP entry option in the example project.
+- Updated the example app icon.
 
-## 1.0.0 Initial release
+## 1.0.0 - Initial Release
 ### Features
-* WebOSClient package.
-* Example app demonstrating library's core functionalities.
+- Launched the WebOSClient package.
+- Provided an example app demonstrating the library's core functionalities.
