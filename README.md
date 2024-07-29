@@ -14,7 +14,7 @@ You will need to manually enter the IP address of the TV for this package to ope
 
 ## Features
 
-- Remote control a WebOS-based TV (LG Smart TVs).
+- Remote control a WebOS-based TV (LG Smart TV).
 - Handle TV events through subscriptions.
 - Handy example project demonstrating the library's core features.
 
@@ -53,7 +53,7 @@ Refer to [CHANGELOG.md](CHANGELOG.md) for the complete version history.
 
 ## Usage
 
-### Basic setup
+### Basic Setup
 
 Here's a basic example demonstrating the setup of WebOSClient and connection to the TV.
 
@@ -128,7 +128,7 @@ extension ViewController: WebOSClientDelegate {
 }
 ```
 
-### Client methods
+### Client Methods
 
 These are the core methods of WebOSClient allowing connection with the TV and sending keys and various commands.
 
@@ -153,7 +153,7 @@ public protocol WebOSClientProtocol {
 }
 ```
 
-### Delegate methods
+### Delegate Methods
 
 These are the methods for handling various WebOSClient events.
 
@@ -185,7 +185,7 @@ public protocol WebOSClientDelegate: AnyObject {
 }
 ```
 
-### Handling pairing errors
+### Handling Pairing Errors
 
 Handle pairing errors gracefully by notifying the user and offering options to retry or troubleshoot the connection. Capture pairing errors in the `didReceive` delegate method.
 
@@ -200,7 +200,6 @@ extension ViewController: WebOSClientDelegate {
             // Pairing rejected by the user or invalid pin.
             }
             
-
             if errorMessage.contains("cancelled") {
             // Pairing cancelled due to a timeout.
             }
@@ -209,7 +208,7 @@ extension ViewController: WebOSClientDelegate {
 }
 ```
 
-### Common API commands
+### Common API Commands
 
 These commands cover fundamental functionalities such as adjusting volume, retrieving current volume levels, muting or unmuting the audio, turning the TV screen off and on, etc.
 
@@ -247,7 +246,7 @@ client?.send(.listSources)                                                  // R
 client?.send(.setSource("HDMI2"))                                           // Sets the TV source to the specified input ID.
 ```
 
-### Key API commands
+### Key API Commands
 
 These commands use a slightly different API and introduce a distinct set of functionalities, specifically tailored for simulating remote control key presses on LG TVs. 
 
@@ -289,9 +288,9 @@ client?.sendKey(.fastForward)                       // Simulates a fast-forward 
  
 Documentation is also provided in the source code. Check the comments in the respective files for more information. Refer to the example project that comes with this library for additional details.
 
-## Example project
+## Example App
 
-The accompanying example project included in this package showcases the library's fundamental features and serves as a demonstration of its core functionalities on macOS.
+The accompanying example app included in this package showcases the library's fundamental features and serves as a demonstration of its core functionalities on macOS.
 
 ![Example App Screenshot](/Screenshots/WebOSClientExampleApp.png?raw=true)
 
