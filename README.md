@@ -55,7 +55,7 @@ Refer to [CHANGELOG.md](CHANGELOG.md) for the complete version history.
 
 ### Basic Setup
 
-Here's a basic example demonstrating the setup of WebOSClient and connection to the TV.
+Below is a basic example demonstrating the setup of WebOSClient and connection to the TV.
 
 ```swift
 import UIKit
