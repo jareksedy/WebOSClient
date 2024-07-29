@@ -3,7 +3,7 @@
 ## 1.5.0 - Pairing with PIN and Activity Logging
 ### Features
 - Introduced PIN-based pairing functionality.
-- Implemented optional activity logging for enhanced convenience.
+- Implemented optional activity logging for convenience.
 
 ## 1.4.3 - Media Playback State Subscription
 ### Features

@@ -47,7 +47,7 @@ pod 'WebOSClient'
 ### 1.5.0 - Pairing with PIN and Activity Logging
 #### Features
 - Introduced PIN-based pairing functionality.
-- Implemented optional activity logging for enhanced convenience.
+- Implemented optional activity logging for convenience.
 
 Refer to [CHANGELOG.md](CHANGELOG.md) for the complete version history.
 
@@ -55,7 +55,7 @@ Refer to [CHANGELOG.md](CHANGELOG.md) for the complete version history.
 
 ### Basic setup
 
-Here's a basic example demonstrating the setup of WebOSClient and connection to the TV using UIKit.
+Here's a basic example demonstrating the setup of WebOSClient and connection to the TV.
 
 ```swift
 import UIKit
@@ -69,7 +69,7 @@ fileprivate enum Constants {
 // MARK: - ViewController
 class ViewController: UIViewController {
     // The URL of the WebOS service on the TV.
-    let url = URL(string: "wss://192.168.1.10:3001")
+    let url = URL(string: "wss://192.168.1.10:3001")!
     
     // The client responsible for communication with the WebOS service.
     var client: WebOSClientProtocol?
@@ -77,7 +77,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Instantiate WebOSClient with the provided URL and set the current view controller as the delegate.
+        // Instantiate WebOSClient with the specified URL and set the current view controller as the delegate.
+        // Enable activity logging by setting shouldLogActivity to true.
         client = WebOSClient(url: url, delegate: self, shouldLogActivity: true)
         
         // Establish a connection to the TV.
@@ -102,7 +103,6 @@ extension ViewController: WebOSClientDelegate {
 
     // Callback triggered upon successful registration with the TV.
     func didRegister(with clientKey: String) {
-        
         // Store the received registration token in UserDefaults for future use.
         UserDefaults.standard.setValue(clientKey, forKey: Constants.registrationTokenKey)
 
@@ -195,19 +195,14 @@ extension ViewController: WebOSClientDelegate {
     func didReceive(_ result: Result<WebOSResponse, Error>) {
         if case .failure(let error) = result {
             let errorMessage = error.localizedDescription
-            // Pairing rejected by the user or invalid pin.
+
             if errorMessage.contains("rejected pairing") {
-                Task { @MainActor in
-                    showPromptAlert = false
-                    showPinAlert = false
-                }
+            // Pairing rejected by the user or invalid pin.
             }
-            // Pairing cancelled due to a timeout.
+            
+
             if errorMessage.contains("cancelled") {
-                Task { @MainActor in
-                    showPromptAlert = false
-                    showPinAlert = false
-                }
+            // Pairing cancelled due to a timeout.
             }
         }
     }
