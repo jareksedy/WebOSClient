@@ -5,7 +5,7 @@
 [![Cocoapods Compatible](https://img.shields.io/badge/cocoapods-Compatible-brightgreen.svg)](https://cocoapods.org/pods/SVGView)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-WebOSClient is a Swift library designed to facilitate communication with Smart TVs running WebOS, such as LG TVs. It provides a convenient interface to connect to the TV, send commands, and manage various TV functionalities.
+WebOSClient is a Swift library designed to facilitate communication with Smart TVs running WebOS, such as LG TVs. It provides a convenient interface to connect to the TV, send commands, and manage various TV-related functionalities.
 
 To use this package, ensure that both the client device and the TV are connected to the same Wi-Fi network.
 
