@@ -6,7 +6,8 @@
 import Foundation
 
 public struct WebOSResponsePayload: Codable {
-    public let pairingType: String?
+    public let errorText: String?
+    public let pairingType: WebOSPairingType?
     public let returnValue: Bool?
     public let clientKey: String?
     public let toastId: String?
@@ -44,6 +45,7 @@ public struct WebOSResponsePayload: Codable {
     public let foregroundAppInfo: [WebOSResponseForegroundAppInfo]?
     
     enum CodingKeys: String, CodingKey {
+        case errorText
         case pairingType
         case returnValue
         case clientKey = "client-key"

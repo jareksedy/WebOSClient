@@ -6,9 +6,17 @@
 import Foundation
 
 public enum WebOSSoundOutputType: String {
-    case tv_speaker
-    case external_speaker
+    case tvSpeaker
+    case externalSpeaker
     case soundbar
-    case bt_soundbar
-    case tv_external_speaker
+    case btSoundbar
+    case tvExternalSpeaker
+    
+    enum CodingKeys: String, CodingKey {
+        case tvSpeaker = "tv_speaker"
+        case externalSpeaker = "external_speaker"
+        case soundbar
+        case btSoundbar = "bt_soundbar"
+        case tvExternalSpeaker = "tv_external_speaker"
+    }
 }

@@ -6,35 +6,34 @@
 import Foundation
 
 public class WebOSClient: NSObject, WebOSClientProtocol {
-    private var url: URL?
+    private var url: URL
     private var urlSession: URLSession?
     private var primaryWebSocketTask: URLSessionWebSocketTask?
     private var secondaryWebSocketTask: URLSessionWebSocketTask?
     private var shouldPerformHeartbeat: Bool
-    private var heartbeatTimer: Timer?
     private var heartbeatTimeInterval: TimeInterval
+    private var heartbeatTimer: Timer?
     private var pointerRequestId: String?
     
+    public var shouldLogActivity: Bool
     public weak var delegate: WebOSClientDelegate?
     
     required public init(
-        url: URL?,
+        url: URL,
         delegate: WebOSClientDelegate? = nil,
         shouldPerformHeartbeat: Bool = true,
-        heartbeatTimeInterval: TimeInterval = 10
+        heartbeatTimeInterval: TimeInterval = 10,
+        shouldLogActivity: Bool = false
     ) {
         self.url = url
         self.delegate = delegate
         self.shouldPerformHeartbeat = shouldPerformHeartbeat
         self.heartbeatTimeInterval = heartbeatTimeInterval
+        self.shouldLogActivity = shouldLogActivity
         super.init()
     }
     
     public func connect() {
-        guard let url else {
-            assertionFailure("Invalid device URL. Terminating.")
-            return
-        }
         urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
         connect(url, task: &primaryWebSocketTask)
     }
@@ -90,9 +89,7 @@ private extension WebOSClient {
     ) {
         task = urlSession?.webSocketTask(with: url)
         task?.resume()
-        if shouldPerformHeartbeat {
-            setupHeartbeat()
-        }
+        setupHeartbeat()
     }
     
     func sendURLSessionWebSocketTaskMessage(
@@ -105,19 +102,10 @@ private extension WebOSClient {
             }
             if let error {
                 delegate?.didReceiveNetworkError(error)
+                logError(error.localizedDescription)
             }
         }
-    }
-    
-    func sendPing(task: URLSessionWebSocketTask?) {
-        task?.sendPing { [weak self] error in
-            guard let self else {
-                return
-            }
-            if let error {
-                delegate?.didReceiveNetworkError(error)
-            }
-        }
+        logSentMessage(message)
     }
     
     func listen(
@@ -131,6 +119,7 @@ private extension WebOSClient {
                 handle(response, completion: completion)
                 listen(completion)
             }
+            logReceivedResponse(result)
         }
     }
     
@@ -161,6 +150,9 @@ private extension WebOSClient {
             if response.payload?.pairingType == .prompt {
                 delegate?.didPrompt()
             }
+            if response.payload?.pairingType == .pin {
+                delegate?.didDisplayPin()
+            }
             if let socketPath = response.payload?.socketPath,
                let url = URL(string: socketPath),
                response.id == pointerRequestId {
@@ -171,11 +163,14 @@ private extension WebOSClient {
     }
     
     func setupHeartbeat() {
-        guard heartbeatTimer == nil else {
+        guard shouldPerformHeartbeat,
+              heartbeatTimer == nil else {
             return
         }
-        heartbeatTimer = Timer.scheduledTimer(withTimeInterval: heartbeatTimeInterval,
-                                              repeats: true) { [weak self] _ in
+        heartbeatTimer = Timer.scheduledTimer(
+            withTimeInterval: heartbeatTimeInterval,
+            repeats: true
+        ) { [weak self] _ in
             guard let self else {
                 return
             }
@@ -196,6 +191,7 @@ extension WebOSClient: URLSessionWebSocketDelegate {
             return
         }
         delegate?.didConnect()
+        logConnected()
         listen { [weak self] result in
             guard let self else {
                 return
@@ -210,6 +206,7 @@ extension WebOSClient: URLSessionWebSocketDelegate {
         didCompleteWithError error: Error?
     ) {
         delegate?.didReceiveNetworkError(error)
+        logError(error?.localizedDescription)
     }
     
     public func urlSession(
@@ -222,6 +219,7 @@ extension WebOSClient: URLSessionWebSocketDelegate {
             return
         }
         delegate?.didDisconnect()
+        logDisconnected()
     }
     
     public func urlSession(

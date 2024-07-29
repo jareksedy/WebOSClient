@@ -5,15 +5,16 @@
 [![Cocoapods Compatible](https://img.shields.io/badge/cocoapods-Compatible-brightgreen.svg)](https://cocoapods.org/pods/SVGView)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-WebOSClient is a Swift library that facilitates communication with LG TVs running WebOS. It provides a convenient way to connect to a TV, send commands, and handle various TV-related functionalities.
+WebOSClient is a Swift library designed to facilitate communication with Smart TVs running WebOS, such as LG TVs. It provides a convenient interface to connect to the TV, send commands, and manage various TV-related functionalities.
 
-Please note that it's essential for this package to function, that the iOS device running it and the LG TV are both connected to the same WiFi network.
+To use this package, ensure that both the client device and the TV are connected to the same Wi-Fi network.
 
-You'll need to manually enter the IP address of the LG TV for this package to operate. If you prefer to automatically discover devices on the network, I recommend utilizing the [SSDPClient package](https://github.com/pierrickrouxel/SSDPClient) (or similar).
+#### Manual IP Entry
+You will need to manually enter the IP address of the TV for this package to operate. To automatically discover devices on LAN, consider using the [SSDPClient package](https://github.com/pierrickrouxel/SSDPClient) package or a similar tool.
 
 ## Features
 
-- Remote control a WebOS-based TV (LG Smart TVs).
+- Remote control a WebOS-based TV (LG Smart TV).
 - Handle TV events through subscriptions.
 - Handy example project demonstrating the library's core features.
 
@@ -25,7 +26,7 @@ You'll need to manually enter the IP address of the LG TV for this package to op
 
 ### Swift Package Manager
 
-Adding WebOSClient as a dependency is as easy as adding it to the dependencies value of your Package.swift.
+To add WebOSClient as a dependency, include it in the dependencies value of your Package.swift:
 
 ```swift
 dependencies: [
@@ -43,46 +44,18 @@ pod 'WebOSClient'
 
 ## Version History
 
-### 1.4.3. Minor improvements.
+### 1.5.0 - Pairing with PIN and Activity Logging
 #### Features
-* Added getForegroundAppMediaStatus method allowing subscriptions to media playback state updates.
+- Introduced PIN-based pairing functionality.
+- Implemented optional activity logging for convenience.
 
-### 1.4.2. New virtual keyboard methods & bug fixes.
-#### Features
-* Bug fix in insertText method.
-* Added registerRemoteKeyboard method allowing subscriptions to virtual keyboard.
-
-### 1.3.0. Minor improvements.
-#### Features
-* Make some of the internal properties public for convenience.
-
-### 1.2.0. Minor improvements.
-#### Features
-* Make some of the internal properties public for convenience.
-
-### 1.1.0. Minor improvements.
-#### Features
-* Minor improvements in WebOSClient.
-
-### 1.0.9. Minor improvements in example project.
-#### Features
-* Changed app icon & other minor tweaks.
-
-### 1.0.3. Example App
-#### Features
-* Added an option to enter IP manually in example project.
-* Changed the example project icon.
-
-### 1.0.0. Initial release
-#### Features
-* WebOSClient package.
-* Example project demonstrating library's core functionalities.
+Refer to [CHANGELOG.md](CHANGELOG.md) for the complete version history.
 
 ## Usage
 
-### Basic setup
+### Basic Setup
 
-Here's a basic example demonstrating the setup of WebOSClient and connection to the TV using UIKit.
+Below is a basic example demonstrating the setup of WebOSClient and connection to the TV.
 
 ```swift
 import UIKit
@@ -96,7 +69,7 @@ fileprivate enum Constants {
 // MARK: - ViewController
 class ViewController: UIViewController {
     // The URL of the WebOS service on the TV.
-    let url = URL(string: "wss://192.168.1.10:3001")
+    let url = URL(string: "wss://192.168.1.10:3001")!
     
     // The client responsible for communication with the WebOS service.
     var client: WebOSClientProtocol?
@@ -104,8 +77,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Instantiate WebOSClient with the provided URL and set the current view controller as the delegate.
-        client = WebOSClient(url: url, delegate: self)
+        // Instantiate WebOSClient with the specified URL and set the current view controller as the delegate.
+        // Enable activity logging by setting shouldLogActivity to true.
+        client = WebOSClient(url: url, delegate: self, shouldLogActivity: true)
         
         // Establish a connection to the TV.
         client?.connect()
@@ -114,15 +88,21 @@ class ViewController: UIViewController {
         let registrationToken = UserDefaults.standard.string(forKey: Constants.registrationTokenKey)
         
         // Send a registration request to the TV with the stored or nil registration token.
-        client?.send(.register(clientKey: registrationToken))
+        // The PairingType option should be set to .pin for PIN-based pairing. The default value is .prompt.
+        client?.send(.register(pairingType: .pin, clientKey: registrationToken))
     }
 }
 
 // MARK: - WebOSClientDelegate
 extension ViewController: WebOSClientDelegate {
+    // Callback triggered upon displaying the PIN to the user.
+    func didDisplayPin() {
+        // Send the correct PIN displayed on the TV screen to the TV here.
+        client?.send(.setPin("12345678"))
+    }
+
     // Callback triggered upon successful registration with the TV.
     func didRegister(with clientKey: String) {
-        
         // Store the received registration token in UserDefaults for future use.
         UserDefaults.standard.setValue(clientKey, forKey: Constants.registrationTokenKey)
 
@@ -148,7 +128,7 @@ extension ViewController: WebOSClientDelegate {
 }
 ```
 
-### Client methods
+### Client Methods
 
 These are the core methods of WebOSClient allowing connection with the TV and sending keys and various commands.
 
@@ -173,7 +153,7 @@ public protocol WebOSClientProtocol {
 }
 ```
 
-### Delegate methods
+### Delegate Methods
 
 These are the methods for handling various WebOSClient events.
 
@@ -181,6 +161,9 @@ These are the methods for handling various WebOSClient events.
 public protocol WebOSClientDelegate: AnyObject {
     /// Invoked when the client successfully establishes a connection.
     func didConnect()
+    
+    /// Invoked when the TV displays a PIN code for pairing.
+    func didDisplayPin()
     
     /// Invoked when the TV prompts for registration.
     func didPrompt()
@@ -202,11 +185,35 @@ public protocol WebOSClientDelegate: AnyObject {
 }
 ```
 
-### Common API commands
+### Handling Pairing Errors
+
+Handle pairing errors gracefully by notifying the user and offering options to retry or troubleshoot the connection. Capture pairing errors in the `didReceive` delegate method.
+
+```swift
+// MARK: - WebOSClientDelegate
+extension ViewController: WebOSClientDelegate {
+    func didReceive(_ result: Result<WebOSResponse, Error>) {
+        if case .failure(let error) = result {
+            let errorMessage = error.localizedDescription
+
+            if errorMessage.contains("rejected pairing") {
+            // Pairing rejected by the user or invalid pin.
+            }
+            
+            if errorMessage.contains("cancelled") {
+            // Pairing cancelled due to a timeout.
+            }
+        }
+    }
+}
+```
+
+### Common API Commands
 
 These commands cover fundamental functionalities such as adjusting volume, retrieving current volume levels, muting or unmuting the audio, turning the TV screen off and on, etc.
 
 ```swift
+client?.send(.setPin("12345678"))                                           // Sets the PIN for pairing.
 client?.send(.volumeUp)                                                     // Increases the volume by 1 unit.
 client?.send(.volumeDown)                                                   // Decreases the volume by 1 unit.
 client?.send(.getVolume(subscribe: true))                                   // Retrieves the current volume level with optional subscription.
@@ -239,7 +246,7 @@ client?.send(.listSources)                                                  // R
 client?.send(.setSource("HDMI2"))                                           // Sets the TV source to the specified input ID.
 ```
 
-### Key API commands
+### Key API Commands
 
 These commands use a slightly different API and introduce a distinct set of functionalities, specifically tailored for simulating remote control key presses on LG TVs. 
 
@@ -281,9 +288,9 @@ client?.sendKey(.fastForward)                       // Simulates a fast-forward 
  
 Documentation is also provided in the source code. Check the comments in the respective files for more information. Refer to the example project that comes with this library for additional details.
 
-## Example project
+## Example App
 
-The accompanying example project included in this package showcases the library's fundamental features and serves as a demonstration of its core functionalities on macOS.
+The accompanying example app included in this package showcases the library's fundamental features and serves as a demonstration of its core functionalities on macOS.
 
 ![Example App Screenshot](/Screenshots/WebOSClientExampleApp.png?raw=true)
 

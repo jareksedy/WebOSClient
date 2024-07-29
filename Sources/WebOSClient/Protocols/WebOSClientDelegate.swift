@@ -13,6 +13,9 @@ public protocol WebOSClientDelegate: AnyObject {
     /// Invoked when the TV prompts for registration.
     func didPrompt()
     
+    /// Invoked when the TV displays a PIN code for pairing.
+    func didDisplayPin()
+    
     /// Invoked when the client successfully registers with a client key.
     /// - Parameter clientKey: The client key for registration.
     func didRegister(with clientKey: String)
@@ -36,6 +39,7 @@ public protocol WebOSClientDelegate: AnyObject {
 public extension WebOSClientDelegate {
     func didConnect() {}
     func didPrompt() {}
+    func didDisplayPin() {}
     func didReceive(_ result: Result<WebOSResponse, Error>) {}
     func didReceive(jsonResponse: String) {}
     func didDisconnect() {}

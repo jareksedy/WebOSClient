@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct MainView: View {
-    @State var selection: Int = 1
-    @State var appFilter: Int = 2
-    @State var showSettings: Bool = false
-    @ObservedObject var viewModel = ViewModel()
+    @State private var selection: Int = 1
+    @State private var appFilter: Int = 2
+    @State private var showSettings: Bool = false
+    @ObservedObject private var viewModel = ViewModel()
     var body: some View {
         NavigationView {
             List(selection: $selection) {
@@ -114,7 +114,7 @@ struct MainView: View {
                 if selection == 8 {
                     ToolbarItem(placement: .accessoryBar(id: 0)) {
                         Button(action: {
-                            viewModel.log = ""
+                            viewModel.clearLogs()
                         }, label: {
                             Image(systemName: "folder.badge.minus")
                             Text("Clear Logs")
@@ -138,6 +138,9 @@ struct MainView: View {
                 }
             }) {
                 SettingsView(showSettings: $showSettings, viewModel: viewModel)
+            }
+            .sheet(isPresented: $viewModel.showPinAlert) {
+                PinView(showPin: $viewModel.showPinAlert, viewModel: viewModel)
             }
             .onAppear {
                 if UserDefaults.standard.value(forKey: ViewModel.Constants.tvIPKey) as? String == nil {

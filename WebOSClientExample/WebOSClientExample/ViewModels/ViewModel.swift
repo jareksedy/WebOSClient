@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 import WebOSClient
 
 class ViewModel: ObservableObject {
@@ -22,9 +23,11 @@ class ViewModel: ObservableObject {
         static let logSuffix = "\n"
     }
     
+    @Published var pinPairing: Bool = false
     @Published var isConnected: Bool = false
     @Published var showPromptAlert: Bool = false
-    @Published var log: String = ""
+    @Published var showPinAlert: Bool = false
+    @Published var logOutput = ""
     @Published var apps: [WebOSResponseApplication] = []
     
     // Subscriptions
@@ -36,21 +39,27 @@ class ViewModel: ObservableObject {
     
     private var installedApps: [WebOSResponseApplication] = []
     
+    private let pipe = Pipe()
+    private let logQueue = DispatchQueue(label: "LogCaptureQueue")
+    
     var tv: WebOSClientProtocol?
     
     init() {
         let ip = UserDefaults.standard.value(forKey: Constants.tvIPKey) as? String
         connectAndRegister(with: ip)
+        setupLogCapture()
     }
     
     func connectAndRegister(with ip: String?) {
-        guard !isConnected else { return }
-        if let ip {
-            let urlString = "wss://\(ip):3001"
-            let url = URL(string: urlString)
-            self.tv = WebOSClient(url: url, delegate: self)
-            tv?.connect()
-            let registrationToken = UserDefaults.standard.value(forKey: Constants.registrationTokenKey) as? String
+        guard !isConnected, let ip else { return }
+        let urlString = "wss://\(ip):3001"
+        guard let url = URL(string: urlString) else { return }
+        self.tv = WebOSClient(url: url, delegate: self, shouldLogActivity: true)
+        tv?.connect()
+        let registrationToken = UserDefaults.standard.value(forKey: Constants.registrationTokenKey) as? String
+        if pinPairing {
+            tv?.send(.register(pairingType: .pin))
+        } else {
             tv?.send(.register(clientKey: registrationToken))
         }
     }
@@ -77,18 +86,52 @@ class ViewModel: ObservableObject {
         guard isConnected else { return }
         apps = installedApps.filter { $0.systemApp == true }
     }
-}
-
-extension ViewModel: WebOSClientDelegate {
-    func didConnect() {
+    
+    func clearLogs() {
         Task { @MainActor in
-            log += "[CONNECTED]" + Constants.logSuffix
+            logOutput = ""
         }
     }
     
+    func setupLogCapture() {
+        dup2(pipe.fileHandleForWriting.fileDescriptor, STDOUT_FILENO)
+        dup2(pipe.fileHandleForWriting.fileDescriptor, STDERR_FILENO)
+        
+        pipe.fileHandleForReading.readabilityHandler = { [weak self] handle in
+            guard let self = self else { return }
+            let data = handle.availableData
+            if let str = String(data: data, encoding: .utf8) {
+                let filteredStr = self.filterMetadata(from: str)
+                self.logQueue.async {
+                    Task { @MainActor in
+                        self.logOutput.append(contentsOf: filteredStr)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func filterMetadata(from log: String) -> String {
+        let pattern = #"OSLOG-[A-F0-9-]+ \d+ \d+ [A-Z] \w+ \{[^}]+\}\t"#
+        if let regex = try? NSRegularExpression(pattern: pattern, options: .anchorsMatchLines) {
+            let range = NSRange(location: 0, length: log.utf16.count)
+            return regex.stringByReplacingMatches(in: log, options: [], range: range, withTemplate: "")
+        } else {
+            return log
+        }
+    }
+}
+
+extension ViewModel: WebOSClientDelegate {
     func didPrompt() {
         Task { @MainActor in
             showPromptAlert = true
+        }
+    }
+    
+    func didDisplayPin() {
+        Task { @MainActor in
+            showPinAlert = true
         }
     }
     
@@ -119,7 +162,7 @@ extension ViewModel: WebOSClientDelegate {
         }
         if case .success(let response) = result, response.id == Constants.soundOutputRequestId {
             Task { @MainActor in
-                self.soundOutput = WebOSSoundOutputType(rawValue: response.payload?.soundOutput ?? "tv_speaker") ?? .tv_speaker
+                self.soundOutput = WebOSSoundOutputType(rawValue: response.payload?.soundOutput ?? "tv_speaker") ?? .tvSpeaker
             }
         }
         if case .success(let response) = result, response.id == Constants.appsRequestId {
@@ -138,17 +181,27 @@ extension ViewModel: WebOSClientDelegate {
                 self.currentPlayState = ""
             }
         }
-    }
-    
-    func didReceive(jsonResponse: String) {
-        Task { @MainActor in
-            log += jsonResponse.prettyPrintedJSONString!.debugDescription + Constants.logSuffix
+        if case .failure(let error) = result {
+            let errorMessage = error.localizedDescription
+            // Pairing rejected by the user or invalid pin.
+            if errorMessage.contains("rejected pairing") {
+                Task { @MainActor in
+                    showPromptAlert = false
+                    showPinAlert = false
+                }
+            }
+            // Pairing cancelled due to a timeout.
+            if errorMessage.contains("cancelled") {
+                Task { @MainActor in
+                    showPromptAlert = false
+                    showPinAlert = false
+                }
+            }
         }
     }
     
     func didReceiveNetworkError(_ error: Error?) {
         Task { @MainActor in
-            log += "[ERROR: \(error?.localizedDescription ?? "unknown")]" + Constants.logSuffix
             isConnected = false
             tv?.disconnect()
         }
@@ -157,7 +210,6 @@ extension ViewModel: WebOSClientDelegate {
     func didDisconnect() {
         Task { @MainActor in
             isConnected = false
-            log += "[DISCONNECTED]" + Constants.logSuffix
         }
     }
 }
