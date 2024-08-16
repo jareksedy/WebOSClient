@@ -13,6 +13,13 @@ struct SubscriptionsView: View {
         VStack {
             Spacer()
             HStack {
+                Text("POWER STATE: \(viewModel.currentPowerState.uppercased())")
+                    .font(.system(size: 12, weight: .regular, design: .monospaced))
+                Spacer()
+            }
+            .padding()
+            
+            HStack {
                 Text("CUR. APP ID: \((viewModel.foregroundApp).uppercased())")
                     .font(.system(size: 12, weight: .regular, design: .monospaced))
                 Spacer()

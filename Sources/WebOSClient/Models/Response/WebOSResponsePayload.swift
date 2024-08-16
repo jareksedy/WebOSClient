@@ -18,6 +18,9 @@ public struct WebOSResponsePayload: Codable {
     public let muteStatus: Bool?
     public let method: String?
     public let state: String?
+    public let processing: String?
+    public let onOff: String?
+    public let reason: String?
     public let productName: String?
     public let modelName: String?
     public let swType: String?
@@ -57,6 +60,9 @@ public struct WebOSResponsePayload: Codable {
         case muteStatus
         case method
         case state
+        case processing
+        case onOff
+        case reason
         case productName = "product_name"
         case modelName = "model_name"
         case swType = "sw_type"

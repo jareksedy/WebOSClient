@@ -19,6 +19,7 @@ class ViewModel: ObservableObject {
         static let soundOutputRequestId = "soundOutputSubscription"
         static let appsRequestId = "listAppsRequest"
         static let keyboardRequestId = "keyboardRequest"
+        static let powerStateRequestId = "powerStateSubscription"
         static let mediaPlaybackInfoRequestId = "mediaPlaybackInfoSubscription"
         static let logSuffix = "\n"
     }
@@ -36,6 +37,7 @@ class ViewModel: ObservableObject {
     @Published var soundOutput: WebOSSoundOutputType? = nil
     @Published var currentTextField: WebOSResponseCurrentWidget? = nil
     @Published var currentPlayState: String = "N/A"
+    @Published var currentPowerState: String = "N/A"
     
     private var installedApps: [WebOSResponseApplication] = []
     
@@ -70,6 +72,7 @@ class ViewModel: ObservableObject {
         tv?.send(.getForegroundAppMediaStatus(subscribe: true), id: Constants.foregroundAppMediaInfoRequestId)
         tv?.send(.getSoundOutput(subscribe: true), id: Constants.soundOutputRequestId)
         tv?.send(.registerRemoteKeyboard, id: Constants.keyboardRequestId)
+        tv?.send(.getPowerState(subscribe: true), id: Constants.powerStateRequestId)
     }
     
     func showAllApps() {
@@ -179,6 +182,11 @@ extension ViewModel: WebOSClientDelegate {
         if case .success(let response) = result, response.id == Constants.mediaPlaybackInfoRequestId {
             Task { @MainActor in
                 self.currentPlayState = ""
+            }
+        }
+        if case .success(let response) = result, response.id == Constants.powerStateRequestId {
+            Task { @MainActor in
+                self.currentPowerState = "\(response.payload?.state ?? "—"); \(response.payload?.onOff ?? "—"); \(response.payload?.processing ?? "—"); \(response.payload?.reason ?? "—")"
             }
         }
         if case .failure(let error) = result {

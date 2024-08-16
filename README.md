@@ -44,10 +44,9 @@ pod 'WebOSClient'
 
 ## Version History
 
-### 1.5.0 - Pairing with PIN and Activity Logging
+### 1.5.1 - Power State Subscription
 #### Features
-- Introduced PIN-based pairing functionality.
-- Implemented optional activity logging for convenience.
+- Introduced `getPowerState(subscribe: Bool? = nil)` method to enable power state subscriptions.
 
 Refer to [CHANGELOG.md](CHANGELOG.md) for the complete version history.
 
@@ -227,6 +226,7 @@ client?.send(.fastForward)                                                  // F
 client?.send(.getSoundOutput(subscribe: true))                              // Retrieves the current sound output with optional subscription.
 client?.send(.changeSoundOutput(.soundbar))                                 // Changes the sound output to the specified type.
 client?.send(.toast(message: "Hello, world!"))                              // Shows a message on the screen.
+client?.send(.getPowerState(subscribe: true))                               // Retrieves the TV power state (on/off) with optional subscription.
 client?.send(.screenOff)                                                    // Turns off the TV screen.
 client?.send(.screenOn)                                                     // Turns on the TV screen.
 client?.send(.systemInfo)                                                   // Retrieves system information.
@@ -244,6 +244,39 @@ client?.send(.channelUp)                                                    // I
 client?.send(.channelDown)                                                  // Decreases the TV channel.
 client?.send(.listSources)                                                  // Retrieves a list of available input sources.
 client?.send(.setSource("HDMI2"))                                           // Sets the TV source to the specified input ID.
+```
+
+### Subscriptions
+
+The following commands allow you to continuously monitor changes in the TV’s state and react accordingly within your app.
+
+```swift
+client?.send(.getPowerState(subscribe: true))                               // Retrieves the TV power state (on/off) with optional subscription.
+client?.send(.getForegroundApp(subscribe: true))                            // Retrieves the foreground app with optional subscription.
+client?.send(.getForegroundAppMediaStatus(subscribe: true))                 // Retrieves the foreground app with media status with optional subscription.
+client?.send(.getVolume(subscribe: true))                                   // Retrieves the current volume level with optional subscription.
+client?.send(.getSoundOutput(subscribe: true))                              // Retrieves the current sound output with optional subscription.
+```
+
+If subscribe flag is set to true, the client subscribes to continuous updates. If set to false, it unsubscribes from updates. If subscribe is nil, the client will retrieve the current state once without subscribing.
+
+```swift
+// Subscribe to volume changes.
+var volumeSubscriptionId: String = ""
+volumeSubscriptionId = client?.send(.getVolume(subscribe: true))
+```
+
+Receive state changes in the `didReceive` delegate method.
+
+```swift
+// MARK: - WebOSClientDelegate
+extension ViewController: WebOSClientDelegate {
+    func didReceive(_ result: Result<WebOSResponse, Error>) {
+            if case .success(let response) = result, response.id == volumeSubscriptionId {
+                dump(response)
+            }
+        }
+    }
 ```
 
 ### Key API Commands

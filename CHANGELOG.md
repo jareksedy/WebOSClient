@@ -1,5 +1,9 @@
 # Version History
 
+## 1.5.1 - Power State Subscription
+### Features
+- Introduced `getPowerState(subscribe: Bool? = nil)` method to enable power state subscriptions.
+
 ## 1.5.0 - Pairing with PIN and Activity Logging
 ### Features
 - Introduced PIN-based pairing functionality.

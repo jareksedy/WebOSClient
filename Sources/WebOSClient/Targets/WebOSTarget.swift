@@ -65,6 +65,10 @@ public enum WebOSTarget {
     ///   - iconExtension: Optional extension specifying the format of the icon data.
     case toast(message: String, iconData: Data? = nil, iconExtension: String? = nil)
     
+    /// Get TV power state with optional subscription.
+    /// - Parameter subscribe: If true, subscribes to TV power state changes, if false, unsubscribes from power state changes;
+    case getPowerState(subscribe: Bool? = nil)
+    
     /// Turns off the TV screen.
     case screenOff
     
