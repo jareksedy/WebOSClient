@@ -76,8 +76,6 @@ extension WebOSTarget: WebOSTargetProtocol {
             return "ssap://tv/getExternalInputList"
         case .setSource:
             return "ssap://tv/switchInput"
-        case .custom(let customUrl, _):
-            return customUrl
         default:
             return nil
         }
@@ -141,19 +139,11 @@ extension WebOSTarget: WebOSTargetProtocol {
         case .setSource(let inputId):
             let payload = WebOSRequestPayload(inputId: inputId)
             return .init(type: .request, uri: uri, payload: payload)
+        case .getSytemSettings(let customUrl, let payload):
+            return .init(type: .request, uri: customUrl, payload: payload)
         default:
             return .init(type: .request, uri: uri)
         }
-    }
-
-    public var customRequest: WebOSCustomRequest {
-        switch self {
-        case .custom(_, let payload):
-            return .init(type: .request, uri: uri, payload: payload)
-        default:
-            return .init(type: .request, uri: uri)
-        }
-
     }
 
 }

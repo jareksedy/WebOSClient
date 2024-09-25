@@ -40,8 +40,6 @@ public protocol WebOSClientProtocol {
     /// - Returns: The identifier of sent request, or nil if the request couldn't be sent.
     @discardableResult func send(_ target: WebOSTarget, id: String) -> String?
 
-    @discardableResult func sendCustom(_ target: WebOSTarget, id: String) -> String?
-
     /// Sends a JSON-formatted request to the service.
     /// - Parameter jsonRequest: The JSON-formatted request to be sent.
     func send(jsonRequest: String)
@@ -67,12 +65,5 @@ extension WebOSClientProtocol {
         id: String = UUID().uuidString.lowercased()
     ) -> String? {
         send(target, id: id)
-    }
-
-    @discardableResult public func sendCustom(
-        _ target: WebOSTarget,
-        id: String = UUID().uuidString.lowercased()
-    ) -> String? {
-        sendCustom(target, id: id)
     }
 }

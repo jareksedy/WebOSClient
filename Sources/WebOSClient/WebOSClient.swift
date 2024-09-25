@@ -53,16 +53,6 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
         sendURLSessionWebSocketTaskMessage(message, task: primaryWebSocketTask)
     }
 
-    @discardableResult
-    public func sendCustom(_ target: WebOSTarget, id: String) -> String? {
-        guard let jsonRequest = target.customRequest.jsonWithId(id) else {
-            return nil
-        }
-        let message = URLSessionWebSocketTask.Message.string(jsonRequest)
-        sendURLSessionWebSocketTaskMessage(message, task: primaryWebSocketTask)
-        return id
-    }
-
     public func sendKey(_ key: WebOSKeyTarget) {
         guard let request = key.request else {
             return
