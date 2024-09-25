@@ -10,7 +10,7 @@ public struct WebOSRequest: Codable {
     var id: String?
     var uri: String?
     var payload: WebOSRequestPayload?
-    
+
     init(
         type: WebOSRequestType,
         id: String? = nil,
@@ -22,7 +22,37 @@ public struct WebOSRequest: Codable {
         self.uri = uri
         self.payload = payload
     }
-    
+
+    public func jsonWithId(_ id: String) -> String? {
+        var copy = self
+        copy.id = id
+        do {
+            return try copy.encode()
+        } catch {
+            print("Error encoding JSON: \(error)")
+        }
+        return nil
+    }
+}
+
+public struct WebOSCustomRequest: Codable {
+    var type: String
+    var id: String?
+    var uri: String?
+    var payload: Data?
+
+    init(
+        type: WebOSRequestType,
+        id: String? = nil,
+        uri: String? = nil,
+        payload: Data? = nil
+    ) {
+        self.type = type.rawValue
+        self.id = id
+        self.uri = uri
+        self.payload = payload
+    }
+
     public func jsonWithId(_ id: String) -> String? {
         var copy = self
         copy.id = id

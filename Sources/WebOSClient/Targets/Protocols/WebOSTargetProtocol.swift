@@ -8,4 +8,5 @@ import Foundation
 protocol WebOSTargetProtocol {
     var uri: String? { get }
     var request: WebOSRequest { get }
+    var customRequest: WebOSCustomRequest { get }
 }

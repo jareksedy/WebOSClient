@@ -14,10 +14,10 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
     private var heartbeatTimeInterval: TimeInterval
     private var heartbeatTimer: Timer?
     private var pointerRequestId: String?
-    
+
     public var shouldLogActivity: Bool
     public weak var delegate: WebOSClientDelegate?
-    
+
     required public init(
         url: URL,
         delegate: WebOSClientDelegate? = nil,
@@ -32,12 +32,12 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
         self.shouldLogActivity = shouldLogActivity
         super.init()
     }
-    
+
     public func connect() {
         urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
         connect(url, task: &primaryWebSocketTask)
     }
-    
+
     @discardableResult
     public func send(_ target: WebOSTarget, id: String) -> String? {
         guard let jsonRequest = target.request.jsonWithId(id) else {
@@ -47,12 +47,22 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
         sendURLSessionWebSocketTaskMessage(message, task: primaryWebSocketTask)
         return id
     }
-    
+
     public func send(jsonRequest: String) {
         let message = URLSessionWebSocketTask.Message.string(jsonRequest)
         sendURLSessionWebSocketTaskMessage(message, task: primaryWebSocketTask)
     }
-    
+
+    @discardableResult
+    public func sendCustom(_ target: WebOSTarget, id: String) -> String? {
+        guard let jsonRequest = target.customRequest.jsonWithId(id) else {
+            return nil
+        }
+        let message = URLSessionWebSocketTask.Message.string(jsonRequest)
+        sendURLSessionWebSocketTaskMessage(message, task: primaryWebSocketTask)
+        return id
+    }
+
     public func sendKey(_ key: WebOSKeyTarget) {
         guard let request = key.request else {
             return
@@ -60,30 +70,30 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
         let message = URLSessionWebSocketTask.Message.data(request)
         sendURLSessionWebSocketTaskMessage(message, task: secondaryWebSocketTask)
     }
-    
+
     public func sendKey(keyData: Data) {
         let message = URLSessionWebSocketTask.Message.data(keyData)
         sendURLSessionWebSocketTaskMessage(message, task: secondaryWebSocketTask)
     }
-    
+
     public func sendPing() {
         sendPing(task: primaryWebSocketTask)
     }
-    
+
     public func disconnect() {
         heartbeatTimer?.invalidate()
         heartbeatTimer = nil
         secondaryWebSocketTask?.cancel(with: .goingAway, reason: nil)
         primaryWebSocketTask?.cancel(with: .goingAway, reason: nil)
     }
-    
+
     deinit {
         disconnect()
     }
 }
 
-private extension WebOSClient {
-    func connect(
+extension WebOSClient {
+    fileprivate func connect(
         _ url: URL,
         task: inout URLSessionWebSocketTask?
     ) {
@@ -91,8 +101,8 @@ private extension WebOSClient {
         task?.resume()
         setupHeartbeat()
     }
-    
-    func sendURLSessionWebSocketTaskMessage(
+
+    fileprivate func sendURLSessionWebSocketTaskMessage(
         _ message: URLSessionWebSocketTask.Message,
         task: URLSessionWebSocketTask?
     ) {
@@ -107,8 +117,8 @@ private extension WebOSClient {
         }
         logSentMessage(message)
     }
-    
-    func listen(
+
+    fileprivate func listen(
         _ completion: @escaping (Result<WebOSResponse, Error>) -> Void
     ) {
         primaryWebSocketTask?.receive { [weak self] result in
@@ -122,8 +132,8 @@ private extension WebOSClient {
             logReceivedResponse(result)
         }
     }
-    
-    func handle(
+
+    fileprivate func handle(
         _ response: URLSessionWebSocketTask.Message,
         completion: @escaping (Result<WebOSResponse, Error>) -> Void
     ) {
@@ -131,8 +141,9 @@ private extension WebOSClient {
             delegate?.didReceive(jsonResponse: jsonResponse)
         }
         guard let response = response.decode(),
-              let type = response.type,
-              let responseType = WebOSResponseType(rawValue: type) else {
+            let type = response.type,
+            let responseType = WebOSResponseType(rawValue: type)
+        else {
             completion(.failure(NSError(domain: "WebOSClient: Unkown response type.", code: 0)))
             return
         }
@@ -154,17 +165,19 @@ private extension WebOSClient {
                 delegate?.didDisplayPin()
             }
             if let socketPath = response.payload?.socketPath,
-               let url = URL(string: socketPath),
-               response.id == pointerRequestId {
+                let url = URL(string: socketPath),
+                response.id == pointerRequestId
+            {
                 connect(url, task: &secondaryWebSocketTask)
             }
             completion(.success(response))
         }
     }
-    
-    func setupHeartbeat() {
+
+    fileprivate func setupHeartbeat() {
         guard shouldPerformHeartbeat,
-              heartbeatTimer == nil else {
+            heartbeatTimer == nil
+        else {
             return
         }
         heartbeatTimer = Timer.scheduledTimer(
@@ -199,7 +212,7 @@ extension WebOSClient: URLSessionWebSocketDelegate {
             delegate?.didReceive(result)
         }
     }
-    
+
     public func urlSession(
         _ session: URLSession,
         task: URLSessionTask,
@@ -208,7 +221,7 @@ extension WebOSClient: URLSessionWebSocketDelegate {
         delegate?.didReceiveNetworkError(error)
         logError(error?.localizedDescription)
     }
-    
+
     public func urlSession(
         _ session: URLSession,
         webSocketTask: URLSessionWebSocketTask,
@@ -221,7 +234,7 @@ extension WebOSClient: URLSessionWebSocketDelegate {
         delegate?.didDisconnect()
         logDisconnected()
     }
-    
+
     public func urlSession(
         _ session: URLSession,
         didReceive challenge: URLAuthenticationChallenge,
@@ -229,7 +242,8 @@ extension WebOSClient: URLSessionWebSocketDelegate {
     ) {
         if challenge
             .protectionSpace
-            .authenticationMethod == NSURLAuthenticationMethodServerTrust {
+            .authenticationMethod == NSURLAuthenticationMethodServerTrust
+        {
             completionHandler(
                 .useCredential,
                 URLCredential(trust: challenge.protectionSpace.serverTrust!)

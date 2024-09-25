@@ -26,8 +26,6 @@ public struct WebOSRequestPayload: Codable {
     var replace: Bool?
     var count: Int?
     var inputId: String?
-    var category: String?
-    var settings: SystemSettings?
 
     public init(
         pin: String? = nil,
@@ -49,9 +47,7 @@ public struct WebOSRequestPayload: Codable {
         text: String? = nil,
         replace: Bool? = nil,
         count: Int? = nil,
-        inputId: String? = nil,
-        category: String? = nil,
-        settings: SystemSettings? = nil
+        inputId: String? = nil
     ) {
         self.pin = pin
         self.forcePairing = forcePairing
@@ -73,8 +69,6 @@ public struct WebOSRequestPayload: Codable {
         self.replace = replace
         self.count = count
         self.inputId = inputId
-        self.category = category
-        self.settings = settings
     }
 
     public enum CodingKeys: String, CodingKey {
@@ -98,16 +92,5 @@ public struct WebOSRequestPayload: Codable {
         case replace
         case count
         case inputId
-        case category
-        case settings
-    }
-
-}
-
-public struct SystemSettings: Codable {
-    var brightness: Int
-
-    public init(brightness: Int) {
-        self.brightness = brightness
     }
 }

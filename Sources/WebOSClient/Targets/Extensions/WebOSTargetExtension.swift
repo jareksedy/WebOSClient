@@ -141,10 +141,19 @@ extension WebOSTarget: WebOSTargetProtocol {
         case .setSource(let inputId):
             let payload = WebOSRequestPayload(inputId: inputId)
             return .init(type: .request, uri: uri, payload: payload)
+        default:
+            return .init(type: .request, uri: uri)
+        }
+    }
+
+    public var customRequest: WebOSCustomRequest {
+        switch self {
         case .custom(_, let payload):
             return .init(type: .request, uri: uri, payload: payload)
         default:
             return .init(type: .request, uri: uri)
         }
+
     }
+
 }

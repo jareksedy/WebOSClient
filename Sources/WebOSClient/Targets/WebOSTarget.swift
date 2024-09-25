@@ -141,5 +141,5 @@ public enum WebOSTarget {
     case setSource(_ inputId: String)
 
     /// Custom url
-    case custom(customUrl: String, payload: WebOSRequestPayload? = nil)
+    case custom(customUrl: String, payload: Data? = nil)
 }
