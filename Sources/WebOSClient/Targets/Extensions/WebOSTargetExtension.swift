@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension WebOSTarget: WebOSTargetProtocol {    
+extension WebOSTarget: WebOSTargetProtocol {
     public var uri: String? {
         switch self {
         case .setPin:
@@ -76,11 +76,13 @@ extension WebOSTarget: WebOSTargetProtocol {
             return "ssap://tv/getExternalInputList"
         case .setSource:
             return "ssap://tv/switchInput"
+        case .custom(let customUrl):
+            return customUrl
         default:
             return nil
         }
     }
-    
+
     public var request: WebOSRequest {
         switch self {
         case .register(let pairingType, let clientKey):
@@ -94,12 +96,11 @@ extension WebOSTarget: WebOSTargetProtocol {
         case .setPin(let pin):
             let payload = WebOSRequestPayload(pin: pin)
             return .init(type: .request, uri: uri, payload: payload)
-        case
-                .getPowerState(let subscribe),
-                .getVolume(let subscribe),
-                .getSoundOutput(let subscribe),
-                .getForegroundApp(let subscribe),
-                .getForegroundAppMediaStatus(let subscribe):
+        case .getPowerState(let subscribe),
+            .getVolume(let subscribe),
+            .getSoundOutput(let subscribe),
+            .getForegroundApp(let subscribe),
+            .getForegroundAppMediaStatus(let subscribe):
             if let subscribe {
                 return .init(type: subscribe ? .subscribe : .unsubscribe, uri: uri)
             }
