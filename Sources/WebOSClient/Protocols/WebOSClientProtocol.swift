@@ -9,10 +9,10 @@ import Foundation
 public protocol WebOSClientProtocol {
     /// Determines if the client should log all activity. Can be set at any time.
     var shouldLogActivity: Bool { get set }
-    
+
     /// The delegate responsible for handling various events.
     var delegate: WebOSClientDelegate? { get set }
-    
+
     /// Initializes a new instance of the WebOS client.
     /// - Parameters:
     ///   - url: The URL of the WebOS server.
@@ -29,41 +29,50 @@ public protocol WebOSClientProtocol {
         heartbeatTimeInterval: TimeInterval,
         shouldLogActivity: Bool
     )
-    
+
     /// Establishes a connection to the TV.
     func connect()
-    
+
     /// Sends a request to the specified WebOSTarget and returns the unique identifier of the request.
     /// - Parameters:
     ///   - target: Type of request and it's parameters if any.
     ///   - id: The unique identifier of the request (can be omitted).
     /// - Returns: The identifier of sent request, or nil if the request couldn't be sent.
     @discardableResult func send(_ target: WebOSTarget, id: String) -> String?
-    
+
+    @discardableResult func sendCustom(_ target: WebOSTarget, id: String) -> String?
+
     /// Sends a JSON-formatted request to the service.
     /// - Parameter jsonRequest: The JSON-formatted request to be sent.
     func send(jsonRequest: String)
-    
+
     /// Sends a key press event to the service using the specified WebOSKeyTarget.
     /// - Parameter key: The target key to be pressed.
     func sendKey(_ key: WebOSKeyTarget)
-    
+
     /// Sends a key press event to the WebOS service using the provided key data.
     /// - Parameter keyData: The key data to be sent as a key press event.
     func sendKey(keyData: Data)
-    
+
     /// Sends a ping request to the service for maintaining the connection.
     func sendPing()
-    
+
     /// Disconnects the WebOS client from the WebOS service.
     func disconnect()
 }
 
-public extension WebOSClientProtocol {
-    @discardableResult func send(
+extension WebOSClientProtocol {
+    @discardableResult public func send(
         _ target: WebOSTarget,
         id: String = UUID().uuidString.lowercased()
     ) -> String? {
         send(target, id: id)
+    }
+
+    @discardableResult public func sendCustom(
+        _ target: WebOSTarget,
+        id: String = UUID().uuidString.lowercased()
+    ) -> String? {
+        sendCustom(target, id: id)
     }
 }
