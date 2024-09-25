@@ -140,6 +140,6 @@ public enum WebOSTarget {
     /// - Parameter inputId: The ID of the input source to be set.
     case setSource(_ inputId: String)
 
-    /// Custom url
-    case getSytemSettings(customUrl: String, payload: WebOSRequestPayload)
+    /// Get current picture settings
+    case getPictureSettings
 }

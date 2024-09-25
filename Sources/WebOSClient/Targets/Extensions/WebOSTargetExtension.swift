@@ -76,6 +76,8 @@ extension WebOSTarget: WebOSTargetProtocol {
             return "ssap://tv/getExternalInputList"
         case .setSource:
             return "ssap://tv/switchInput"
+        case .getPictureSettings:
+            return "ssap://settings/getSystemSettings"
         default:
             return nil
         }
@@ -139,8 +141,10 @@ extension WebOSTarget: WebOSTargetProtocol {
         case .setSource(let inputId):
             let payload = WebOSRequestPayload(inputId: inputId)
             return .init(type: .request, uri: uri, payload: payload)
-        case .getSytemSettings(let customUrl, let payload):
-            return .init(type: .request, uri: customUrl, payload: payload)
+        case .getPictureSettings:
+            let payload = WebOSRequestPayload(
+                category: "picture", keys: ["brightness", "backlight", "contrast", "color"])
+            return .init(type: .request, uri: uri, payload: payload)
         default:
             return .init(type: .request, uri: uri)
         }
