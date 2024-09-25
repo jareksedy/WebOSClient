@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension WebOSTarget: WebOSTargetProtocol {    
+extension WebOSTarget: WebOSTargetProtocol {
     public var uri: String? {
         switch self {
         case .setPin:
@@ -44,6 +44,8 @@ extension WebOSTarget: WebOSTargetProtocol {
             return "ssap://com.webos.service.tvpower/power/turnOnScreen"
         case .systemInfo:
             return "ssap://com.webos.service.update/getCurrentSWInformation"
+        case .macAddressInfo:
+            return "ssap://com.webos.service.connectionmanager"
         case .turnOff:
             return "ssap://system/turnOff"
         case .listApps:
@@ -74,11 +76,13 @@ extension WebOSTarget: WebOSTargetProtocol {
             return "ssap://tv/getExternalInputList"
         case .setSource:
             return "ssap://tv/switchInput"
+        case .getPictureSettings:
+            return "ssap://settings/getSystemSettings"
         default:
             return nil
         }
     }
-    
+
     public var request: WebOSRequest {
         switch self {
         case .register(let pairingType, let clientKey):
@@ -92,12 +96,11 @@ extension WebOSTarget: WebOSTargetProtocol {
         case .setPin(let pin):
             let payload = WebOSRequestPayload(pin: pin)
             return .init(type: .request, uri: uri, payload: payload)
-        case
-                .getPowerState(let subscribe),
-                .getVolume(let subscribe),
-                .getSoundOutput(let subscribe),
-                .getForegroundApp(let subscribe),
-                .getForegroundAppMediaStatus(let subscribe):
+        case .getPowerState(let subscribe),
+            .getVolume(let subscribe),
+            .getSoundOutput(let subscribe),
+            .getForegroundApp(let subscribe),
+            .getForegroundAppMediaStatus(let subscribe):
             if let subscribe {
                 return .init(type: subscribe ? .subscribe : .unsubscribe, uri: uri)
             }
@@ -138,8 +141,13 @@ extension WebOSTarget: WebOSTargetProtocol {
         case .setSource(let inputId):
             let payload = WebOSRequestPayload(inputId: inputId)
             return .init(type: .request, uri: uri, payload: payload)
+        case .getPictureSettings:
+            let payload = WebOSRequestPayload(
+                category: "picture", keys: ["brightness", "backlight", "contrast", "color"])
+            return .init(type: .request, uri: uri, payload: payload)
         default:
             return .init(type: .request, uri: uri)
         }
     }
+
 }
