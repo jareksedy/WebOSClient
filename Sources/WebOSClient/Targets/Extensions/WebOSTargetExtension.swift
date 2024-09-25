@@ -44,6 +44,8 @@ extension WebOSTarget: WebOSTargetProtocol {
             return "ssap://com.webos.service.tvpower/power/turnOnScreen"
         case .systemInfo:
             return "ssap://com.webos.service.update/getCurrentSWInformation"
+        case .macAddressInfo:
+            return "ssap://com.webos.service.connectionmanager"
         case .turnOff:
             return "ssap://system/turnOff"
         case .listApps:

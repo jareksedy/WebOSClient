@@ -78,6 +78,9 @@ public enum WebOSTarget {
     /// Retrieves system information.
     case systemInfo
     
+    /// Retrieves device's mac address.
+    case macAddressInfo
+    
     /// Turns off the TV.
     case turnOff
     
