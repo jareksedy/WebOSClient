@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct WebOSRequestPayload: Codable {
+public struct WebOSRequestPayload: Codable {
     var pin: String?
     var forcePairing: Bool?
     var manifest: WebOSRequestManifest?
@@ -26,8 +26,10 @@ struct WebOSRequestPayload: Codable {
     var replace: Bool?
     var count: Int?
     var inputId: String?
-    
-    enum CodingKeys: String, CodingKey {
+    var category: String?
+    var settings: SystemSettings?
+
+    public enum CodingKeys: String, CodingKey {
         case clientKey = "client-key"
         case pin
         case forcePairing
@@ -48,5 +50,11 @@ struct WebOSRequestPayload: Codable {
         case replace
         case count
         case inputId
+        case category
+        case settings
     }
+}
+
+public struct SystemSettings: Codable {
+    var brightness: Int
 }

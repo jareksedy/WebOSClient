@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct WebOSRequestManifest: Codable {
+public struct WebOSRequestManifest: Codable {
     var appVersion: String = "1.1"
     var manifestVersion: Int = 1
     var permissions: [String] = [
@@ -60,7 +60,7 @@ struct WebOSRequestManifest: Codable {
         "CONTROL_CHANNEL_GROUP",
         "SCAN_TV_CHANNELS",
         "CONTROL_TV_POWER",
-        "CONTROL_WOL"
+        "CONTROL_WOL",
     ]
     var signatures: [WebOSRequestSignature] = [WebOSRequestSignature()]
     var signed: WebOSRequestSigned = WebOSRequestSigned()
