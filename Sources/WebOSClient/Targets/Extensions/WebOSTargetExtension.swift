@@ -76,7 +76,7 @@ extension WebOSTarget: WebOSTargetProtocol {
             return "ssap://tv/getExternalInputList"
         case .setSource:
             return "ssap://tv/switchInput"
-        case .getPictureSettings:
+        case .getPictureSettings, .getSoundMode:
             return "ssap://settings/getSystemSettings"
         default:
             return nil
@@ -141,13 +141,76 @@ extension WebOSTarget: WebOSTargetProtocol {
         case .setSource(let inputId):
             let payload = WebOSRequestPayload(inputId: inputId)
             return .init(type: .request, uri: uri, payload: payload)
-        case .getPictureSettings:
+        case .getPictureSettings(let subscribe):
             let payload = WebOSRequestPayload(
-                category: "picture", keys: ["brightness", "backlight", "contrast", "color"])
-            return .init(type: .request, uri: uri, payload: payload)
+                category: "picture",
+                keys: [
+                    "brightness", "backlight", "contrast", "color",
+                ])
+            return .init(
+                type: subscribe == true ? .subscribe : .unsubscribe, uri: uri, payload: payload)
+        case .getSoundMode(let subscribe):
+            let payload = WebOSRequestPayload(
+                category: "sound", keys: ["soundMode"])
+            return .init(
+                type: subscribe == true ? .subscribe : .unsubscribe, uri: uri, payload: payload)
         default:
             return .init(type: .request, uri: uri)
         }
     }
 
+}
+
+extension LunaTarget: LunaTargetProtocol {
+    public var uri: String {
+        switch self {
+        case .setPictureSettings(_, _, _, _), .setPictureMode(_), .setSoundMode(_):
+            return "luna://com.webos.settingsservice/setSystemSettings"
+        }
+    }
+
+    public var title: String {
+        switch self {
+        default:
+            return "Setting..."
+        }
+    }
+
+    public var request: LunaRequest {
+        var payload = WebOSRequestPayload()
+        let requestType: WebOSRequestType = .request
+        switch self {
+
+        case .setPictureSettings(let brightness, let contrast, let color, let backlight):
+            payload = WebOSRequestPayload(
+                category: "picture",
+                settings: SystemSettings(
+                    brightness: brightness, contrast: contrast, backlight: backlight, color: color)
+            )
+        case .setPictureMode(let mode):
+            payload = WebOSRequestPayload(
+                category: "picture",
+                settings: SystemSettings(pictureMode: mode)
+            )
+        case .setSoundMode(let mode):
+            payload = WebOSRequestPayload(
+                category: "sound",
+                settings: SystemSettings(soundMode: mode)
+            )
+        }
+        return .init(
+            type: requestType,
+            payload: LunaRequestPayload(
+                buttons: [
+                    LunaRequestButtonPayload(
+                        onClick: uri, params: payload
+                    )
+                ],
+                onClose: LunaRequestCloseAndFailPayload(
+                    uri: uri, params: payload
+                ),
+                onFail: LunaRequestCloseAndFailPayload(
+                    uri: uri, params: payload
+                ), title: title, message: title))
+    }
 }

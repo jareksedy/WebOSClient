@@ -140,6 +140,37 @@ public enum WebOSTarget {
     /// - Parameter inputId: The ID of the input source to be set.
     case setSource(_ inputId: String)
 
-    /// Get current picture settings
-    case getPictureSettings
+    /// Get picture setting (color, brightness, backlight, contrast)
+    /// Only tested on > 2022 models
+    /// - Parameter subscribe: If true, subscribes to foreground app changes; if false, unsubscribes from foreground app changes; if nil, no subscription.
+    case getPictureSettings(subscribe: Bool? = nil)
+
+    /// Get sound mode
+    /// Available sound modes (not all are available on all TVs): aiSoundPlus, standard, movie, news, sports, music, game
+    /// - Parameter subscribe: If true, subscribes to foreground app changes; if false, unsubscribes from foreground app changes; if nil, no subscription.
+    case getSoundMode(subscribe: Bool? = nil)
+}
+
+/// Enum defining various Luna services targets for communication with modern LG TVs
+public enum LunaTarget {
+    /// Set picture settings
+    case setPictureSettings(_ brightness: Int?, _ contrast: Int?, _ color: Int?, _ backlight: Int?)
+
+    /// Set picture mode
+    /*
+    Available picture modes (not all are available on all TVs):
+    cinema, eco, expert1, expert2, game, normal, photo, sports, technicolor,
+    vivid, hdrEffect,  hdrCinema, hdrCinemaBright, hdrExternal, hdrGame,
+    hdrStandard, hdrTechnicolor, hdrVivid, dolbyHdrCinema,dolbyHdrCinemaBright,
+    dolbyHdrDarkAmazon, dolbyHdrGame, dolbyHdrStandard, dolbyHdrVivid, dolbyStandard
+    */
+    case setPictureMode(_ mode: String)
+
+    /// Set sound mode
+    /*
+    Available sound modes (not all are available on all TVs):
+    aiSoundPlus, standard, movie, news, sports, music, game
+    */
+    case setSoundMode(_ value: String)
+
 }

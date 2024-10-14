@@ -10,6 +10,7 @@ WebOSClient is a Swift library designed to facilitate communication with Smart T
 To use this package, ensure that both the client device and the TV are connected to the same Wi-Fi network.
 
 #### Manual IP Entry
+
 You will need to manually enter the IP address of the TV for this package to operate. To automatically discover devices on LAN, consider using the [SSDPClient package](https://github.com/pierrickrouxel/SSDPClient) package or a similar tool.
 
 ## Features
@@ -45,7 +46,9 @@ pod 'WebOSClient'
 ## Version History
 
 ### 1.5.1 - Power State Subscription
+
 #### Features
+
 - Introduced `getPowerState(subscribe: Bool? = nil)` method to enable power state subscriptions.
 
 Refer to [CHANGELOG.md](CHANGELOG.md) for the complete version history.
@@ -69,23 +72,23 @@ fileprivate enum Constants {
 class ViewController: UIViewController {
     // The URL of the WebOS service on the TV.
     let url = URL(string: "wss://192.168.1.10:3001")!
-    
+
     // The client responsible for communication with the WebOS service.
     var client: WebOSClientProtocol?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // Instantiate WebOSClient with the specified URL and set the current view controller as the delegate.
         // Enable activity logging by setting shouldLogActivity to true.
         client = WebOSClient(url: url, delegate: self, shouldLogActivity: true)
-        
+
         // Establish a connection to the TV.
         client?.connect()
-        
+
         // Retrieve the registration token from UserDefaults.
         let registrationToken = UserDefaults.standard.string(forKey: Constants.registrationTokenKey)
-        
+
         // Send a registration request to the TV with the stored or nil registration token.
         // The PairingType option should be set to .pin for PIN-based pairing. The default value is .prompt.
         client?.send(.register(pairingType: .pin, clientKey: registrationToken))
@@ -109,15 +112,15 @@ extension ViewController: WebOSClientDelegate {
         client?.send(.volumeUp)
         client?.sendKey(.home)
     }
-    
+
 
     // Callback triggered upon receiving a network error.
     func didReceiveNetworkError(_ error: Error?) {
         if let error = error as NSError? {
-            
+
             // Print details of the received network error.
             print("Received network error. Code: \(error.code). Reconnect suggested.")
-            
+
             // Attempt to reconnect and re-register with the TV.
             client?.connect()
             let registrationToken = UserDefaults.standard.string(forKey: Constants.registrationTokenKey)
@@ -135,18 +138,18 @@ These are the core methods of WebOSClient allowing connection with the TV and se
 public protocol WebOSClientProtocol {
     /// Establishes a connection to the TV.
     func connect()
-    
+
     /// Sends a specified request to the TV and returns the unique identifier of the request.
     /// - Parameters:
     ///   - target: Type of request and it's parameters if any.
     ///   - id: The unique identifier of the request (can be omitted).
     /// - Returns: The identifier of sent request, or nil if the request couldn't be sent.
     @discardableResult func send(_ target: WebOSTarget, id: String) -> String?
-    
+
     /// Sends a key press event to the service using the specified WebOSKeyTarget.
     /// - Parameter key: The target key to be pressed.
     func sendKey(_ key: WebOSKeyTarget)
-    
+
     /// Disconnects the WebOS client from the WebOS service.
     func disconnect()
 }
@@ -160,25 +163,25 @@ These are the methods for handling various WebOSClient events.
 public protocol WebOSClientDelegate: AnyObject {
     /// Invoked when the client successfully establishes a connection.
     func didConnect()
-    
+
     /// Invoked when the TV displays a PIN code for pairing.
     func didDisplayPin()
-    
+
     /// Invoked when the TV prompts for registration.
     func didPrompt()
-    
+
     /// Invoked when the client successfully registers with a client key.
     /// - Parameter clientKey: The client key for registration.
     func didRegister(with clientKey: String)
-    
+
     /// Invoked when the client receives a response from the WebOS service.
     /// - Parameter result: The result containing either a WebOSResponse or an error.
     func didReceive(_ result: Result<WebOSResponse, Error>)
-    
+
     /// Invoked when the client encounters a network-related error, i.e. abnormal disconnect.
     /// - Parameter error: The error object representing the network error, if any.
     func didReceiveNetworkError(_ error: Error?)
-    
+
     /// Invoked when the client disconnects from the WebOS websocket service.
     func didDisconnect()
 }
@@ -198,7 +201,7 @@ extension ViewController: WebOSClientDelegate {
             if errorMessage.contains("rejected pairing") {
             // Pairing rejected by the user or invalid pin.
             }
-            
+
             if errorMessage.contains("cancelled") {
             // Pairing cancelled due to a timeout.
             }
@@ -234,6 +237,8 @@ client?.send(.turnOff)                                                      // T
 client?.send(.listApps)                                                     // Retrieves a list of installed apps.
 client?.send(.getForegroundApp(subscribe: true))                            // Retrieves the foreground app with optional subscription.
 client?.send(.getForegroundAppMediaStatus(subscribe: true))                 // Retrieves the foreground app with media status with optional subscription.
+client?.send(.getPictureSettings(subscribe: true))                          // Retrieves the picture setting (color, brightness, backlight, contrast). Only tested on > 2022 models.
+client?.send(.getSoundMode(subscribe: true))                                // Retrieves the sound mode. Available sound modes (not all are available on all TVs): aiSoundPlus, standard, movie, news, sports, music, game.
 client?.send(.launchApp(appId: "netflix"))                                  // Launches an app with the specified ID, content ID, and parameters (optional).
 client?.send(.closeApp(appId: "netflix"))                                   // Closes the app with the specified ID.
 client?.send(.insertText(text: "text_to_insert", replace: Bool = true))     // Inserts text in the text input field (keyboard must be open). If 'replace' is true, replaces any existing text in field.
@@ -281,7 +286,7 @@ extension ViewController: WebOSClientDelegate {
 
 ### Key API Commands
 
-These commands use a slightly different API and introduce a distinct set of functionalities, specifically tailored for simulating remote control key presses on LG TVs. 
+These commands use a slightly different API and introduce a distinct set of functionalities, specifically tailored for simulating remote control key presses on LG TVs.
 
 ```swift
 client?.sendKey(.move(dx: 10, dy: 10))              // Simulates moving the mouse pointer on the screen.
@@ -317,8 +322,46 @@ client?.sendKey(.rewind)                            // Simulates a rewind button
 client?.sendKey(.fastForward)                       // Simulates a fast-forward button press.
 ```
 
+### LUNA API Commands
+
+This is an tricky & indirect method to communicate with LUNA API which internally used by tv's apps (you can find more here: https://webostv.developer.lge.com/develop/references/luna-service-introduction). Basically, the LUNA request payload is embeded into an Alert request which will be sent to TV, when the Alert is pop out, the LUNA request payload will be triggered. Thus, it's up to your usecase whether you want to let user manually click "Ok" on the screen or automatically send key "Ok" upon Alert sucessfully show.
+
+```swift
+client?.sendLuna(.setPictureSettings(brightness: 100, contrast: 100, color: 100, backlight: 100))              // Set picture settings
+client?.sendLuna(.setPictureMode(mode: "cinema"))                              /*
+    Set Available picture modes (not all are available on all TVs):
+    cinema, eco, expert1, expert2, game, normal, photo, sports, technicolor,
+    vivid, hdrEffect,  hdrCinema, hdrCinemaBright, hdrExternal, hdrGame,
+    hdrStandard, hdrTechnicolor, hdrVivid, dolbyHdrCinema,dolbyHdrCinemaBright,
+    dolbyHdrDarkAmazon, dolbyHdrGame, dolbyHdrStandard, dolbyHdrVivid, dolbyStandard
+    */
+client?.sendLuna(.setSoundMode(value: "sports"))             /*
+    Set Available sound modes (not all are available on all TVs):
+    aiSoundPlus, standard, movie, news, sports, music, game
+    */
+```
+
+Here is guideline how to automatically send key "Ok" upon showing Alert
+
+```swift
+// MARK: - WebOSClientDelegate
+extension ViewController: WebOSClientDelegate {
+    func didReceive(jsonResponse: String) {
+        if let jsonObject = try? JSONSerialization.jsonObject(with: Data(jsonResponse.utf8), options: []) as? [String: Any] {
+            // Handle Luna
+            if let id = jsonObject["id"] as? String {
+                if let _ = ButtonGeometry.allCases.first(where: { $0.rawValue == id }) {
+                    // Enter
+                    client.sendKey(.enter)
+                }
+            }
+        }
+    }
+}
+```
+
 ## Documentation
- 
+
 Documentation is also provided in the source code. Check the comments in the respective files for more information. Refer to the example project that comes with this library for additional details.
 
 ## Example App
