@@ -34,3 +34,31 @@ public struct WebOSRequest: Codable {
         return nil
     }
 }
+
+public struct LunaRequest: Codable {
+    var type: String
+    var id: String?
+    var uri: String = "ssap://system.notifications/createAlert"
+    var payload: LunaRequestPayload?
+
+    init(
+        type: WebOSRequestType,
+        id: String? = nil,
+        payload: LunaRequestPayload? = nil
+    ) {
+        self.type = type.rawValue
+        self.id = id
+        self.payload = payload
+    }
+
+    public func jsonWithId(_ id: String) -> String? {
+        var copy = self
+        copy.id = id
+        do {
+            return try copy.encode()
+        } catch {
+            print("Error encoding JSON: \(error)")
+        }
+        return nil
+    }
+}

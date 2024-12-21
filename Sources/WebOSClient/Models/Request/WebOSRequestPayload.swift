@@ -5,6 +5,32 @@
 
 import Foundation
 
+public struct LunaRequestPayload: Codable {
+    var buttons: [LunaRequestButtonPayload]
+    var onClose: LunaRequestCloseAndFailPayload
+    var onFail: LunaRequestCloseAndFailPayload
+    var title: String
+    var model: Bool = true
+    var message: String
+    var type: String = "confirm"
+    var isSysReq: Bool = true
+}
+
+public struct LunaRequestCloseAndFailPayload: Codable {
+    var uri: String
+    var params: WebOSRequestPayload
+}
+
+public struct LunaRequestButtonPayload: Codable {
+    var label: String = "Ok"
+    var focus: Bool = true
+    var buttonType: String = "ok"
+    var onClick: String
+    var params: WebOSRequestPayload
+}
+
+protocol WebOSPayloadProtocol: Codable {}
+
 public struct WebOSRequestPayload: Codable {
     var pin: String?
     var forcePairing: Bool?
@@ -28,6 +54,12 @@ public struct WebOSRequestPayload: Codable {
     var inputId: String?
     var category: String?
     var keys: [String]?
+    var settings: SystemSettings?
+    var alertId: String?
+    var subscribe: Bool?
+    var dimension: DimensionSettings?
+    var date: String?
+    var time: String?
 
     public init(
         pin: String? = nil,
@@ -51,7 +83,13 @@ public struct WebOSRequestPayload: Codable {
         count: Int? = nil,
         inputId: String? = nil,
         category: String? = nil,
-        keys: [String]? = nil
+        keys: [String]? = nil,
+        settings: SystemSettings? = nil,
+        alertId: String? = nil,
+        subscribe: Bool? = nil,
+        dimension: DimensionSettings? = nil,
+        date: String? = nil,
+        time: String? = nil
     ) {
         self.pin = pin
         self.forcePairing = forcePairing
@@ -75,6 +113,12 @@ public struct WebOSRequestPayload: Codable {
         self.inputId = inputId
         self.category = category
         self.keys = keys
+        self.settings = settings
+        self.alertId = alertId
+        self.subscribe = subscribe
+        self.dimension = dimension
+        self.date = date
+        self.time = time
     }
 
     public enum CodingKeys: String, CodingKey {
@@ -100,6 +144,27 @@ public struct WebOSRequestPayload: Codable {
         case inputId
         case category
         case keys
+        case settings
+        case alertId
+        case subscribe
+        case dimension
+        case date
+        case time
     }
 
+}
+
+public struct SystemSettings: Codable {
+    var brightness: Int?
+    var contrast: Int?
+    var pictureMode: String?
+    var soundMode: String?
+    var backlight: Int?
+    var color: Int?
+}
+
+public struct DimensionSettings: Codable {
+    var input: String?
+    var pictureMode: String
+    var _3dStatus: String?
 }

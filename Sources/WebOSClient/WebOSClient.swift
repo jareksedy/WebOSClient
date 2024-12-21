@@ -48,6 +48,16 @@ public class WebOSClient: NSObject, WebOSClientProtocol {
         return id
     }
 
+    @discardableResult
+    public func sendLuna(_ target: LunaTarget, id: String) -> String? {
+        guard let jsonRequest = target.request.jsonWithId(id) else {
+            return nil
+        }
+        let message = URLSessionWebSocketTask.Message.string(jsonRequest)
+        sendURLSessionWebSocketTaskMessage(message, task: primaryWebSocketTask)
+        return id
+    }
+
     public func send(jsonRequest: String) {
         let message = URLSessionWebSocketTask.Message.string(jsonRequest)
         sendURLSessionWebSocketTaskMessage(message, task: primaryWebSocketTask)

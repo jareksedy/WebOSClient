@@ -40,6 +40,13 @@ public protocol WebOSClientProtocol {
     /// - Returns: The identifier of sent request, or nil if the request couldn't be sent.
     @discardableResult func send(_ target: WebOSTarget, id: String) -> String?
 
+    /// Send Luna services
+    /// - Parameters:
+    ///   - target: Type of request and it's parameters if any.
+    ///   - id: The unique identifier of the request (can be omitted).
+    /// - Returns: The identifier of sent request, or nil if the request couldn't be sent.
+    @discardableResult func sendLuna(_ target: LunaTarget, id: String) -> String?
+
     /// Sends a JSON-formatted request to the service.
     /// - Parameter jsonRequest: The JSON-formatted request to be sent.
     func send(jsonRequest: String)
@@ -65,5 +72,12 @@ extension WebOSClientProtocol {
         id: String = UUID().uuidString.lowercased()
     ) -> String? {
         send(target, id: id)
+    }
+
+    @discardableResult public func sendLuna(
+        _ target: LunaTarget,
+        id: String = UUID().uuidString.lowercased()
+    ) -> String? {
+        sendLuna(target, id: id)
     }
 }
