@@ -5,18 +5,21 @@
 
 import Foundation
 
-struct WebOSRequestSigned: Codable {
-    var appId: String = "com.lge.test"
-    var created: String = "20140509"
-    var localizedAppNames: [String: String] = [
+public struct WebOSRequestSigned: Codable {
+    public var appId: String = "com.lge.test"
+    public var created: String = "20140509"
+
+    public var localizedAppNames: [String: String] = [
         "": "LG Remote App",
         "ko-KR": "리모컨 앱",
         "zxx-XX": "ЛГ Rэмotэ AПП"
     ]
-    var localizedVendorNames: [String: String] = [
+
+    public var localizedVendorNames: [String: String] = [
         "": "LG Electronics"
     ]
-    var permissions: [String] = [
+
+    public var permissions: [String] = [
         "TEST_SECURE",
         "CONTROL_INPUT_TEXT",
         "CONTROL_MOUSE_AND_KEYBOARD",
@@ -34,6 +37,11 @@ struct WebOSRequestSigned: Codable {
         "READ_LGE_TV_INPUT_EVENTS",
         "READ_TV_CURRENT_TIME"
     ]
-    var serial: String = "2f930e2d2cfe083771f68e4fe7bb07"
-    var vendorId: String = "com.lge"
+
+    public var serial: String = "2f930e2d2cfe083771f68e4fe7bb07"
+    public var vendorId: String = "com.lge"
+
+    public init() {
+        // No implementation required
+    }
 }
